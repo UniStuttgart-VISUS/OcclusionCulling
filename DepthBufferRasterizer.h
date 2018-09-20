@@ -43,6 +43,8 @@ class DepthBufferRasterizer
 		virtual UINT GetNumTriangles() = 0;
 		virtual UINT GetNumRasterizedTriangles(UINT idx) = 0;
 
+		std::vector<Vertex> OccluderSet;
+
 	protected:
 		LARGE_INTEGER mStartTime[2];
 		LARGE_INTEGER mStopTime[2][NUM_TILES];

@@ -150,7 +150,7 @@ void DepthBufferRasterizerSSE::CreateTransformedModels(CPUTAssetSet **mpAssetSet
 // Clear depth buffer for a tile
 //--------------------------------------------------------------------
 void DepthBufferRasterizerSSE::ClearDepthTile(int startX, int startY, int endX, int endY, UINT idx)
-{
+	{
 	assert(startX % 2 == 0 && startY % 2 == 0);
 	assert(endX % 2 == 0 && endY % 2 == 0);
 

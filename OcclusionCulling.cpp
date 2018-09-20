@@ -19,6 +19,8 @@
 #include "MaskedOcclusionCulling\MaskedOcclusionCulling.h"
 #include "MaskedOcclusionCulling\CullingThreadpool.h"
 
+#include <iostream>
+
 const UINT SHADOW_WIDTH_HEIGHT = 256;
 
 // set file to open
@@ -268,6 +270,14 @@ void MySample::SetupOcclusionCullingObjects()
         mpAABBMAVXMT = new AABBoxMaskedRasterizerAVXMT( gMaskedOcclusionCulling, gMaskedOcclusionCullingThreadpool, mpDBMRAVXMT );
         mpAABB = mpAABBMAVXMT;
     }
+	else if ((mSOCType == OGL_TYPE) && mEnableTasks)
+	{
+		mpDBROGLST = new DepthBufferRasterizerOGLST;
+		mpDBR = mpDBROGLST;
+
+		mpAABBOGLST = new AABBoxRasterizerOGLST;
+		mpAABB = mpAABBOGLST;
+	}
 }
 
 static unsigned int GetOptimalNumberOfThreads( );
@@ -276,6 +286,8 @@ static unsigned int GetOptimalNumberOfThreads( );
 //-----------------------------------------------------------------------------
 void MySample::Create()
 {    
+	mpOsmesa = std::make_unique<OSMesaPipeline>();
+
 	// Create occlusion culling resources
 	gMaskedOcclusionCulling = MaskedOcclusionCulling::Create();
     gMaskedOcclusionCullingThreadpool = new CullingThreadpool( GetOptimalNumberOfThreads(), 10, 6, 128 );
@@ -312,6 +324,7 @@ void MySample::Create()
 		mpTypeDropDown->AddSelectionItem(L"Rasterizer Technique: AVX");
 		mpTypeDropDown->AddSelectionItem(L"Rasterizer Technique: MOC");
 	}
+	mpTypeDropDown->AddSelectionItem( L"Rasterizer Technique: OGL");
 	mpTypeDropDown->SetSelectedItem(mSOCType + 1);
    
 	wchar_t string[CPUT_MAX_STRING_LENGTH];
@@ -549,18 +562,19 @@ void MySample::Create()
     CPUTOSServices::GetOSServices()->GetClientDimensions(&width, &height);
 
 	// Depth buffer visualization material
-	mpShowDepthBufMtrlScalar = (CPUTMaterialDX11*)CPUTAssetLibraryDX11::GetAssetLibrary()->GetMaterial( _L("showDepthBufScalar"));
+	mpShowDepthBufMtrlScalar = (CPUTMaterialDX11*)CPUTAssetLibraryDX11::GetAssetLibrary()->GetMaterial(_L("showDepthBufScalar"));
+	//mpShowDepthBufMtrlOGL = (CPUTMaterialDX11*)CPUTAssetLibraryDX11::GetAssetLibrary()->GetMaterial( _L("showDepthBufOGL"));
 	mpShowDepthBufMtrlSSE = (CPUTMaterialDX11*)CPUTAssetLibraryDX11::GetAssetLibrary()->GetMaterial( _L("showDepthBufSSE"));
 	mpShowDepthBufMtrlAVX = (CPUTMaterialDX11*)CPUTAssetLibraryDX11::GetAssetLibrary()->GetMaterial(_L("showDepthBufAVX"));
 		
-	if(mSOCType == SCALAR_TYPE)
+	if(mSOCType == SCALAR_TYPE)									// step 1
 	{
-		mpCPURenderTarget[0] = mpCPURenderTargetScalar[0];
-		mpCPURenderTarget[1] = mpCPURenderTargetScalar[1];
-		mpCPUSRV[0]          = mpCPUSRVScalar[0];
-		mpCPUSRV[1]          = mpCPUSRVScalar[1];
-		mpShowDepthBufMtrl   = mpShowDepthBufMtrlScalar;
-		rowPitch			 = SCREENW * 4;
+		mpCPURenderTarget[0] = mpCPURenderTargetScalar[0];		// 2D-Texture
+		mpCPURenderTarget[1] = mpCPURenderTargetScalar[1];		// 2D-Texture
+		mpCPUSRV[0]          = mpCPUSRVScalar[0];				// Shader Resource View
+		mpCPUSRV[1]          = mpCPUSRVScalar[1];				// Shader Resource View
+		mpShowDepthBufMtrl   = mpShowDepthBufMtrlScalar;		// Material
+		rowPitch			 = SCREENW * 4;						// number of bytes that are in each row on screen
 	}
 	else if (mSOCType == SSE_TYPE)
 	{
@@ -588,6 +602,15 @@ void MySample::Create()
 		mpCPUSRV[1] = mpCPUSRVAVX[1];
 		mpShowDepthBufMtrl = mpShowDepthBufMtrlScalar;
 		rowPitch = SCREENW * 4;
+	}
+	else if (mSOCType == OGL_TYPE)
+	{
+		/*mpCPURenderTarget[0] = mpCPURenderTargetOGL[0];		// 2D-Texture
+		mpCPURenderTarget[1] = mpCPURenderTargetOGL[1];		// 2D-Texture
+		mpCPUSRV[0] = mpCPUSRVOGL[0];				// Shader Resource View
+		mpCPUSRV[1] = mpCPUSRVOGL[1];				// Shader Resource View
+		mpShowDepthBufMtrl = mpShowDepthBufMtrlOGL;		// Material
+		rowPitch = SCREENW * 4;*/
 	}
 
     // Call ResizeWindow() because it creates some resources that our blur material needs (e.g., the back buffer)
@@ -639,7 +662,7 @@ void MySample::Create()
 	mpAssetSetSky = pAssetLibrary->GetAssetSet(_L("sky"));
 	ASSERT(mpAssetSetSky, _L("Failed loading sky"));
 
-	// For every occluder model in the sene create a place holder 
+	// For every occluder model in the scene create a place holder 
 	// for the CPU transformed vertices of the model.   
 	mpDBR->CreateTransformedModels(mpAssetSetDBR, OCCLUDER_SETS);
 	// Get number of occluders in the scene
@@ -1215,6 +1238,23 @@ void MySample::HandleCallbackEvent( CPUTEventID Event, CPUTControlID ControlID, 
 			// mpTasksCheckBox->SetCheckboxState(CPUT_CHECKBOX_UNCHECKED);
 			// mpTasksCheckBox->SetVisibility(false);
 		}
+		else if (selectedItem - 5 == 0)
+		{
+			std::cout << "OGL HandleCallbackEvent" << std::endl;
+			mpOsmesa->Init();
+
+			mSOCType = OGL_TYPE;
+			SetupOcclusionCullingObjects();
+
+			mpDBR->CreateTransformedModels(mpAssetSetDBR, OCCLUDER_SETS);
+			mpOsmesa->mOccluderSet = mpDBR->OccluderSet;
+
+			PINF pinf;
+			pinf.run();
+
+			mpOsmesa->CleanUp();
+		}
+
 		mpDBR->CreateTransformedModels(mpAssetSetDBR, OCCLUDER_SETS);		
 		mpDBR->SetOccluderSizeThreshold(mOccluderSizeThreshold);
 		mpDBR->SetEnableFCulling(mEnableFCulling);
@@ -1575,7 +1615,7 @@ void MySample::Render(double deltaSeconds)
 	mpAABB->SetViewProjMatrix(mCameraCopy[mCurrIdx].GetViewMatrix(), (float4x4*)mCameraCopy[mCurrIdx].GetProjectionMatrix(), mCurrIdx);
 
 	// If view frustum culling is enabled then determine which occluders and occludees are 
-	// inside the view frustum and run the software occlusion culling on only the those models
+	// inside the view frustum and run the software occlusion culling on only those models
 	if(mEnableFCulling)
 	{
 		renderParams.mRenderOnlyVisibleModels = true;
@@ -1607,7 +1647,7 @@ void MySample::Render(double deltaSeconds)
 		
 		mpAABB->SetCPURenderTargetPixels(mpCPURenderTargetPixels, mCurrIdx);
 		mpAABB->SetDepthSummaryBuffer(mpDBR->GetDepthSummaryBuffer(mCurrIdx), mCurrIdx);
-		// Transform the occludee AABB, rasterize and depth test to determine is occludee is visible or occluded 
+		// Transform the occludee AABB, rasterize and depth test to determine if occludee is visible or occluded 
 		mpAABB->TransformAABBoxAndDepthTest(&mCameraCopy[mCurrIdx], mCurrIdx);		
 
 		if(mEnableTasks)

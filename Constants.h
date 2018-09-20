@@ -34,6 +34,7 @@ enum SOC_TYPE
 	SSE_TYPE,
 	AVX_TYPE,
 	MASK_AVX_TYPE,
+	OGL_TYPE,
 };
 
 extern SOC_TYPE gSOCType;

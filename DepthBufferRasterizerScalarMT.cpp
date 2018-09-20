@@ -159,7 +159,7 @@ void DepthBufferRasterizerScalarMT::TransformMeshes(VOID* taskData, INT context,
 
 //------------------------------------------------------------------------------------------------------------
 // This function combines the vertices of all the occluder models in the scene and processes the models/meshes 
-// that contain the task's triangle range. It trsanform the occluder vertices once every frame
+// that contain the task's triangle range. It transform the occluder vertices once every frame
 //------------------------------------------------------------------------------------------------------------
 void DepthBufferRasterizerScalarMT::TransformMeshes(UINT taskId, UINT taskCount, UINT idx)
 {

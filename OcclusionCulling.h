@@ -29,7 +29,6 @@
 #include "DepthBufferRasterizerSSEST.h"
 #include "DepthBufferRasterizerSSEMT.h"
 
-
 #include "DepthBufferRasterizerAVXST.h"
 #include "DepthBufferRasterizerAVXMT.h"
 
@@ -47,6 +46,10 @@
 
 #include "AABBoxRasterizerAVXST.h"
 #include "AABBoxRasterizerAVXMT.h"
+
+#include "DepthBufferRasterizerOGLST.h"
+#include "AABBoxRasterizerOGLST.h"
+#include "PINF.hpp"
 
 #include "TaskMgrTBB.h"
 
@@ -106,6 +109,7 @@ private:
 	CPUTAssetSet		  *mpAssetSetSky;
 
 	CPUTMaterialDX11		 *mpShowDepthBufMtrlScalar;
+	//CPUTMaterialDX11		 *mpShowDepthBufMtrlOGL;
 	CPUTMaterialDX11		 *mpShowDepthBufMtrlSSE;
 	CPUTMaterialDX11		 *mpShowDepthBufMtrlAVX;
 	CPUTMaterialDX11		 *mpShowDepthBufMtrl;
@@ -135,6 +139,8 @@ private:
 	DepthBufferRasterizerAVXMT		*mpDBRAVXMT;
 	DepthBufferMaskedRasterizerAVXST *mpDBMRAVXST;
     DepthBufferMaskedRasterizerAVXMT *mpDBMRAVXMT;
+	DepthBufferRasterizerOGL		*mpDBROGL;
+	DepthBufferRasterizerOGLST		*mpDBROGLST;
 
 	AABBoxRasterizer				*mpAABB;
 	AABBoxRasterizerScalarST		*mpAABBScalarST;
@@ -145,6 +151,7 @@ private:
 	AABBoxRasterizerAVXMT			*mpAABBAVXMT;
 	AABBoxMaskedRasterizerAVXST		*mpAABBMAVXST;
     AABBoxMaskedRasterizerAVXMT		*mpAABBMAVXMT;
+	AABBoxRasterizerOGLST			*mpAABBOGLST;
 
 	UINT				mNumOccluders;
 	UINT				mNumOccludersR2DB;
@@ -249,5 +256,7 @@ public:
 	static const CPUTControlID ID_VSYNC_ON_OFF = 3400;
 	static const CPUTControlID ID_PIPELINE = 3500;
     static const CPUTControlID ID_OCCLUSIONMATCHGPURESOLUTION = 3600;
+
+	std::unique_ptr<OSMesaPipeline> mpOsmesa;
 };
 #endif // __CPUT_SAMPLESTARTDX11_H__

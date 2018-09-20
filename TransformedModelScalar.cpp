@@ -86,7 +86,7 @@ void TransformedModelScalar::TooSmall(const BoxTestSetupScalar &setup, UINT idx)
 
 
 //------------------------------------------------------------------
-// Determine is the occluder model is inside view frustum
+// Determine if the occluder model is inside view frustum
 //------------------------------------------------------------------
 void TransformedModelScalar::InsideViewFrustum(const BoxTestSetupScalar &setup,
 											   UINT idx)

@@ -100,7 +100,7 @@ void DepthBufferRasterizerScalarST::ActiveModels(UINT idx)
 
 
 //-------------------------------------------------------------------
-// Trasforms the occluder vertices to screen space once every frame
+// Transforms the occluder vertices to screen space once every frame
 //-------------------------------------------------------------------
 void DepthBufferRasterizerScalarST::TransformMeshes(UINT idx)
 {
