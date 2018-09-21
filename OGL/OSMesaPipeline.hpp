@@ -4,6 +4,7 @@
 #include <vector>
 #include <CPUTMath.h>
 #include "CPUTMeshDX11.h"
+#include "CPUTCamera.h"
 
 struct GLFWwindow;
 
@@ -14,17 +15,13 @@ public:
 	~OSMesaPipeline();
 
 	void start();
-	void Init();
-	void CleanUp();
 	void GetOccluder(Vertex *vertices, UINT *indices, int numIndices);
-	void CreateOccluderSet();
 
-	std::vector<Vertex> mOccluderSet;
+	std::vector<Vertex> OccluderSetMP;
+	CPUTCamera *cameraMP;
 
 private:
 	GLFWwindow * window;
-
-	
 
 	int mNumIndices = 0;
 };

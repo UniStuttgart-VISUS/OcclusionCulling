@@ -12,23 +12,27 @@ static const struct
 {
 	float x, y;
 	float r, g, b;
-} vertices[3] =
+}vertices[6] =
 {
-	{ -0.6f, -0.4f, 1.f, 0.f, 0.f },
-{ 0.6f, -0.4f, 0.f, 1.f, 0.f },
-{ 0.f,  0.6f, 0.f, 0.f, 1.f }
+	{ -0.f, -1.f, 1.f, 0.f, 0.f },
+{ 0.6f, -1.f, 0.f, 1.f, 0.f },
+{ 0.3f,  0.f, 0.f, 0.f, 1.f },
+{ -0.6f, -1.f, 1.f, 0.f, 0.f },
+{ 0.f, -1.f, 0.f, 1.f, 0.f },
+{ -0.3f,  0.f, 0.f, 0.f, 1.f }
 };
 
 static const char* vertex_shader_text =
 "#version 110\n"
 "uniform mat4 MVP;\n"
 "attribute vec3 vCol;\n"
-"attribute vec2 vPos;\n"
+"attribute vec3 vPos;\n"
 "varying vec3 color;\n"
 "void main()\n"
 "{\n"
-"    gl_Position = MVP * vec4(vPos, 0.0, 1.0);\n"
-"    color = vCol;\n"
+"    gl_Position = MVP * vec4(vPos, 1.0);\n"
+"    vec3 posNorm = normalize(vPos);\n"
+"    color = vec3((posNorm.z + 1.f) / 2.f);\n"
 "}\n";
 
 static const char* fragment_shader_text =
@@ -60,34 +64,9 @@ OSMesaPipeline::~OSMesaPipeline()
 	glfwDestroyWindow(window); //?
 }
 
-void OSMesaPipeline::Init() {
-	/*mpOccluderIndices = 0;
-	mpOccluderIndices = new UINT[];
-
-	mpOccluderVertices = 0;
-	mpOccluderVertices = new Vertex[];*/
-
-	/*mpOccluderSet = 0;
-	mpOccluderSet = new Vertex[48700 * 3];*/
-}
-
-void OSMesaPipeline::CleanUp() {
-	/*delete[] mpOccluderIndices; mpOccluderIndices = NULL;
-	delete[] mpOccluderVertices; mpOccluderVertices = NULL;
-	delete[] mpOccluderSet; mpOccluderSet = NULL;*/
-}
-
 void OSMesaPipeline::GetOccluder(Vertex *vertices, UINT *indices, int numIndices) {
 	for (int i = 0; i < numIndices; ++i) {
-		Vertex check = vertices[indices[i]];
-		mOccluderSet.push_back(vertices[indices[i]]);
-	}
-}
-
-void OSMesaPipeline::CreateOccluderSet() {
-	for (int i = 0; i < mNumIndices; ++i) {
-		//&mpOccluderSet[i] = mpOccluderVertices[mpOccluderIndices[i]];
-
+		OccluderSetMP.push_back(vertices[indices[i]]);
 	}
 }
 
@@ -120,6 +99,17 @@ void OSMesaPipeline::start()
 
 	std::cout << "OSMesa OpenGL context " << major << "." << minor << std::endl;
 
+	// alter data for testing purposes
+	OccluderSetMP[0].pos.x = -10.f;
+	OccluderSetMP[0].pos.y = -10.f;
+	OccluderSetMP[0].pos.z = -1.f;
+	OccluderSetMP[1].pos.x = 0.f;
+	OccluderSetMP[1].pos.y = 10.f;
+	OccluderSetMP[1].pos.z = -1.f;
+	OccluderSetMP[2].pos.x = 10.f;
+	OccluderSetMP[2].pos.y = -10.f;
+	OccluderSetMP[2].pos.z = -1.f;
+
 	/* Create triangle geometry and simple shader for debugging */
 	GLuint vertex_buffer, vertex_shader, fragment_shader, program;
 	GLint mvp_location, vpos_location, vcol_location;
@@ -130,7 +120,8 @@ void OSMesaPipeline::start()
 
 	osmesa_glGenBuffers(1, &vertex_buffer);
 	osmesa_glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
-	osmesa_glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	//osmesa_glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	osmesa_glBufferData(GL_ARRAY_BUFFER, sizeof(OccluderSetMP), &OccluderSetMP[0], GL_STATIC_DRAW);
 
 	vertex_shader = osmesa_glCreateShader(GL_VERTEX_SHADER);
 	osmesa_glShaderSource(vertex_shader, 1, &vertex_shader_text, NULL);
@@ -150,11 +141,12 @@ void OSMesaPipeline::start()
 	vcol_location = osmesa_glGetAttribLocation(program, "vCol");
 
 	osmesa_glEnableVertexAttribArray(vpos_location);
-	osmesa_glVertexAttribPointer(vpos_location, 2, GL_FLOAT, GL_FALSE,
-		sizeof(vertices[0]), (void*)0);
+	//osmesa_glVertexAttribPointer(vpos_location, 2, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (void*)0);
+	osmesa_glVertexAttribPointer(vpos_location, 3, GL_FLOAT, GL_FALSE, sizeof(OccluderSetMP[0].pos.x), (void*)0);
+
 	osmesa_glEnableVertexAttribArray(vcol_location);
-	osmesa_glVertexAttribPointer(vcol_location, 3, GL_FLOAT, GL_FALSE,
-		sizeof(vertices[0]), (void*)(sizeof(float) * 2));
+	//osmesa_glVertexAttribPointer(vcol_location, 3, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (void*)(sizeof(float) * 2));
+	osmesa_glVertexAttribPointer(vcol_location, 3, GL_FLOAT, GL_FALSE, sizeof(OccluderSetMP[0].pos.x), (void*)0);
 
 	glfwGetFramebufferSize(window, &width, &height);
 	ratio = width / (float)height;
@@ -165,11 +157,20 @@ void OSMesaPipeline::start()
 		osmesa_glViewport(0, 0, width, height);
 		osmesa_glClear(GL_COLOR_BUFFER_BIT);
 
-		mat4x4_ortho(mvp, -ratio, ratio, -1.f, 1.f, 1.f, -1.f);
+		//mat4x4_ortho(mvp, -ratio, ratio, -1.f, 1.f, -1.f, 1.f);
 		
+		mat4x4 proj, view, model;
+		mat4x4_perspective(proj, cameraMP->GetFov(), cameraMP->GetAspectRatio(), cameraMP->GetNearPlaneDistance(), cameraMP->GetFarPlaneDistance());
+		mat4x4_look_at(view, vec3{ cameraMP->GetPosition().x, cameraMP->GetPosition().y ,cameraMP->GetPosition().z }
+						   , vec3{ cameraMP->GetLook().x, cameraMP->GetLook().y ,cameraMP->GetLook().z }
+						   , vec3{ cameraMP->GetUp().x, cameraMP->GetUp().y, cameraMP->GetUp().z });
+		mat4x4_identity(model);
+		mat4x4_mul(mvp, view, model);
+		mat4x4_mul(mvp, proj, mvp);
+
 		osmesa_glUseProgram(program);
 		osmesa_glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (const GLfloat*)mvp);
-		osmesa_glDrawArrays(GL_TRIANGLES, 0, 3);
+		osmesa_glDrawArrays(GL_TRIANGLES, 0, OccluderSetMP.size());
 		
 		//TODO write to ring buffer
 

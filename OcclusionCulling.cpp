@@ -287,6 +287,7 @@ static unsigned int GetOptimalNumberOfThreads( );
 void MySample::Create()
 {    
 	mpOsmesa = std::make_unique<OSMesaPipeline>();
+	mpPINF = std::make_unique<PINF>();
 
 	// Create occlusion culling resources
 	gMaskedOcclusionCulling = MaskedOcclusionCulling::Create();
@@ -325,7 +326,7 @@ void MySample::Create()
 		mpTypeDropDown->AddSelectionItem(L"Rasterizer Technique: MOC");
 	}
 	mpTypeDropDown->AddSelectionItem( L"Rasterizer Technique: OGL");
-	mpTypeDropDown->SetSelectedItem(mSOCType + 1);
+	mpTypeDropDown->SetSelectedItem(mSOCType + 1); // initially it's + 1 (--> SSE)
    
 	wchar_t string[CPUT_MAX_STRING_LENGTH];
     pGUI->CreateText(    _L("Occluders                                              \t"), ID_OCCLUDERS, ID_MAIN_PANEL, &mpOccludersText);
@@ -1241,18 +1242,15 @@ void MySample::HandleCallbackEvent( CPUTEventID Event, CPUTControlID ControlID, 
 		else if (selectedItem - 5 == 0)
 		{
 			std::cout << "OGL HandleCallbackEvent" << std::endl;
-			mpOsmesa->Init();
 
 			mSOCType = OGL_TYPE;
 			SetupOcclusionCullingObjects();
 
 			mpDBR->CreateTransformedModels(mpAssetSetDBR, OCCLUDER_SETS);
-			mpOsmesa->mOccluderSet = mpDBR->OccluderSet;
+			//mpOsmesa->mOccluderSet = mpDBR->OccluderSet;
 
-			PINF pinf;
-			pinf.run();
-
-			mpOsmesa->CleanUp();
+			mpPINF->camera = mpCamera;
+			mpPINF->run(mpDBR->OccluderSet);
 		}
 
 		mpDBR->CreateTransformedModels(mpAssetSetDBR, OCCLUDER_SETS);		

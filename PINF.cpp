@@ -5,7 +5,7 @@
 
 
 
-int PINF::run()
+int PINF::run(const std::vector<Vertex> &vertices)
 {
 
 	// Initialize the library
@@ -14,10 +14,13 @@ int PINF::run()
 
 	// Create OSMesa pipeline
 	OSMesaPipeline mesa_pipe;
+	mesa_pipe.OccluderSetMP = vertices;
+	mesa_pipe.cameraMP = camera;
 	auto mesa_exec = std::async(std::launch::async, &(OSMesaPipeline::start), &mesa_pipe);
 	auto mesa_exec_status = mesa_exec.wait_for(std::chrono::microseconds(0));
 
 	GraphicsBackend graphics_backend;
+	graphics_backend.OccluderSetGB = vertices;
 	auto graphics_exec = std::async(std::launch::async, &(GraphicsBackend::start), &graphics_backend);
 	auto graphics_exec_status = graphics_exec.wait_for(std::chrono::microseconds(0));
 
