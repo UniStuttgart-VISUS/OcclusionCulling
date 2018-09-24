@@ -4,6 +4,8 @@
 #include <vector>
 #include <CPUTMath.h>
 #include "CPUTMeshDX11.h"
+#include "CPUTCamera.h"
+
 
 struct GLFWwindow;
 
@@ -16,6 +18,7 @@ public:
 	void start();
 
 	std::vector<Vertex> OccluderSetGB;
+	CPUTCamera *cameraGB;
 
 private:
 	GLFWwindow* window;

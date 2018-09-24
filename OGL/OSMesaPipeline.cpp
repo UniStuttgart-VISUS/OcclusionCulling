@@ -49,7 +49,7 @@ OSMesaPipeline::OSMesaPipeline()
 	glfwWindowHint(GLFW_CONTEXT_CREATION_API, GLFW_OSMESA_CONTEXT_API);
 
 	/* Hide window at startup, because we are rendering offscreen anyway */
-	glfwWindowHint(GLFW_VISIBLE, GLFW_TRUE);
+	glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 
 	/* Create a windowed mode window and its OpenGL context */
 	window = glfwCreateWindow(640, 480, "Hello OSMesa", NULL, NULL);
@@ -157,7 +157,7 @@ void OSMesaPipeline::start()
 		osmesa_glViewport(0, 0, width, height);
 		osmesa_glClear(GL_COLOR_BUFFER_BIT);
 
-		//mat4x4_ortho(mvp, -ratio, ratio, -1.f, 1.f, -1.f, 1.f);
+		//mat4x4_ortho(mvp, -ratio, ratio, -1.f, 1.f, 1.f, -1.f);
 		
 		mat4x4 proj, view, model;
 		mat4x4_perspective(proj, cameraMP->GetFov(), cameraMP->GetAspectRatio(), cameraMP->GetNearPlaneDistance(), cameraMP->GetFarPlaneDistance());
