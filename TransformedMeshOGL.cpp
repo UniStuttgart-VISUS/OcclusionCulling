@@ -46,6 +46,8 @@ void TransformedMeshOGL::Initialize(CPUTMeshDX11* pMesh)
 	mNumTriangles = pMesh->GetTriangleCount();
 	mpVertices   = pMesh->GetDepthVertices();
 	mpIndices    = pMesh->GetDepthIndices();
+
+	numIndexPerObjectMesh = mNumIndices;
 	CreateOccluderSet(mpVertices, mpIndices, mNumIndices);
 }
 

@@ -108,10 +108,16 @@ void DepthBufferRasterizerOGL::CreateTransformedModels(CPUTAssetSet **mpAssetSet
 
 				model = (CPUTModelDX11*)pRenderNode;
 				mpTransformedModels1[modelId].CreateTransformedMeshes(model);
+
 				MergeVectorDBR(mpTransformedModels1[modelId].OccluderSetModel);
-
+				worldMatrixPerObject.push_back(mpTransformedModels1[modelId].worldMatrixPerObjectModel);
+				for (int i = 0; i < mpTransformedModels1[modelId].meshCountPerModel; ++i) {
+					numIndicesPerObject.push_back(mpTransformedModels1[modelId].numIndicesPerMesh[i]);
+				}
+				meshCountPerModel.push_back(mpTransformedModels1[modelId].meshCountPerModel);
+				
 				mpXformedPosOffset1[modelId] = mpTransformedModels1[modelId].GetNumVertices();
-
+				
 				mpStartV1[modelId] = mNumVertices1;
 				mNumVertices1 += mpTransformedModels1[modelId].GetNumVertices();
 

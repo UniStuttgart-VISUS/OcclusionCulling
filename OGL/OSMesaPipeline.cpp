@@ -44,6 +44,7 @@ static const char* fragment_shader_text =
 "void main()\n"
 "{\n"
 "    gl_FragColor = vec4(color, 1.0);\n"
+//"    gl_FragColor = vec4(gl_FragCoord.z);\n"
 "}\n";
 
 OSMesaPipeline::OSMesaPipeline()
@@ -73,26 +74,48 @@ void OSMesaPipeline::GetOccluder(Vertex *vertices, UINT *indices, int numIndices
 	}
 }
 
-void OSMesaPipeline::SetMatrix(mat4x4 &lhs, const float4x4 *rhs) {
+void OSMesaPipeline::SetMatrixP(mat4x4 &lhs, const float4x4 *rhs) {
 	lhs[0][0] = rhs->r0.x;
-	lhs[1][0] = rhs->r0.y;
-	lhs[2][0] = rhs->r0.z;
-	lhs[3][0] = rhs->r0.w;
+	lhs[0][1] = rhs->r0.y;
+	lhs[0][2] = rhs->r0.z;
+	lhs[0][3] = rhs->r0.w;
 
-	lhs[0][1] = rhs->r1.x;
+	lhs[1][0] = rhs->r1.x;
 	lhs[1][1] = rhs->r1.y;
-	lhs[2][1] = rhs->r1.z;
-	lhs[3][1] = rhs->r1.w;
+	lhs[1][2] = rhs->r1.z;
+	lhs[1][3] = rhs->r1.w;
 
-	lhs[0][2] = rhs->r2.x;
-	lhs[1][2] = rhs->r2.y;
+	lhs[2][0] = rhs->r2.x;
+	lhs[2][1] = rhs->r2.y;
 	lhs[2][2] = rhs->r2.z;
-	lhs[3][2] = rhs->r2.w;
+	lhs[2][3] = rhs->r2.w;
 
-	lhs[0][3] = rhs->r3.x;
-	lhs[1][3] = rhs->r3.y;
-	lhs[2][3] = rhs->r3.z;
+	lhs[3][0] = rhs->r3.x;
+	lhs[3][1] = rhs->r3.y;
+	lhs[3][2] = rhs->r3.z;
 	lhs[3][3] = rhs->r3.w;
+}
+
+void OSMesaPipeline::SetMatrixR(mat4x4 &lhs, float4x4 &rhs) {
+	lhs[0][0] = rhs.r0.x;
+	lhs[0][1] = rhs.r0.y;
+	lhs[0][2] = rhs.r0.z;
+	lhs[0][3] = rhs.r0.w;
+
+	lhs[1][0] = rhs.r1.x;
+	lhs[1][1] = rhs.r1.y;
+	lhs[1][2] = rhs.r1.z;
+	lhs[1][3] = rhs.r1.w;
+
+	lhs[2][0] = rhs.r2.x;
+	lhs[2][1] = rhs.r2.y;
+	lhs[2][2] = rhs.r2.z;
+	lhs[2][3] = rhs.r2.w;
+
+	lhs[3][0] = rhs.r3.x;
+	lhs[3][1] = rhs.r3.y;
+	lhs[3][2] = rhs.r3.z;
+	lhs[3][3] = rhs.r3.w;
 }
 
 
@@ -203,49 +226,53 @@ void OSMesaPipeline::start()
 		osmesa_glViewport(0, 0, width, height);
 		osmesa_glClear(GL_COLOR_BUFFER_BIT);
 
-		//mat4x4_ortho(mvp, -ratio, ratio, -1.f, 1.f, 1.f, -1.f);
-		
-		//mat4x4 proj, view, model;
-		mat4x4 proj, view, model;
-		mat4x4_perspective(proj, cameraMP->GetFov(), cameraMP->GetAspectRatio(), cameraMP->GetNearPlaneDistance(), cameraMP->GetFarPlaneDistance());
-		mat4x4_look_at(view, vec3{ cameraMP->GetPosition().x, cameraMP->GetPosition().y ,cameraMP->GetPosition().z }
-						   , vec3{ cameraMP->GetPosition().x + cameraMP->GetLook().x, cameraMP->GetPosition().y + cameraMP->GetLook().y , cameraMP->GetPosition().z + cameraMP->GetLook().z }
-						   , vec3{ cameraMP->GetUp().x, cameraMP->GetUp().y, cameraMP->GetUp().z });
-		mat4x4_identity(model);
-		//mat4x4_mul(mvp, view, model);
-		mat4x4_mul(mvp, proj, view);
-
-
-
-		/*const float4x4 *projC = cameraMP->GetProjectionMatrix();
-		float4x4 *viewC = cameraMP->GetViewMatrix();
-		float4x4 *worldC = cameraMP->GetWorldMatrix();
-		SetMatrix(proj, projC);
-		SetMatrix(view, viewC);
-		SetMatrix(model, worldC);
-		mat4x4_mul(mvp, view, model);
-		mat4x4_mul(mvp, proj, mvp);*/
-
-		osmesa_glUseProgram(program);
-		osmesa_glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (const GLfloat*)mvp);
-		//osmesa_glDrawArrays(GL_TRIANGLES, 0, 6);
-		osmesa_glDrawArrays(GL_TRIANGLES, 0, OccluderSetMP.size());
-		for (int i = 0; i < IndexArray.size(); ++i) {
-			osmesa_glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-			osmesa_glViewport(0, 0, width, height);
-			osmesa_glClear(GL_COLOR_BUFFER_BIT);
-
+		int offset = 0;
+		for (int i = 0; i < meshCountPerModelMP.size(); ++i) {
 			mat4x4 proj, view, model;
-			mat4x4_perspective(proj, cameraMP->GetFov(), cameraMP->GetAspectRatio(), cameraMP->GetNearPlaneDistance(), cameraMP->GetFarPlaneDistance());
+			/*mat4x4_perspective(proj, cameraMP->GetFov(), cameraMP->GetAspectRatio(), cameraMP->GetNearPlaneDistance(), cameraMP->GetFarPlaneDistance());
 			mat4x4_look_at(view, vec3{ cameraMP->GetPosition().x, cameraMP->GetPosition().y ,cameraMP->GetPosition().z }
 								, vec3{ cameraMP->GetPosition().x + cameraMP->GetLook().x, cameraMP->GetPosition().y + cameraMP->GetLook().y , cameraMP->GetPosition().z + cameraMP->GetLook().z }
-								, vec3{ cameraMP->GetUp().x, cameraMP->GetUp().y, cameraMP->GetUp().z });
-			model = ModelArray[i];
+								, vec3{ cameraMP->GetUp().x, cameraMP->GetUp().y, cameraMP->GetUp().z });*/
+			//const float4x4 *projC;
+			const float4x4 *projC = cameraMP->GetProjectionMatrix();
+			float4x4 *viewC = cameraMP->GetViewMatrix();
+
+			SetMatrixP(model, worldMatrixPerObjectMP[i]);	//mat4x4_transpose(model, model);
+
+			// NOT DONE YET!
+			// DirectX needs to be transformed to OpenGL
+
+			// assign projC to proj
+			// change sign in proj
+			// transpose proj
+			SetMatrixP(proj, projC);
+			proj[2][0] *= -1;
+			proj[2][1] *= -1;
+			proj[2][2] *= -1;
+			proj[2][3] *= -1;
+
+			mat4x4 trans;
+			mat4x4_transpose(trans, proj);
+			mat4x4_dup(proj, trans);
+
+			// assign viewC to view
+			// change sign in view
+			// transpose view
+			SetMatrixP(view, viewC);
+
 			mat4x4_mul(mvp, view, model);
 			mat4x4_mul(mvp, proj, mvp);
 
-			osmesa_glDrawArrays(GL_TRIANGLES, 0, IndexArray[i]);
+
+			for (int j = 0; j < meshCountPerModelMP[i]; ++j) {
+				osmesa_glUseProgram(program);
+				osmesa_glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (const GLfloat*)mvp);
+				//osmesa_glDrawArrays(GL_TRIANGLES, 0, 6);
+				osmesa_glDrawArrays(GL_TRIANGLES, 0, numIndicesPerObjectMP[offset]);
+				++offset;
+			}
 		}
+
 		//TODO write to ring buffer
 
 		// Write the offscreen framebuffer to disk for debugging

@@ -43,7 +43,10 @@ void TransformedModelOGL::CreateTransformedMeshes(CPUTModelDX11 *pModel)
 {
 	mpCPUTModel = pModel;
 	mNumMeshes = pModel->GetMeshCount();
+	meshCountPerModel = mNumMeshes;
+
 	mWorldMatrix = *pModel->GetWorldMatrix();
+	worldMatrixPerObjectModel = pModel->GetWorldMatrix();
 	
 	float3 center, half;
 	pModel->GetBoundsObjectSpace(&center, &half);
@@ -62,6 +65,7 @@ void TransformedModelOGL::CreateTransformedMeshes(CPUTModelDX11 *pModel)
 		mNumVertices += mpMeshes[i].GetNumVertices();
 		mNumTriangles += mpMeshes[i].GetNumTriangles();
 		MergeVector(mpMeshes[i].OccluderSetMesh);
+		numIndicesPerMesh.push_back(mpMeshes[i].numIndexPerObjectMesh);
 	}
 }
 

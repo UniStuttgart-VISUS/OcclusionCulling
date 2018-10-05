@@ -44,6 +44,9 @@ class DepthBufferRasterizer
 		virtual UINT GetNumRasterizedTriangles(UINT idx) = 0;
 
 		std::vector<Vertex> OccluderSet;
+		std::vector<int> numIndicesPerObject;
+		std::vector<float4x4*> worldMatrixPerObject;
+		std::vector<int> meshCountPerModel;
 
 	protected:
 		LARGE_INTEGER mStartTime[2];

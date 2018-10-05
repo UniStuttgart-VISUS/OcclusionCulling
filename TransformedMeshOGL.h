@@ -71,6 +71,7 @@ class TransformedMeshOGL : public HelperScalar
 		}
 
 		std::vector<Vertex> OccluderSetMesh;
+		int numIndexPerObjectMesh;
 	
 	private:
 		UINT mNumVertices;

@@ -1250,6 +1250,9 @@ void MySample::HandleCallbackEvent( CPUTEventID Event, CPUTControlID ControlID, 
 			//mpOsmesa->mOccluderSet = mpDBR->OccluderSet;
 
 			mpPINF->camera = mpCamera;
+			mpPINF->meshCountPerModelPINF = mpDBR->meshCountPerModel;
+			mpPINF->numIndicesPerObjectPINF = mpDBR->numIndicesPerObject;
+			mpPINF->worldMatrixPerObjectPINF = mpDBR->worldMatrixPerObject;
 			mpPINF->run(mpDBR->OccluderSet);
 		}
 

@@ -20,12 +20,16 @@ public:
 	void GetOccluder(Vertex *vertices, UINT *indices, int numIndices);
 
 	std::vector<Vertex> OccluderSetMP;
+	std::vector<int> numIndicesPerObjectMP;
+	std::vector<float4x4*> worldMatrixPerObjectMP;
+	std::vector<int> meshCountPerModelMP;
 	CPUTCamera *cameraMP;
 
 private:
 	GLFWwindow * window;
 
 	int mNumIndices = 0;
-	void SetMatrix(mat4x4 &lhs, const float4x4 *rhs);
+	void SetMatrixR(mat4x4 &lhs, float4x4 &rhs);
+	void SetMatrixP(mat4x4 &lhs, const float4x4 *rhs);
 };
 #endif // !OSMesaPipeline_hpp

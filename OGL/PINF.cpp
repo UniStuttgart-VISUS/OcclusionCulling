@@ -15,6 +15,9 @@ int PINF::run(const std::vector<Vertex> &vertices)
 	// Create OSMesa pipeline
 	OSMesaPipeline mesa_pipe;
 	mesa_pipe.OccluderSetMP = vertices;
+	mesa_pipe.meshCountPerModelMP = meshCountPerModelPINF;
+	mesa_pipe.numIndicesPerObjectMP = numIndicesPerObjectPINF;
+	mesa_pipe.worldMatrixPerObjectMP = worldMatrixPerObjectPINF;
 	mesa_pipe.cameraMP = camera;
 	auto mesa_exec = std::async(std::launch::async, &(OSMesaPipeline::start), &mesa_pipe);
 	auto mesa_exec_status = mesa_exec.wait_for(std::chrono::microseconds(0));

@@ -9,6 +9,10 @@ class PINF {
 public:
 	int run(const std::vector<Vertex> &vertices);
 	CPUTCamera *camera;
+
+	std::vector<int> numIndicesPerObjectPINF;
+	std::vector<float4x4*> worldMatrixPerObjectPINF;
+	std::vector<int> meshCountPerModelPINF;
 };
 
 #endif // PINF_HPP

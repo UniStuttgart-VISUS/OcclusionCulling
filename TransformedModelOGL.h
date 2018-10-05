@@ -94,6 +94,9 @@ class TransformedModelOGL : public HelperScalar
 		}
 
 		std::vector<Vertex> OccluderSetModel;
+		float4x4* worldMatrixPerObjectModel;
+		int meshCountPerModel;
+		std::vector<int> numIndicesPerMesh;
 	
 	private:
 		CPUTModelDX11 *mpCPUTModel;
