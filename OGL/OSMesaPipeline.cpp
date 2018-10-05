@@ -5,7 +5,6 @@
 #include "osmesa_glad/osmesa_glad.h"
 #include <GLFW/glfw3.h>
 
-#include "linmath.h"
 #include "lodepng/lodepng.h"
 
 static const struct
@@ -52,7 +51,7 @@ OSMesaPipeline::OSMesaPipeline()
 	glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 
 	/* Create a windowed mode window and its OpenGL context */
-	window = glfwCreateWindow(640, 480, "Hello OSMesa", NULL, NULL);
+	window = glfwCreateWindow(1920, 1080, "Hello OSMesa", NULL, NULL);
 	if (window == NULL)
 	{
 		std::cout << "Window creation failed." << std::endl;
@@ -69,6 +68,29 @@ void OSMesaPipeline::GetOccluder(Vertex *vertices, UINT *indices, int numIndices
 		OccluderSetMP.push_back(vertices[indices[i]]);
 	}
 }
+
+void OSMesaPipeline::SetMatrix(mat4x4 &lhs, const float4x4 *rhs) {
+	lhs[0][0] = rhs->r0.x;
+	lhs[1][0] = rhs->r0.y;
+	lhs[2][0] = rhs->r0.z;
+	lhs[3][0] = rhs->r0.w;
+
+	lhs[0][1] = rhs->r1.x;
+	lhs[1][1] = rhs->r1.y;
+	lhs[2][1] = rhs->r1.z;
+	lhs[3][1] = rhs->r1.w;
+
+	lhs[0][2] = rhs->r2.x;
+	lhs[1][2] = rhs->r2.y;
+	lhs[2][2] = rhs->r2.z;
+	lhs[3][2] = rhs->r2.w;
+
+	lhs[0][3] = rhs->r3.x;
+	lhs[1][3] = rhs->r3.y;
+	lhs[2][3] = rhs->r3.z;
+	lhs[3][3] = rhs->r3.w;
+}
+
 
 void OSMesaPipeline::start()
 {
@@ -100,15 +122,35 @@ void OSMesaPipeline::start()
 	std::cout << "OSMesa OpenGL context " << major << "." << minor << std::endl;
 
 	// alter data for testing purposes
-	OccluderSetMP[0].pos.x = -10.f;
+	/*OccluderSetMP[0].pos.x = -10.f;
 	OccluderSetMP[0].pos.y = -10.f;
 	OccluderSetMP[0].pos.z = -1.f;
-	OccluderSetMP[1].pos.x = 0.f;
+	OccluderSetMP[1].pos.x = -5.f;
 	OccluderSetMP[1].pos.y = 10.f;
 	OccluderSetMP[1].pos.z = -1.f;
-	OccluderSetMP[2].pos.x = 10.f;
+	OccluderSetMP[2].pos.x = 0.f;
 	OccluderSetMP[2].pos.y = -10.f;
 	OccluderSetMP[2].pos.z = -1.f;
+
+	OccluderSetMP[3].pos.x = 0.f;
+	OccluderSetMP[3].pos.y = -10.f;
+	OccluderSetMP[3].pos.z = -1.f;
+	OccluderSetMP[4].pos.x = 5.f;
+	OccluderSetMP[4].pos.y = 10.f;
+	OccluderSetMP[4].pos.z = -1.f;
+	OccluderSetMP[5].pos.x = 10.f;
+	OccluderSetMP[5].pos.y = -10.f;
+	OccluderSetMP[5].pos.z = -1.f;
+
+	OccluderSetMP[6].pos.x = 10.f;
+	OccluderSetMP[6].pos.y = -10.f;
+	OccluderSetMP[6].pos.z = -1.f;
+	OccluderSetMP[7].pos.x = 15.f;
+	OccluderSetMP[7].pos.y = 10.f;
+	OccluderSetMP[7].pos.z = -1.f;
+	OccluderSetMP[8].pos.x = 20.f;
+	OccluderSetMP[8].pos.y = -10.f;
+	OccluderSetMP[8].pos.z = -1.f;*/
 
 	/* Create triangle geometry and simple shader for debugging */
 	GLuint vertex_buffer, vertex_shader, fragment_shader, program;
@@ -121,7 +163,7 @@ void OSMesaPipeline::start()
 	osmesa_glGenBuffers(1, &vertex_buffer);
 	osmesa_glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
 	//osmesa_glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	osmesa_glBufferData(GL_ARRAY_BUFFER, sizeof(OccluderSetMP), &OccluderSetMP[0], GL_STATIC_DRAW);
+	osmesa_glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * OccluderSetMP.size(), OccluderSetMP.data(), GL_STATIC_DRAW);
 
 	vertex_shader = osmesa_glCreateShader(GL_VERTEX_SHADER);
 	osmesa_glShaderSource(vertex_shader, 1, &vertex_shader_text, NULL);
@@ -142,11 +184,11 @@ void OSMesaPipeline::start()
 
 	osmesa_glEnableVertexAttribArray(vpos_location);
 	//osmesa_glVertexAttribPointer(vpos_location, 2, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (void*)0);
-	osmesa_glVertexAttribPointer(vpos_location, 3, GL_FLOAT, GL_FALSE, sizeof(OccluderSetMP[0].pos.x), (void*)0);
+	osmesa_glVertexAttribPointer(vpos_location, 3, GL_FLOAT, GL_FALSE, sizeof(float), (void*)0);
 
 	osmesa_glEnableVertexAttribArray(vcol_location);
 	//osmesa_glVertexAttribPointer(vcol_location, 3, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (void*)(sizeof(float) * 2));
-	osmesa_glVertexAttribPointer(vcol_location, 3, GL_FLOAT, GL_FALSE, sizeof(OccluderSetMP[0].pos.x), (void*)0);
+	osmesa_glVertexAttribPointer(vcol_location, 3, GL_FLOAT, GL_FALSE, sizeof(float), (void*)0);
 
 	glfwGetFramebufferSize(window, &width, &height);
 	ratio = width / (float)height;
@@ -159,12 +201,25 @@ void OSMesaPipeline::start()
 
 		//mat4x4_ortho(mvp, -ratio, ratio, -1.f, 1.f, 1.f, -1.f);
 		
+		//mat4x4 proj, view, model;
 		mat4x4 proj, view, model;
-		mat4x4_perspective(proj, cameraMP->GetFov(), cameraMP->GetAspectRatio(), cameraMP->GetNearPlaneDistance(), cameraMP->GetFarPlaneDistance());
+		/*mat4x4_perspective(proj, cameraMP->GetFov(), cameraMP->GetAspectRatio(), cameraMP->GetNearPlaneDistance(), cameraMP->GetFarPlaneDistance());
 		mat4x4_look_at(view, vec3{ cameraMP->GetPosition().x, cameraMP->GetPosition().y ,cameraMP->GetPosition().z }
 						   , vec3{ cameraMP->GetLook().x, cameraMP->GetLook().y ,cameraMP->GetLook().z }
 						   , vec3{ cameraMP->GetUp().x, cameraMP->GetUp().y, cameraMP->GetUp().z });
 		mat4x4_identity(model);
+		mat4x4_mul(mvp, view, model);
+		mat4x4_mul(mvp, proj, mvp);*/
+
+
+
+		const float4x4 *projC = cameraMP->GetProjectionMatrix();
+		float4x4 *viewC = cameraMP->GetViewMatrix();
+		float4x4 *worldC = cameraMP->GetWorldMatrix();
+		SetMatrix(proj, projC);
+		SetMatrix(view, viewC);
+		SetMatrix(model, worldC);
+
 		mat4x4_mul(mvp, view, model);
 		mat4x4_mul(mvp, proj, mvp);
 
@@ -178,7 +233,7 @@ void OSMesaPipeline::start()
 		std::vector<unsigned char> image(width*height*4);
 		osmesa_glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, image.data());
 		//Encode the image
-		unsigned error = lodepng::encode("test.png", image, width, height);
+		unsigned error = lodepng::encode("testMP.png", image, width, height);
 		//if there's an error, display it
 		if (error) std::cout << "encoder error " << error << ": " << lodepng_error_text(error) << std::endl;
 

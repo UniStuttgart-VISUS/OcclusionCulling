@@ -6,6 +6,7 @@
 #include <GLFW/glfw3.h>
 
 #include "linmath.h"
+#include "lodepng/lodepng.h"
 
 static const struct
 {
@@ -77,7 +78,7 @@ void GraphicsBackend::start()
 	std::cout << "GPU vendor string: " << glGetString(GL_VENDOR) << std::endl;
 
 	// alter data for testing purposes
-	OccluderSetGB[0].pos.x = -10.f;
+	/*OccluderSetGB[0].pos.x = -10.f;
 	OccluderSetGB[0].pos.y = -10.f;
 	OccluderSetGB[0].pos.z = -1.f;
 	OccluderSetGB[1].pos.x = 0.f;
@@ -85,7 +86,7 @@ void GraphicsBackend::start()
 	OccluderSetGB[1].pos.z = -1.f;
 	OccluderSetGB[2].pos.x = 10.f;
 	OccluderSetGB[2].pos.y = -10.f;
-	OccluderSetGB[2].pos.z = -1.f;
+	OccluderSetGB[2].pos.z = -1.f;*/
 
 	/* Create triangle geometry and simple shader for debugging */
 	GLuint vertex_buffer, vertex_shader, fragment_shader, program;
@@ -98,7 +99,7 @@ void GraphicsBackend::start()
 	glGenBuffers(1, &vertex_buffer);
 	glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
 	//glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(OccluderSetGB), &OccluderSetGB[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * OccluderSetGB.size(), OccluderSetGB.data(), GL_STATIC_DRAW);
 
 	vertex_shader = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vertex_shader, 1, &vertex_shader_text, NULL);
@@ -119,11 +120,11 @@ void GraphicsBackend::start()
 
 	glEnableVertexAttribArray(vpos_location);
 	//glVertexAttribPointer(vpos_location, 2, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (void*)0);
-	glVertexAttribPointer(vpos_location, 3, GL_FLOAT, GL_FALSE, sizeof(OccluderSetGB[0].pos.x), (void*)0);
+	glVertexAttribPointer(vpos_location, 3, GL_FLOAT, GL_FALSE, sizeof(float), (void*)0);
 
 	glEnableVertexAttribArray(vcol_location);
 	//glVertexAttribPointer(vcol_location, 3, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (void*)(sizeof(float) * 2));
-	glVertexAttribPointer(vcol_location, 3, GL_FLOAT, GL_FALSE, sizeof(OccluderSetGB[0].pos.x), (void*)0);
+	glVertexAttribPointer(vcol_location, 3, GL_FLOAT, GL_FALSE, sizeof(float), (void*)0);
 
 	glfwGetFramebufferSize(window, &width, &height);
 	ratio = width / (float)height;
@@ -151,6 +152,14 @@ void GraphicsBackend::start()
 		glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (const GLfloat*)mvp);
 		//glDrawArrays(GL_TRIANGLES, 0, 3);
 		glDrawArrays(GL_TRIANGLES, 0, OccluderSetGB.size());
+
+		// Write the offscreen framebuffer to disk for debugging
+		std::vector<unsigned char> image(width*height * 4);
+		glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, image.data());
+		//Encode the image
+		unsigned error = lodepng::encode("testGB.png", image, width, height);
+		//if there's an error, display it
+		if (error) std::cout << "encoder error " << error << ": " << lodepng_error_text(error) << std::endl;
 
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);

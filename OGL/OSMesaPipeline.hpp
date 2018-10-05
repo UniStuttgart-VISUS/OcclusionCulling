@@ -6,6 +6,8 @@
 #include "CPUTMeshDX11.h"
 #include "CPUTCamera.h"
 
+#include "linmath.h"
+
 struct GLFWwindow;
 
 class OSMesaPipeline
@@ -24,5 +26,6 @@ private:
 	GLFWwindow * window;
 
 	int mNumIndices = 0;
+	void SetMatrix(mat4x4 &lhs, const float4x4 *rhs);
 };
 #endif // !OSMesaPipeline_hpp
