@@ -144,6 +144,7 @@ void GraphicsBackend::start()
 		mat4x4_look_at(view, vec3{ cameraGB->GetPosition().x, cameraGB->GetPosition().y ,cameraGB->GetPosition().z }
 						   , vec3{ cameraGB->GetLook().x, cameraGB->GetLook().y ,cameraGB->GetLook().z }
 						   , vec3{ cameraGB->GetUp().x, cameraGB->GetUp().y, cameraGB->GetUp().z });
+		
 		mat4x4_identity(model);
 		mat4x4_mul(mvp, view, model);
 		mat4x4_mul(mvp, proj, mvp);
