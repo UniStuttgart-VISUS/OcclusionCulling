@@ -7,7 +7,7 @@
 
 class PINF {
 public:
-	int run(const std::vector<Vertex> &vertices);
+	int run(const std::vector<Vertex> &vertices);// , OSMesaPipeline &mesa_pipe, GraphicsBackend &graphics_backend);
 	CPUTCamera *camera;
 
 	std::vector<int> numIndicesPerObjectPINF;

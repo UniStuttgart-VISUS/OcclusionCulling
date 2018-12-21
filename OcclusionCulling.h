@@ -258,6 +258,9 @@ public:
     static const CPUTControlID ID_OCCLUSIONMATCHGPURESOLUTION = 3600;
 
 	std::unique_ptr<OSMesaPipeline> mpOsmesa;
+	OSMesaPipeline mOSMesa;
+	std::unique_ptr<GraphicsBackend> mpBackend;
+	GraphicsBackend mBackend;
 	std::unique_ptr<PINF> mpPINF;
 };
 #endif // __CPUT_SAMPLESTARTDX11_H__

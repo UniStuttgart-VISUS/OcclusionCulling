@@ -287,6 +287,7 @@ static unsigned int GetOptimalNumberOfThreads( );
 void MySample::Create()
 {    
 	mpOsmesa = std::make_unique<OSMesaPipeline>();
+	mpBackend = std::make_unique<GraphicsBackend>();
 	mpPINF = std::make_unique<PINF>();
 
 	// Create occlusion culling resources
@@ -607,11 +608,11 @@ void MySample::Create()
 	else if (mSOCType == OGL_TYPE)
 	{
 		/*mpCPURenderTarget[0] = mpCPURenderTargetOGL[0];		// 2D-Texture
-		mpCPURenderTarget[1] = mpCPURenderTargetOGL[1];		// 2D-Texture
-		mpCPUSRV[0] = mpCPUSRVOGL[0];				// Shader Resource View
-		mpCPUSRV[1] = mpCPUSRVOGL[1];				// Shader Resource View
-		mpShowDepthBufMtrl = mpShowDepthBufMtrlOGL;		// Material
-		rowPitch = SCREENW * 4;*/
+		mpCPURenderTarget[1] = mpCPURenderTargetOGL[1];			// 2D-Texture
+		mpCPUSRV[0] = mpCPUSRVOGL[0];							// Shader Resource View
+		mpCPUSRV[1] = mpCPUSRVOGL[1];							// Shader Resource View
+		mpShowDepthBufMtrl = mpShowDepthBufMtrlOGL;				// Material
+		rowPitch = SCREENW * 4;									// number of bytes that are in each row on screen */
 	}
 
     // Call ResizeWindow() because it creates some resources that our blur material needs (e.g., the back buffer)
@@ -1241,8 +1242,6 @@ void MySample::HandleCallbackEvent( CPUTEventID Event, CPUTControlID ControlID, 
 		}
 		else if (selectedItem - 5 == 0)
 		{
-			std::cout << "OGL HandleCallbackEvent" << std::endl;
-
 			mSOCType = OGL_TYPE;
 			SetupOcclusionCullingObjects();
 
@@ -1253,7 +1252,8 @@ void MySample::HandleCallbackEvent( CPUTEventID Event, CPUTControlID ControlID, 
 			mpPINF->meshCountPerModelPINF = mpDBR->meshCountPerModel;
 			mpPINF->numIndicesPerObjectPINF = mpDBR->numIndicesPerObject;
 			mpPINF->worldMatrixPerObjectPINF = mpDBR->worldMatrixPerObject;
-			mpPINF->run(mpDBR->OccluderSet);
+			mpPINF->run(mpDBR->OccluderSet);// , mOSMesa, mBackend);
+			//selectedItem = 1;
 		}
 
 		mpDBR->CreateTransformedModels(mpAssetSetDBR, OCCLUDER_SETS);		
