@@ -286,9 +286,8 @@ static unsigned int GetOptimalNumberOfThreads( );
 //-----------------------------------------------------------------------------
 void MySample::Create()
 {    
-	mpOsmesa = std::make_unique<OSMesaPipeline>();
-	mpBackend = std::make_unique<GraphicsBackend>();
-	mpPINF = std::make_unique<PINF>();
+	/*mpBackend = std::make_unique<GraphicsBackend>();
+	mpPINF = std::make_unique<PINF>();*/
 
 	// Create occlusion culling resources
 	gMaskedOcclusionCulling = MaskedOcclusionCulling::Create();
@@ -1245,15 +1244,22 @@ void MySample::HandleCallbackEvent( CPUTEventID Event, CPUTControlID ControlID, 
 			mSOCType = OGL_TYPE;
 			SetupOcclusionCullingObjects();
 
-			mpDBR->CreateTransformedModels(mpAssetSetDBR, OCCLUDER_SETS);
-			//mpOsmesa->mOccluderSet = mpDBR->OccluderSet;
+			mpCPURenderTarget[0] = mpCPURenderTargetScalar[0];
+			mpCPURenderTarget[1] = mpCPURenderTargetScalar[1];
+			mpCPUSRV[0] = mpCPUSRVScalar[0];
+			mpCPUSRV[1] = mpCPUSRVScalar[1];
+			mpShowDepthBufMtrl = mpShowDepthBufMtrlScalar;
+			rowPitch = SCREENW * 4;
 
-			mpPINF->camera = mpCamera;
-			mpPINF->meshCountPerModelPINF = mpDBR->meshCountPerModel;
-			mpPINF->numIndicesPerObjectPINF = mpDBR->numIndicesPerObject;
-			mpPINF->worldMatrixPerObjectPINF = mpDBR->worldMatrixPerObject;
-			mpPINF->run(mpDBR->OccluderSet);// , mOSMesa, mBackend);
-			//selectedItem = 1;
+			//mpDBR->CreateTransformedModels(mpAssetSetDBR, OCCLUDER_SETS);
+			////mpOsmesa->mOccluderSet = mpDBR->OccluderSet;
+
+			//mpPINF->camera = mpCamera;
+			//mpPINF->meshCountPerModelPINF = mpDBR->meshCountPerModel;
+			//mpPINF->numIndicesPerObjectPINF = mpDBR->numIndicesPerObject;
+			//mpPINF->worldMatrixPerObjectPINF = mpDBR->worldMatrixPerObject;
+			//mpPINF->run(mpDBR->OccluderSet);// , mOSMesa, mBackend);
+			////selectedItem = 1;
 		}
 
 		mpDBR->CreateTransformedModels(mpAssetSetDBR, OCCLUDER_SETS);		
@@ -1644,7 +1650,6 @@ void MySample::Render(double deltaSeconds)
 		mpDBR->SetCPURenderTargetPixels(mpCPURenderTargetPixels, mCurrIdx);
 		// Transform the occluder models and rasterize them to the depth buffer
 		mpDBR->TransformModelsAndRasterizeToDepthBuffer(&mCameraCopy[mCurrIdx], mCurrIdx);
-	
 		
 		mpAABB->SetCPURenderTargetPixels(mpCPURenderTargetPixels, mCurrIdx);
 		mpAABB->SetDepthSummaryBuffer(mpDBR->GetDepthSummaryBuffer(mCurrIdx), mCurrIdx);

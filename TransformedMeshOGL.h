@@ -70,6 +70,11 @@ class TransformedMeshOGL : public HelperScalar
 			mpXformedPos[1] = pXformedPos1;
 		}
 
+		std::vector<float4> GetAllXformedPos()
+		{
+			return mAllVertices;
+		}
+
 		std::vector<Vertex> OccluderSetMesh;
 		int numIndexPerObjectMesh;
 	
@@ -80,6 +85,8 @@ class TransformedMeshOGL : public HelperScalar
 		Vertex *mpVertices;
 		UINT *mpIndices;
 		float4 *mpXformedPos[2];
+		std::vector<float4> mAllVertices;
+		UINT mGlobalIndex;
 
 		
 		

@@ -29,6 +29,8 @@ DepthBufferRasterizerOGLST::DepthBufferRasterizerOGLST()
 	mpBinModel[1] = new USHORT[size * MAX_TRIS_IN_BIN_ST];
 	mpBinMesh[1] = new USHORT[size * MAX_TRIS_IN_BIN_ST];
 	mpNumTrisInBin[1] = new USHORT[size];
+
+	mpOsmesa = std::make_unique<OSMesaPipeline>();
 }
 
 DepthBufferRasterizerOGLST::~DepthBufferRasterizerOGLST()
@@ -56,7 +58,7 @@ void DepthBufferRasterizerOGLST::TransformModelsAndRasterizeToDepthBuffer(CPUTCa
 	mpCamera[idx] = pCamera;
 
 	BoxTestSetupScalar setup;
-	setup.Init(mpViewMatrix[idx], mpProjMatrix[idx], viewportMatrix, mpCamera[idx], mOccluderSizeThreshold); 
+	setup.Init(mpViewMatrix[idx], mpProjMatrix[idx], float4x4Identity(), mpCamera[idx], mOccluderSizeThreshold);
 
 	if(mEnableFCulling)
 	{
@@ -75,11 +77,23 @@ void DepthBufferRasterizerOGLST::TransformModelsAndRasterizeToDepthBuffer(CPUTCa
 
 	ActiveModels(idx);
 	TransformMeshes(idx);
-	BinTransformedMeshes(idx);
+	
+	// Change the code below to:
+	// Send transformed meshes to MesaPipeline, render the meshes, read the depth buffer
+	// get the depth buffer und write to local intel depth buffer
+	// --------------------------------------------------------------------
+	// mesaObject->getDepthBuffer(&DBObject, Meshes)
+	mpOsmesa->start(mFinalXformedPos);
+	mFinalXformedPos.clear();
+	mpOsmesa->singleImage = false;
+	
+	/*BinTransformedMeshes(idx);
 	for(UINT i = 0; i < NUM_TILES; i++)
 	{
 		RasterizeBinnedTrianglesToDepthBuffer(i, idx);
-	}
+	}*/
+	// --------------------------------------------------------------------
+
 
 	QueryPerformanceCounter(&mStopTime[idx][0]);
 	mRasterizeTime[mTimeCounter++] = ((double)(mStopTime[idx][0].QuadPart - mStartTime[idx].QuadPart)) / ((double)glFrequency.QuadPart);
@@ -109,7 +123,9 @@ void DepthBufferRasterizerOGLST::TransformMeshes(UINT idx)
 		UINT ss = mpModelIndexA[idx][active];
 		UINT thisSurfaceVertexCount = mpTransformedModels1[ss].GetNumVertices();
         
-        mpTransformedModels1[ss].TransformMeshes(0, thisSurfaceVertexCount - 1, mpCamera[idx], idx);	
+        mpTransformedModels1[ss].TransformMeshes(0, thisSurfaceVertexCount - 1, mpCamera[idx], idx);
+		std::vector<float4> b = mpTransformedModels1[ss].GetAllXformedPos1();
+		mFinalXformedPos.insert(mFinalXformedPos.end(), b.begin(), b.end());
     }
 }
 

@@ -86,6 +86,11 @@ class TransformedModelOGL : public HelperScalar
 			}
 		}
 
+		std::vector<float4> GetAllXformedPos1()
+		{
+			return mAllVertices1;
+		}
+
 		inline void SetInsideFrustum(bool inFrustum, UINT idx){mInsideViewFrustum[idx] = inFrustum;}
 
 		inline bool IsRasterized2DB(UINT idx)
@@ -97,6 +102,8 @@ class TransformedModelOGL : public HelperScalar
 		float4x4* worldMatrixPerObjectModel;
 		int meshCountPerModel;
 		std::vector<int> numIndicesPerMesh;
+
+		UINT checkLOL;
 	
 	private:
 		CPUTModelDX11 *mpCPUTModel;
@@ -116,6 +123,8 @@ class TransformedModelOGL : public HelperScalar
 		float mRadiusSq;
 		TransformedMeshOGL *mpMeshes;
 		float4 *mpXformedPos[2];
+
+		std::vector<float4> mAllVertices1;
 		
 };
 

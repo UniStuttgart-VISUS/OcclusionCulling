@@ -257,10 +257,10 @@ public:
 	static const CPUTControlID ID_PIPELINE = 3500;
     static const CPUTControlID ID_OCCLUSIONMATCHGPURESOLUTION = 3600;
 
-	std::unique_ptr<OSMesaPipeline> mpOsmesa;
-	OSMesaPipeline mOSMesa;
+	
+	/*OSMesaPipeline mOSMesa;
 	std::unique_ptr<GraphicsBackend> mpBackend;
 	GraphicsBackend mBackend;
-	std::unique_ptr<PINF> mpPINF;
+	std::unique_ptr<PINF> mpPINF;*/
 };
 #endif // __CPUT_SAMPLESTARTDX11_H__

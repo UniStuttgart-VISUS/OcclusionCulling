@@ -101,6 +101,7 @@ class DepthBufferRasterizerScalar : public DepthBufferRasterizer, public HelperS
 			mNumTrianglesA[idx] += mpStartT1[modelId + 1] - mpStartT1[modelId];
 		}
 
+
 	protected:
 		TransformedModelScalar* mpTransformedModels1;
 		UINT mNumModels1;

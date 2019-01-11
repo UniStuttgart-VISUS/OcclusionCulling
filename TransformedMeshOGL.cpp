@@ -22,6 +22,7 @@ TransformedMeshOGL::TransformedMeshOGL()
 	: mNumVertices(0),
 	  mNumIndices(0),
 	  mNumTriangles(0),
+	  mGlobalIndex(0),
 	  mpVertices(NULL),
 	  mpIndices(NULL)
 {
@@ -59,13 +60,23 @@ void TransformedMeshOGL::TransformVertices(const float4x4 &cumulativeMatrix,
 										      UINT end,
 											  UINT idx)
 {
+	mAllVertices.clear();
+
 	for(UINT i = start; i <= end; i++)
 	{
+
 		float4 xform = TransformCoords(mpVertices[i].pos, cumulativeMatrix);
 		float4 projected = xform / xform.w; 
 
 		//set to all 0s if clipped by near clip plane
 		mpXformedPos[idx][i] = xform.z <= xform.w ? projected : float4(0.0, 0.0, 0.0, 0.0);
+	}
+
+	
+	// GET ALL VERTICES HERE!
+	for (UINT i = 0; i < mNumIndices; ++i)
+	{
+		mAllVertices.push_back(mpXformedPos[idx][mpIndices[i]]);
 	}
 }
 

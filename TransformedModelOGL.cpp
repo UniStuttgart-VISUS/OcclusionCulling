@@ -134,6 +134,8 @@ void TransformedModelOGL::TransformMeshes(UINT start,
 											 CPUTCamera* pCamera,
 											 UINT idx)
 {
+	mAllVertices1.clear();
+
 	if(mInsideViewFrustum[idx] && !mTooSmall[idx])
 	{
 		UINT totalNumVertices = 0;
@@ -145,6 +147,8 @@ void TransformedModelOGL::TransformMeshes(UINT start,
 				continue;
 			}
 			mpMeshes[meshId].TransformVertices(mCumulativeMatrix[idx], start, end, idx);
+			std::vector<float4> b = mpMeshes[meshId].GetAllXformedPos();
+			mAllVertices1.insert(mAllVertices1.end(), b.begin(), b.end());
 		}
 	}
 }

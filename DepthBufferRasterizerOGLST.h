@@ -27,11 +27,15 @@ class DepthBufferRasterizerOGLST : public DepthBufferRasterizerOGL
 		void TransformModelsAndRasterizeToDepthBuffer(CPUTCamera *pCamera, UINT idx);
 		void ComputeR2DBTime(UINT idx);
 
+		std::unique_ptr<OSMesaPipeline> mpOsmesa;
+
 	private:
 		void ActiveModels(UINT idx);
 		void TransformMeshes(UINT idx);
 		void BinTransformedMeshes(UINT idx);
 		void RasterizeBinnedTrianglesToDepthBuffer(UINT tileId, UINT idx);
+
+		std::vector<float4> mFinalXformedPos;
 };
 
 #endif  //DEPTHBUFFERRASTERIZEROGLST_H
