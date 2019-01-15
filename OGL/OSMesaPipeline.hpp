@@ -17,8 +17,10 @@ public:
 	OSMesaPipeline();
 	~OSMesaPipeline();
 
-	void start(std::vector<float4> vertices);
+	void start(std::vector<float4> vertices, float* DBTemp);
 	void GetOccluder(Vertex *vertices, UINT *indices, int numIndices);
+
+	std::vector<float> DBTemp;
 
 	std::vector<float4> mOccluderSet;
 	bool singleImage = true;

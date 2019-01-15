@@ -168,4 +168,6 @@ void GraphicsBackend::start()
 		/* Poll for and process events */
 		glfwPollEvents(); //?
 	}
+
+	//glfwTerminate();
 }

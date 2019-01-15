@@ -60,14 +60,16 @@ void DepthBufferRasterizerOGLST::TransformModelsAndRasterizeToDepthBuffer(CPUTCa
 	BoxTestSetupScalar setup;
 	setup.Init(mpViewMatrix[idx], mpProjMatrix[idx], float4x4Identity(), mpCamera[idx], mOccluderSizeThreshold);
 
-	if(mEnableFCulling)
+	//if(mEnableFCulling)
+	if (false)
 	{
 		for(UINT i = 0; i < mNumModels1; i++)
 		{
 			mpTransformedModels1[i].InsideViewFrustum(setup, idx);
 		}
 	}
-	else
+	//else
+	if(false)
 	{
 		for(UINT i = 0; i < mNumModels1; i++)
 		{
@@ -78,21 +80,11 @@ void DepthBufferRasterizerOGLST::TransformModelsAndRasterizeToDepthBuffer(CPUTCa
 	ActiveModels(idx);
 	TransformMeshes(idx);
 	
-	// Change the code below to:
-	// Send transformed meshes to MesaPipeline, render the meshes, read the depth buffer
-	// get the depth buffer und write to local intel depth buffer
-	// --------------------------------------------------------------------
-	// mesaObject->getDepthBuffer(&DBObject, Meshes)
-	mpOsmesa->start(mFinalXformedPos);
+	// After meshes are transformed they are rendered to the depth buffer
+	float* pDepthBuffer = (float*)mpRenderTargetPixels[idx];
+	pDepthBuffer = NULL; mpRenderTargetPixels[idx] = NULL;
+	mpOsmesa->start(mFinalXformedPos, pDepthBuffer);
 	mFinalXformedPos.clear();
-	mpOsmesa->singleImage = false;
-	
-	/*BinTransformedMeshes(idx);
-	for(UINT i = 0; i < NUM_TILES; i++)
-	{
-		RasterizeBinnedTrianglesToDepthBuffer(i, idx);
-	}*/
-	// --------------------------------------------------------------------
 
 
 	QueryPerformanceCounter(&mStopTime[idx][0]);

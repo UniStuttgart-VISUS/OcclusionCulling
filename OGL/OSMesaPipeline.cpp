@@ -23,29 +23,22 @@ static const struct
 
 static const char* vertex_shader_text =
 "#version 110\n"
-//"uniform mat4 MVP;\n"
-//"attribute vec3 vCol;\n"
-//"attribute vec2 vPos;\n"
 "attribute vec4 vPos;\n"
 "varying vec3 color;\n"
 "void main()\n"
 "{\n"
-//"    gl_Position = MVP * vec4(vPos, 0.0, 1.0);\n"
-//"    vec3 posNorm = normalize(vec3(vPos, 0.0));\n"
-//"    color = vCol;\n"
 "    gl_Position = vec4(vPos.x, -vPos.y, vPos.zw);\n"
-"    vec4 posNorm = normalize(vPos);\n"
-"    color = vec3((posNorm.z + 1.f) / 2.f);\n"
+//"    vec4 posNorm = normalize(vPos);\n"
+//"    color = vec3((posNorm.z + 1.f) / 2.f);\n"
 "}\n";
 
-static const char* fragment_shader_text =
-"#version 110\n"
-"varying vec3 color;\n"
-"void main()\n"
-"{\n"
-"    gl_FragColor = vec4(vec3(gl_FragCoord.z), 1.0);\n"
-//"    gl_FragColor = vec4(gl_FragCoord.z);\n"
-"}\n";
+static const char* fragment_shader_text;// =
+//"#version 110\n"
+//"varying vec3 color;\n"
+//"void main()\n"
+//"{\n"
+//"    gl_FragColor = vec4(vec3(gl_FragCoord.z), 1.0);\n"
+//"}\n";
 
 OSMesaPipeline::OSMesaPipeline()
 {
@@ -55,7 +48,7 @@ OSMesaPipeline::OSMesaPipeline()
 	glfwWindowHint(GLFW_CONTEXT_CREATION_API, GLFW_OSMESA_CONTEXT_API);
 
 	/* Hide window at startup, because we are rendering offscreen anyway */
-	glfwWindowHint(GLFW_VISIBLE, GLFW_TRUE);
+	glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 
 	/* Create a windowed mode window and its OpenGL context */
 	window = glfwCreateWindow(1920, 1080, "Hello OSMesa", NULL, NULL);
@@ -151,7 +144,7 @@ void OSMesaPipeline::SetMatrixR(mat4x4 &lhs, float4x4 &rhs) {
 }
 
 
-void OSMesaPipeline::start(std::vector<float4> vertices)
+void OSMesaPipeline::start(std::vector<float4> vertices, float* DBTemp)
 {
 	// alter data for testing purposes
 	/*OccluderSetMP[0].pos.x = -10.f;
@@ -212,15 +205,10 @@ void OSMesaPipeline::start(std::vector<float4> vertices)
 
 	//mvp_location = osmesa_glGetUniformLocation(program, "MVP");
 	vpos_location = osmesa_glGetAttribLocation(program, "vPos");
-	//vcol_location = osmesa_glGetAttribLocation(program, "vCol");
 
 	osmesa_glEnableVertexAttribArray(vpos_location);
-	//osmesa_glVertexAttribPointer(vpos_location, 2, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (void*)0);
 	osmesa_glVertexAttribPointer(vpos_location, 4, GL_FLOAT, GL_FALSE, sizeof(float4), (void*)0);
 
-	//osmesa_glEnableVertexAttribArray(vcol_location);
-	//osmesa_glVertexAttribPointer(vcol_location, 3, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (void*)(sizeof(float) * 2));
-	//osmesa_glVertexAttribPointer(vcol_location, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
 
 	glfwGetFramebufferSize(window, &width, &height);
 	ratio = width / (float)height;
@@ -230,36 +218,27 @@ void OSMesaPipeline::start(std::vector<float4> vertices)
 	osmesa_glClearDepth(1.0);
 	osmesa_glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	//osmesa_glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+	osmesa_glDrawBuffer(GL_NONE);
 
 	osmesa_glUseProgram(program);
-	//osmesa_glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (const GLfloat*)mvp);
-	//osmesa_glDrawArrays(GL_TRIANGLES, 0, 6);
 	osmesa_glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 
-	if (true) 
-	{
-		std::vector<float> DBTemp(width*height);
-		osmesa_glReadPixels(0, 0, width, height, GL_DEPTH_COMPONENT, GL_FLOAT, DBTemp.data());
-		auto min = std::min_element(DBTemp.begin(), DBTemp.end());
-		auto max = std::max_element(DBTemp.begin(), DBTemp.end());
-		std::vector<unsigned char> DB;
-		for (int i = 0; i < DBTemp.size(); ++i) {
-			DB.push_back(static_cast<unsigned char>(DBTemp.at(i) * UCHAR_MAX));
-			DB.push_back(static_cast<unsigned char>(DBTemp.at(i) * UCHAR_MAX));
-			DB.push_back(static_cast<unsigned char>(DBTemp.at(i) * UCHAR_MAX));
-			DB.push_back(UCHAR_MAX);
-		}
-		unsigned error2 = lodepng::encode("DepthBuffer.png", DB, width, height);
-	}
-	singleImage = false;
-	// Write the offscreen framebuffer to disk for debugging
-	std::vector<unsigned char> image(width*height * 4);
-	osmesa_glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, image.data());
+	// read depth buffer
+	osmesa_glReadPixels(0, 0, width, height, GL_DEPTH_COMPONENT, GL_FLOAT, DBTemp);
 
-	//Encode the image
-	unsigned error = lodepng::encode("testMP.png", image, width, height);
-	//if there's an error, display it
-	if (error) std::cout << "encoder error " << error << ": " << lodepng_error_text(error) << std::endl;
+	// Write the offscreen framebuffer to disk for debugging
+	// not used if colormask = GL_FALSE or drawbuffer = GL_NONE
+	if (false)
+	{
+		std::vector<unsigned char> image(width*height * 4);
+		osmesa_glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, image.data());
+
+		//Encode the image
+		unsigned error = lodepng::encode("AAACurrBuffer.png", image, width, height);
+		//if there's an error, display it
+		if (error) std::cout << "encoder error " << error << ": " << lodepng_error_text(error) << std::endl;
+	}
 
 	/* Swap front and back buffers */
 	glfwSwapBuffers(window);

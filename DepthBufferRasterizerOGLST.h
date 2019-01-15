@@ -28,6 +28,7 @@ class DepthBufferRasterizerOGLST : public DepthBufferRasterizerOGL
 		void ComputeR2DBTime(UINT idx);
 
 		std::unique_ptr<OSMesaPipeline> mpOsmesa;
+		
 
 	private:
 		void ActiveModels(UINT idx);
@@ -36,6 +37,7 @@ class DepthBufferRasterizerOGLST : public DepthBufferRasterizerOGL
 		void RasterizeBinnedTrianglesToDepthBuffer(UINT tileId, UINT idx);
 
 		std::vector<float4> mFinalXformedPos;
+		std::vector<float> mDBTemp;
 };
 
 #endif  //DEPTHBUFFERRASTERIZEROGLST_H
