@@ -23,18 +23,18 @@ static const struct
 
 static const char* vertex_shader_text =
 "#version 110\n"
-"uniform mat4 MVP;\n"
-"attribute vec3 vCol;\n"
+//"uniform mat4 MVP;\n"
+//"attribute vec3 vCol;\n"
 //"attribute vec2 vPos;\n"
-"attribute vec3 vPos;\n"
+"attribute vec4 vPos;\n"
 "varying vec3 color;\n"
 "void main()\n"
 "{\n"
 //"    gl_Position = MVP * vec4(vPos, 0.0, 1.0);\n"
 //"    vec3 posNorm = normalize(vec3(vPos, 0.0));\n"
 //"    color = vCol;\n"
-"    gl_Position = MVP * vec4(vPos, 1.0);\n"
-"    vec3 posNorm = normalize(vPos);\n"
+"    gl_Position = vec4(vPos.x, -vPos.y, vPos.zw);\n"
+"    vec4 posNorm = normalize(vPos);\n"
 "    color = vec3((posNorm.z + 1.f) / 2.f);\n"
 "}\n";
 
@@ -43,17 +43,19 @@ static const char* fragment_shader_text =
 "varying vec3 color;\n"
 "void main()\n"
 "{\n"
-"    gl_FragColor = vec4(color, 1.0);\n"
+"    gl_FragColor = vec4(vec3(gl_FragCoord.z), 1.0);\n"
 //"    gl_FragColor = vec4(gl_FragCoord.z);\n"
 "}\n";
 
 OSMesaPipeline::OSMesaPipeline()
 {
+	glfwInit();
+
 	/* Set context creation api hint to OSMesa */
 	glfwWindowHint(GLFW_CONTEXT_CREATION_API, GLFW_OSMESA_CONTEXT_API);
 
 	/* Hide window at startup, because we are rendering offscreen anyway */
-	glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+	glfwWindowHint(GLFW_VISIBLE, GLFW_TRUE);
 
 	/* Create a windowed mode window and its OpenGL context */
 	window = glfwCreateWindow(1920, 1080, "Hello OSMesa", NULL, NULL);
@@ -61,6 +63,36 @@ OSMesaPipeline::OSMesaPipeline()
 	{
 		std::cout << "Window creation failed." << std::endl;
 	}
+
+	/* Make the window's context current */
+	glfwMakeContextCurrent(window);
+
+	/* Load OpenGL context with modified glad */
+	osmesa_gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+
+	osmesa_glEnable(GL_DEPTH_TEST);
+	//osmesa_glEnable(GL_BLEND);
+
+	/* Get vendor (and renderer) string to verify the OSMesa context creation */
+	const unsigned char * vendor;
+	vendor = osmesa_glGetString(GL_VENDOR);
+	if (vendor != NULL)
+		std::cout << "OSMesa vendor string: " << vendor << std::endl;
+	else
+		std::cout << "OSMesa vendor string is NULL." << std::endl;
+
+	const unsigned char * renderer;
+	renderer = osmesa_glGetString(GL_RENDERER);
+	if (renderer != NULL)
+		std::cout << "OSMesa renderer string: " << renderer << std::endl;
+	else
+		std::cout << "OSMesa renderer string is NULL." << std::endl;
+
+	// Get context version information
+	int major = glfwGetWindowAttrib(window, GLFW_CONTEXT_VERSION_MAJOR);
+	int minor = glfwGetWindowAttrib(window, GLFW_CONTEXT_VERSION_MINOR);
+
+	std::cout << "OSMesa OpenGL context " << major << "." << minor << std::endl;
 }
 
 OSMesaPipeline::~OSMesaPipeline()
@@ -70,7 +102,7 @@ OSMesaPipeline::~OSMesaPipeline()
 
 void OSMesaPipeline::GetOccluder(Vertex *vertices, UINT *indices, int numIndices) {
 	for (int i = 0; i < numIndices; ++i) {
-		OccluderSetMP.push_back(vertices[indices[i]]);
+		//OccluderSetMP.push_back(vertices[indices[i]]);
 	}
 }
 
@@ -119,35 +151,8 @@ void OSMesaPipeline::SetMatrixR(mat4x4 &lhs, float4x4 &rhs) {
 }
 
 
-void OSMesaPipeline::start()
+void OSMesaPipeline::start(std::vector<float4> vertices)
 {
-	/* Make the window's context current */
-	glfwMakeContextCurrent(window);
-
-	/* Load OpenGL context with modified glad */
-	osmesa_gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-
-	/* Get vendor (and renderer) string to verify the OSMesa context creation */
-	const unsigned char * vendor;
-	vendor = osmesa_glGetString(GL_VENDOR);
-	if (vendor != NULL)
-		std::cout << "OSMesa vendor string: " << vendor << std::endl;
-	else
-		std::cout << "OSMesa vendor string is NULL." << std::endl;
-
-	const unsigned char * renderer;
-	renderer = osmesa_glGetString(GL_RENDERER);
-	if (renderer != NULL)
-		std::cout << "OSMesa renderer string: " << renderer << std::endl;
-	else
-		std::cout << "OSMesa renderer string is NULL." << std::endl;
-
-	// Get context version information
-	int major = glfwGetWindowAttrib(window, GLFW_CONTEXT_VERSION_MAJOR);
-	int minor = glfwGetWindowAttrib(window, GLFW_CONTEXT_VERSION_MINOR);
-
-	std::cout << "OSMesa OpenGL context " << major << "." << minor << std::endl;
-
 	// alter data for testing purposes
 	/*OccluderSetMP[0].pos.x = -10.f;
 	OccluderSetMP[0].pos.y = -10.f;
@@ -184,13 +189,13 @@ void OSMesaPipeline::start()
 	GLint mvp_location, vpos_location, vcol_location;
 	float ratio;
 	int width, height;
-	mat4x4 mvp;
+	//mat4x4 mvp;
 	char* buffer;
 
 	osmesa_glGenBuffers(1, &vertex_buffer);
 	osmesa_glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
 	//osmesa_glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	osmesa_glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * OccluderSetMP.size(), OccluderSetMP.data(), GL_STATIC_DRAW);
+	osmesa_glBufferData(GL_ARRAY_BUFFER, sizeof(float4) * vertices.size(), vertices.data(), GL_STATIC_DRAW);
 
 	vertex_shader = osmesa_glCreateShader(GL_VERTEX_SHADER);
 	osmesa_glShaderSource(vertex_shader, 1, &vertex_shader_text, NULL);
@@ -205,13 +210,13 @@ void OSMesaPipeline::start()
 	osmesa_glAttachShader(program, fragment_shader);
 	osmesa_glLinkProgram(program);
 
-	mvp_location = osmesa_glGetUniformLocation(program, "MVP");
+	//mvp_location = osmesa_glGetUniformLocation(program, "MVP");
 	vpos_location = osmesa_glGetAttribLocation(program, "vPos");
-	vcol_location = osmesa_glGetAttribLocation(program, "vCol");
+	//vcol_location = osmesa_glGetAttribLocation(program, "vCol");
 
 	osmesa_glEnableVertexAttribArray(vpos_location);
 	//osmesa_glVertexAttribPointer(vpos_location, 2, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (void*)0);
-	osmesa_glVertexAttribPointer(vpos_location, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+	osmesa_glVertexAttribPointer(vpos_location, 4, GL_FLOAT, GL_FALSE, sizeof(float4), (void*)0);
 
 	//osmesa_glEnableVertexAttribArray(vcol_location);
 	//osmesa_glVertexAttribPointer(vcol_location, 3, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (void*)(sizeof(float) * 2));
@@ -220,70 +225,44 @@ void OSMesaPipeline::start()
 	glfwGetFramebufferSize(window, &width, &height);
 	ratio = width / (float)height;
 
-	while (!glfwWindowShouldClose(window))
+	osmesa_glViewport(0, 0, width, height);
+	osmesa_glClearColor(0.f, 0.f, 0.f, 1.0f);
+	osmesa_glClearDepth(1.0);
+	osmesa_glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
+	osmesa_glUseProgram(program);
+	//osmesa_glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (const GLfloat*)mvp);
+	//osmesa_glDrawArrays(GL_TRIANGLES, 0, 6);
+	osmesa_glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+
+	if (true) 
 	{
-		osmesa_glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		osmesa_glViewport(0, 0, width, height);
-		osmesa_glClear(GL_COLOR_BUFFER_BIT);
-
-		int offset = 0;
-		for (int i = 0; i < meshCountPerModelMP.size(); ++i) {
-			mat4x4 proj, view, model;
-			/*mat4x4_perspective(proj, cameraMP->GetFov(), cameraMP->GetAspectRatio(), cameraMP->GetNearPlaneDistance(), cameraMP->GetFarPlaneDistance());
-			mat4x4_look_at(view, vec3{ cameraMP->GetPosition().x, cameraMP->GetPosition().y ,cameraMP->GetPosition().z }
-								, vec3{ cameraMP->GetPosition().x + cameraMP->GetLook().x, cameraMP->GetPosition().y + cameraMP->GetLook().y , cameraMP->GetPosition().z + cameraMP->GetLook().z }
-								, vec3{ cameraMP->GetUp().x, cameraMP->GetUp().y, cameraMP->GetUp().z });*/
-			//const float4x4 *projC;
-			const float4x4 *projC = cameraMP->GetProjectionMatrix();
-			float4x4 *viewC = cameraMP->GetViewMatrix();
-
-			SetMatrixP(model, worldMatrixPerObjectMP[i]);	//mat4x4_transpose(model, model);
-
-			// NOT DONE YET!
-			// DirectX needs to be transformed to OpenGL
-
-			// assign projC to proj
-			// change sign in proj
-			// transpose proj
-			SetMatrixP(proj, projC);
-			proj[2][0] *= -1;
-			proj[2][1] *= -1;
-			proj[2][2] *= -1;
-			proj[2][3] *= -1;
-
-			mat4x4 trans;
-			mat4x4_transpose(trans, proj);
-			mat4x4_dup(proj, trans);
-
-			// assign viewC to view
-			// change sign in view
-			// transpose view
-			SetMatrixP(view, viewC);
-
-			mat4x4_mul(mvp, view, model);
-			mat4x4_mul(mvp, proj, mvp);
-
-
-			for (int j = 0; j < meshCountPerModelMP[i]; ++j) {
-				osmesa_glUseProgram(program);
-				osmesa_glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (const GLfloat*)mvp);
-				//osmesa_glDrawArrays(GL_TRIANGLES, 0, 6);
-				osmesa_glDrawArrays(GL_TRIANGLES, 0, numIndicesPerObjectMP[offset]);
-				++offset;
-			}
+		std::vector<float> DBTemp(width*height);
+		osmesa_glReadPixels(0, 0, width, height, GL_DEPTH_COMPONENT, GL_FLOAT, DBTemp.data());
+		auto min = std::min_element(DBTemp.begin(), DBTemp.end());
+		auto max = std::max_element(DBTemp.begin(), DBTemp.end());
+		std::vector<unsigned char> DB;
+		for (int i = 0; i < DBTemp.size(); ++i) {
+			DB.push_back(static_cast<unsigned char>(DBTemp.at(i) * UCHAR_MAX));
+			DB.push_back(static_cast<unsigned char>(DBTemp.at(i) * UCHAR_MAX));
+			DB.push_back(static_cast<unsigned char>(DBTemp.at(i) * UCHAR_MAX));
+			DB.push_back(UCHAR_MAX);
 		}
-
-		//TODO write to ring buffer
-
-		// Write the offscreen framebuffer to disk for debugging
-		std::vector<unsigned char> image(width*height*4);
-		osmesa_glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, image.data());
-		//Encode the image
-		unsigned error = lodepng::encode("testMP.png", image, width, height);
-		//if there's an error, display it
-		if (error) std::cout << "encoder error " << error << ": " << lodepng_error_text(error) << std::endl;
-
-		/* Swap front and back buffers */
-		glfwSwapBuffers(window);
+		unsigned error2 = lodepng::encode("DepthBuffer.png", DB, width, height);
 	}
+	singleImage = false;
+	// Write the offscreen framebuffer to disk for debugging
+	std::vector<unsigned char> image(width*height * 4);
+	osmesa_glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, image.data());
+
+	//Encode the image
+	unsigned error = lodepng::encode("testMP.png", image, width, height);
+	//if there's an error, display it
+	if (error) std::cout << "encoder error " << error << ": " << lodepng_error_text(error) << std::endl;
+
+	/* Swap front and back buffers */
+	glfwSwapBuffers(window);
+
+	//glfwTerminate();
 }

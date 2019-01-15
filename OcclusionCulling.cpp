@@ -325,6 +325,8 @@ void MySample::Create()
 		mpTypeDropDown->AddSelectionItem(L"Rasterizer Technique: AVX");
 		mpTypeDropDown->AddSelectionItem(L"Rasterizer Technique: MOC");
 	}
+	mpTypeDropDown->AddSelectionItem(L"Rasterizer Technique: LOL");
+	mpTypeDropDown->AddSelectionItem(L"Rasterizer Technique: LOL2");
 	mpTypeDropDown->AddSelectionItem( L"Rasterizer Technique: OGL");
 	mpTypeDropDown->SetSelectedItem(mSOCType + 1); // initially it's + 1 (--> SSE)
    
