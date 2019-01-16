@@ -327,8 +327,8 @@ void MySample::Create()
 	}
 	else
 	{
-		mpTypeDropDown->AddSelectionItem(L"Rasterizer Technique: Don't Use!");
-		mpTypeDropDown->AddSelectionItem(L"Rasterizer Technique: Don't Use!");
+		mpTypeDropDown->AddSelectionItem(L"Don't select me! Error incoming!");
+		mpTypeDropDown->AddSelectionItem(L"Don't select me! Error incoming!");
 	}
 	mpTypeDropDown->AddSelectionItem( L"Rasterizer Technique: OGL");
 	mpTypeDropDown->SetSelectedItem(mSOCType + 1); // initially it's + 1 (--> SSE)
@@ -1255,16 +1255,6 @@ void MySample::HandleCallbackEvent( CPUTEventID Event, CPUTControlID ControlID, 
 			mpCPUSRV[1] = mpCPUSRVScalar[1];
 			mpShowDepthBufMtrl = mpShowDepthBufMtrlScalar;
 			rowPitch = SCREENW * 4;
-
-			//mpDBR->CreateTransformedModels(mpAssetSetDBR, OCCLUDER_SETS);
-			////mpOsmesa->mOccluderSet = mpDBR->OccluderSet;
-
-			//mpPINF->camera = mpCamera;
-			//mpPINF->meshCountPerModelPINF = mpDBR->meshCountPerModel;
-			//mpPINF->numIndicesPerObjectPINF = mpDBR->numIndicesPerObject;
-			//mpPINF->worldMatrixPerObjectPINF = mpDBR->worldMatrixPerObject;
-			//mpPINF->run(mpDBR->OccluderSet);// , mOSMesa, mBackend);
-			////selectedItem = 1;
 		}
 
 		mpDBR->CreateTransformedModels(mpAssetSetDBR, OCCLUDER_SETS);		

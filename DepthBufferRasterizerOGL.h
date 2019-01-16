@@ -31,8 +31,6 @@ public:
 	// start inclusive, end exclusive
 	void ClearDepthTile(int startX, int startY, int endX, int endY, UINT idx);
 
-	void MergeVectorDBR(std::vector<Vertex> vertices);
-
 	// Reset all models to be visible when frustum culling is disabled 
 	inline void ResetInsideFrustum()
 	{

@@ -59,9 +59,6 @@ DepthBufferRasterizerOGL::~DepthBufferRasterizerOGL()
 	SAFE_DELETE_ARRAY(mpXformedPos[1]);
 }
 
-void DepthBufferRasterizerOGL::MergeVectorDBR(std::vector<Vertex> vertices) {
-	OccluderSet.insert(OccluderSet.end(), vertices.begin(), vertices.end());
-}
 
 //--------------------------------------------------------------------
 // * Go through the asset set and determine the model count in it
@@ -108,13 +105,6 @@ void DepthBufferRasterizerOGL::CreateTransformedModels(CPUTAssetSet **mpAssetSet
 
 				model = (CPUTModelDX11*)pRenderNode;
 				mpTransformedModels1[modelId].CreateTransformedMeshes(model);
-
-				MergeVectorDBR(mpTransformedModels1[modelId].OccluderSetModel);
-				worldMatrixPerObject.push_back(mpTransformedModels1[modelId].worldMatrixPerObjectModel);
-				for (int i = 0; i < mpTransformedModels1[modelId].meshCountPerModel; ++i) {
-					numIndicesPerObject.push_back(mpTransformedModels1[modelId].numIndicesPerMesh[i]);
-				}
-				meshCountPerModel.push_back(mpTransformedModels1[modelId].meshCountPerModel);
 				
 				mpXformedPosOffset1[modelId] = mpTransformedModels1[modelId].GetNumVertices();
 				

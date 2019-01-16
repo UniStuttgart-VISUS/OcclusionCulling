@@ -60,16 +60,16 @@ void DepthBufferRasterizerOGLST::TransformModelsAndRasterizeToDepthBuffer(CPUTCa
 	BoxTestSetupScalar setup;
 	setup.Init(mpViewMatrix[idx], mpProjMatrix[idx], float4x4Identity(), mpCamera[idx], mOccluderSizeThreshold);
 
-	//if(mEnableFCulling)
-	if (false)
+	if(mEnableFCulling)
+	//if (false)
 	{
 		for(UINT i = 0; i < mNumModels1; i++)
 		{
 			mpTransformedModels1[i].InsideViewFrustum(setup, idx);
 		}
 	}
-	//else
-	if(false)
+	else
+	//if(false)
 	{
 		for(UINT i = 0; i < mNumModels1; i++)
 		{
@@ -82,7 +82,6 @@ void DepthBufferRasterizerOGLST::TransformModelsAndRasterizeToDepthBuffer(CPUTCa
 	
 	// After meshes are transformed they are rendered to the depth buffer
 	float* pDepthBuffer = (float*)mpRenderTargetPixels[idx];
-	pDepthBuffer = NULL; mpRenderTargetPixels[idx] = NULL;
 	mpOsmesa->start(mFinalXformedPos, pDepthBuffer);
 	mFinalXformedPos.clear();
 

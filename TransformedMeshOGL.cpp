@@ -34,11 +34,6 @@ TransformedMeshOGL::~TransformedMeshOGL()
 
 }
 
-void TransformedMeshOGL::CreateOccluderSet(Vertex *vertices, UINT *indices, int numIndices) {
-	for (int i = 0; i < numIndices; ++i) {
-		OccluderSetMesh.push_back(vertices[indices[i]]);
-	}
-}
 
 void TransformedMeshOGL::Initialize(CPUTMeshDX11* pMesh)
 {
@@ -47,9 +42,6 @@ void TransformedMeshOGL::Initialize(CPUTMeshDX11* pMesh)
 	mNumTriangles = pMesh->GetTriangleCount();
 	mpVertices   = pMesh->GetDepthVertices();
 	mpIndices    = pMesh->GetDepthIndices();
-
-	numIndexPerObjectMesh = mNumIndices;
-	CreateOccluderSet(mpVertices, mpIndices, mNumIndices);
 }
 
 //-------------------------------------------------------------------

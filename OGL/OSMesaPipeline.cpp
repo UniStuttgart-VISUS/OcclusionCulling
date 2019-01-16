@@ -63,8 +63,9 @@ OSMesaPipeline::OSMesaPipeline()
 	/* Load OpenGL context with modified glad */
 	osmesa_gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
-	osmesa_glEnable(GL_DEPTH_TEST);
 	//osmesa_glEnable(GL_BLEND);
+	osmesa_glEnable(GL_DEPTH_TEST);
+	//osmesa_glEnable(GL_CULL_FACE);
 
 	/* Get vendor (and renderer) string to verify the OSMesa context creation */
 	const unsigned char * vendor;
@@ -91,12 +92,6 @@ OSMesaPipeline::OSMesaPipeline()
 OSMesaPipeline::~OSMesaPipeline()
 {
 	glfwDestroyWindow(window); //?
-}
-
-void OSMesaPipeline::GetOccluder(Vertex *vertices, UINT *indices, int numIndices) {
-	for (int i = 0; i < numIndices; ++i) {
-		//OccluderSetMP.push_back(vertices[indices[i]]);
-	}
 }
 
 void OSMesaPipeline::SetMatrixP(mat4x4 &lhs, const float4x4 *rhs) {
@@ -146,48 +141,15 @@ void OSMesaPipeline::SetMatrixR(mat4x4 &lhs, float4x4 &rhs) {
 
 void OSMesaPipeline::start(std::vector<float4> vertices, float* DBTemp)
 {
-	// alter data for testing purposes
-	/*OccluderSetMP[0].pos.x = -10.f;
-	OccluderSetMP[0].pos.y = -10.f;
-	OccluderSetMP[0].pos.z = -1.f;
-	OccluderSetMP[1].pos.x = -5.f;
-	OccluderSetMP[1].pos.y = 10.f;
-	OccluderSetMP[1].pos.z = -1.f;
-	OccluderSetMP[2].pos.x = 0.f;
-	OccluderSetMP[2].pos.y = -10.f;
-	OccluderSetMP[2].pos.z = -1.f;
-
-	OccluderSetMP[3].pos.x = 0.f;
-	OccluderSetMP[3].pos.y = -10.f;
-	OccluderSetMP[3].pos.z = -1.f;
-	OccluderSetMP[4].pos.x = 5.f;
-	OccluderSetMP[4].pos.y = 10.f;
-	OccluderSetMP[4].pos.z = -1.f;
-	OccluderSetMP[5].pos.x = 10.f;
-	OccluderSetMP[5].pos.y = -10.f;
-	OccluderSetMP[5].pos.z = -1.f;
-
-	OccluderSetMP[6].pos.x = 10.f;
-	OccluderSetMP[6].pos.y = -10.f;
-	OccluderSetMP[6].pos.z = -1.f;
-	OccluderSetMP[7].pos.x = 15.f;
-	OccluderSetMP[7].pos.y = 10.f;
-	OccluderSetMP[7].pos.z = -1.f;
-	OccluderSetMP[8].pos.x = 20.f;
-	OccluderSetMP[8].pos.y = -10.f;
-	OccluderSetMP[8].pos.z = -1.f;*/
-
 	/* Create triangle geometry and simple shader for debugging */
 	GLuint vertex_buffer, vertex_shader, fragment_shader, program;
 	GLint mvp_location, vpos_location, vcol_location;
 	float ratio;
 	int width, height;
 	//mat4x4 mvp;
-	char* buffer;
 
 	osmesa_glGenBuffers(1, &vertex_buffer);
 	osmesa_glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
-	//osmesa_glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 	osmesa_glBufferData(GL_ARRAY_BUFFER, sizeof(float4) * vertices.size(), vertices.data(), GL_STATIC_DRAW);
 
 	vertex_shader = osmesa_glCreateShader(GL_VERTEX_SHADER);
@@ -209,17 +171,17 @@ void OSMesaPipeline::start(std::vector<float4> vertices, float* DBTemp)
 	osmesa_glEnableVertexAttribArray(vpos_location);
 	osmesa_glVertexAttribPointer(vpos_location, 4, GL_FLOAT, GL_FALSE, sizeof(float4), (void*)0);
 
-
 	glfwGetFramebufferSize(window, &width, &height);
 	ratio = width / (float)height;
 
 	osmesa_glViewport(0, 0, width, height);
-	osmesa_glClearColor(0.f, 0.f, 0.f, 1.0f);
+	osmesa_glClearColor(0.f, 0.f, 0.f, 1.f);
 	osmesa_glClearDepth(1.0);
 	osmesa_glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	//osmesa_glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 	osmesa_glDrawBuffer(GL_NONE);
+	osmesa_glCullFace(GL_FRONT);
 
 	osmesa_glUseProgram(program);
 	osmesa_glDrawArrays(GL_TRIANGLES, 0, vertices.size());

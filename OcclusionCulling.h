@@ -49,7 +49,6 @@
 
 #include "DepthBufferRasterizerOGLST.h"
 #include "AABBoxRasterizerOGLST.h"
-#include "PINF.hpp"
 
 #include "TaskMgrTBB.h"
 
@@ -256,11 +255,5 @@ public:
 	static const CPUTControlID ID_VSYNC_ON_OFF = 3400;
 	static const CPUTControlID ID_PIPELINE = 3500;
     static const CPUTControlID ID_OCCLUSIONMATCHGPURESOLUTION = 3600;
-
-	
-	/*OSMesaPipeline mOSMesa;
-	std::unique_ptr<GraphicsBackend> mpBackend;
-	GraphicsBackend mBackend;
-	std::unique_ptr<PINF> mpPINF;*/
 };
 #endif // __CPUT_SAMPLESTARTDX11_H__

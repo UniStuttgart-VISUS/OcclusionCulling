@@ -37,7 +37,6 @@ class DepthBufferRasterizerOGLST : public DepthBufferRasterizerOGL
 		void RasterizeBinnedTrianglesToDepthBuffer(UINT tileId, UINT idx);
 
 		std::vector<float4> mFinalXformedPos;
-		std::vector<float> mDBTemp;
 };
 
 #endif  //DEPTHBUFFERRASTERIZEROGLST_H

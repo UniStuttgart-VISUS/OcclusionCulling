@@ -63,7 +63,6 @@ class TransformedModelOGL : public HelperScalar
 					UINT triId, 
 					UINT idx);
 
-		void MergeVector(std::vector<Vertex> vertices);
 
 		inline UINT GetNumVertices(){return mNumVertices;}
 
@@ -97,13 +96,6 @@ class TransformedModelOGL : public HelperScalar
 		{
 			return (mInsideViewFrustum[idx] && !mTooSmall[idx]);
 		}
-
-		std::vector<Vertex> OccluderSetModel;
-		float4x4* worldMatrixPerObjectModel;
-		int meshCountPerModel;
-		std::vector<int> numIndicesPerMesh;
-
-		UINT checkLOL;
 	
 	private:
 		CPUTModelDX11 *mpCPUTModel;
@@ -125,7 +117,6 @@ class TransformedModelOGL : public HelperScalar
 		float4 *mpXformedPos[2];
 
 		std::vector<float4> mAllVertices1;
-		
 };
 
 #endif

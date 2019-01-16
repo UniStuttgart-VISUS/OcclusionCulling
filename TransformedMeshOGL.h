@@ -60,8 +60,6 @@ class TransformedMeshOGL : public HelperScalar
 
 		void GetOneTriangleData(float* xformedPos, UINT triId, UINT idx);
 
-		void CreateOccluderSet(Vertex *vertices, UINT *indices, int numIndices);
-
 		inline UINT GetNumTriangles() {return mNumTriangles;}
 		inline UINT GetNumVertices() {return mNumVertices;}
 		inline void SetXformedPos(float4 *pXformedPos0, float4 *pXformedPos1)
@@ -74,9 +72,6 @@ class TransformedMeshOGL : public HelperScalar
 		{
 			return mAllVertices;
 		}
-
-		std::vector<Vertex> OccluderSetMesh;
-		int numIndexPerObjectMesh;
 	
 	private:
 		UINT mNumVertices;
