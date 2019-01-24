@@ -25,6 +25,8 @@ TransformedModelOGL::TransformedModelOGL()
 	mInsideViewFrustum[0] = mInsideViewFrustum[1] = false;
 	mTooSmall[0] = mTooSmall[1] = false;
 	mpXformedPos[0] = mpXformedPos[1] = NULL;
+
+	Osmesa = std::make_unique<OSMesaPipeline>();
 }
 
 TransformedModelOGL::~TransformedModelOGL()
@@ -87,33 +89,37 @@ void TransformedModelOGL::TooSmall(const BoxTestSetupScalar &setup, UINT idx)
 
 //------------------------------------------------------------------
 // Determine if the occluder model is inside view frustum
+// Gather all occluder parameter
 //------------------------------------------------------------------
 void TransformedModelOGL::InsideViewFrustum(const BoxTestSetupScalar &setup,
 											   UINT idx)
 {
 	mpCPUTModel->GetBoundsWorldSpace(&mBBCenterWS, &mBBHalfWS);
-	mInsideViewFrustum[idx] = setup.mpCamera->mFrustum.IsVisible(mBBCenterWS, mBBHalfWS);
+	FrustumModels.push_back(FrustumModel(mWorldMatrix, setup.mViewProjViewport, mBBCenterWS, mBBHalfWS));
 
-	if(mInsideViewFrustum[idx])
-	{
-		mCumulativeMatrix[idx] = mWorldMatrix * setup.mViewProjViewport;
-		
-		float w = mBBCenterOS.x * mCumulativeMatrix[idx].r0.w +
-				  mBBCenterOS.y * mCumulativeMatrix[idx].r1.w +
-				  mBBCenterOS.z * mCumulativeMatrix[idx].r2.w +
-				  mCumulativeMatrix[idx].r3.w; 
-	
-		if(w > 1.0f)
-		{
-			mTooSmall[idx] = mRadiusSq < w * setup.radiusThreshold; 
-		}
-		else
-		{
-			// BB center is behind the near clip plane, making screen-space radius meaningless.
-            // Assume visible.  This should be a safe assumption, as the frustum test says the bbox is visible.
-            mTooSmall[idx] = false;
-		}
-	}
+	//mInsideViewFrustum[idx] = setup.mpCamera->mFrustum.IsVisible(mBBCenterWS, mBBHalfWS);
+
+	// code below gets cut
+	//if(mInsideViewFrustum[idx])
+	//{
+	//	mCumulativeMatrix[idx] = mWorldMatrix * setup.mViewProjViewport;
+	//	
+	//	float w = mBBCenterOS.x * mCumulativeMatrix[idx].r0.w +
+	//			  mBBCenterOS.y * mCumulativeMatrix[idx].r1.w +
+	//			  mBBCenterOS.z * mCumulativeMatrix[idx].r2.w +
+	//			  mCumulativeMatrix[idx].r3.w; 
+	//
+	//	if(w > 1.0f)
+	//	{
+	//		mTooSmall[idx] = mRadiusSq < w * setup.radiusThreshold; 
+	//	}
+	//	else
+	//	{
+	//		// BB center is behind the near clip plane, making screen-space radius meaningless.
+ //           // Assume visible.  This should be a safe assumption, as the frustum test says the bbox is visible.
+ //           mTooSmall[idx] = false;
+	//	}
+	//}
 }
 
 //---------------------------------------------------------------------------------------------------

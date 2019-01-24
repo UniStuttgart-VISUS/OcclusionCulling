@@ -27,7 +27,7 @@ class DepthBufferRasterizerOGLST : public DepthBufferRasterizerOGL
 		void TransformModelsAndRasterizeToDepthBuffer(CPUTCamera *pCamera, UINT idx);
 		void ComputeR2DBTime(UINT idx);
 
-		std::unique_ptr<OSMesaPipeline> mpOsmesa;
+		
 		
 
 	private:

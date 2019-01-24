@@ -29,8 +29,6 @@ DepthBufferRasterizerOGLST::DepthBufferRasterizerOGLST()
 	mpBinModel[1] = new USHORT[size * MAX_TRIS_IN_BIN_ST];
 	mpBinMesh[1] = new USHORT[size * MAX_TRIS_IN_BIN_ST];
 	mpNumTrisInBin[1] = new USHORT[size];
-
-	mpOsmesa = std::make_unique<OSMesaPipeline>();
 }
 
 DepthBufferRasterizerOGLST::~DepthBufferRasterizerOGLST()
@@ -58,13 +56,16 @@ void DepthBufferRasterizerOGLST::TransformModelsAndRasterizeToDepthBuffer(CPUTCa
 	mpCamera[idx] = pCamera;
 
 	BoxTestSetupScalar setup;
-	setup.Init(mpViewMatrix[idx], mpProjMatrix[idx], float4x4Identity(), mpCamera[idx], mOccluderSizeThreshold);
+	setup.Init(mpViewMatrix[idx], mpProjMatrix[idx], viewportMatrix, mpCamera[idx], mOccluderSizeThreshold);
 
-	if(mEnableFCulling)
+	//if(mEnableFCulling)
+	if(true)
 	//if (false)
 	{
+		// gather all models with all their parameters and check for frustum culling on the GPU
 		for(UINT i = 0; i < mNumModels1; i++)
 		{
+			// Mesa link inside InsideViewFrustum
 			mpTransformedModels1[i].InsideViewFrustum(setup, idx);
 		}
 	}
@@ -73,16 +74,22 @@ void DepthBufferRasterizerOGLST::TransformModelsAndRasterizeToDepthBuffer(CPUTCa
 	{
 		for(UINT i = 0; i < mNumModels1; i++)
 		{
+			// reimplement for Mesa
 			mpTransformedModels1[i].TooSmall(setup, idx);
 		}
 	}
 
+	// Recalculate mViewProjViewport with the identity matrix instead of viewportMatrix.
+	// This is required in order to get the proper transformation in the mesa context.
+	setup.mViewProjViewport = mpViewMatrix[idx] * mpProjMatrix[idx];
+	//setup.mViewProjViewport = setup.mViewProjViewport * float4x4Identity(); // not required for identity matrix
+
 	ActiveModels(idx);
 	TransformMeshes(idx);
 	
-	// After meshes are transformed they are rendered to the depth buffer
+	// After meshes are transformed, they are rendered to the depth buffer
 	float* pDepthBuffer = (float*)mpRenderTargetPixels[idx];
-	mpOsmesa->start(mFinalXformedPos, pDepthBuffer);
+	mpTransformedModels1->Osmesa->start(mFinalXformedPos, pDepthBuffer);
 	mFinalXformedPos.clear();
 
 

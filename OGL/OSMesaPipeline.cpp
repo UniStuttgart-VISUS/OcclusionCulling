@@ -7,6 +7,14 @@
 
 #include "lodepng/lodepng.h"
 
+/* Create triangle geometry and simple shader for debugging */
+GLuint mVertex_buffer, mVertex_shader, mFragment_shader, mProgram;
+GLint mMVP_location, mVpos_location, mVcol_location;
+
+// compute shader declarations
+GLuint mCompute_shader;
+GLuint mBlabla;
+
 static const struct
 {
 	float x, y;
@@ -39,6 +47,9 @@ static const char* fragment_shader_text;// =
 //"{\n"
 //"    gl_FragColor = vec4(vec3(gl_FragCoord.z), 1.0);\n"
 //"}\n";
+
+static const char* compute_shader_text =
+"";
 
 OSMesaPipeline::OSMesaPipeline()
 {
@@ -139,37 +150,39 @@ void OSMesaPipeline::SetMatrixR(mat4x4 &lhs, float4x4 &rhs) {
 }
 
 
+
+
 void OSMesaPipeline::start(std::vector<float4> vertices, float* DBTemp)
 {
-	/* Create triangle geometry and simple shader for debugging */
-	GLuint vertex_buffer, vertex_shader, fragment_shader, program;
-	GLint mvp_location, vpos_location, vcol_location;
 	float ratio;
 	int width, height;
-	//mat4x4 mvp;
 
-	osmesa_glGenBuffers(1, &vertex_buffer);
-	osmesa_glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
+	osmesa_glGenBuffers(1, &mVertex_buffer);
+	osmesa_glBindBuffer(GL_ARRAY_BUFFER, mVertex_buffer);
 	osmesa_glBufferData(GL_ARRAY_BUFFER, sizeof(float4) * vertices.size(), vertices.data(), GL_STATIC_DRAW);
 
-	vertex_shader = osmesa_glCreateShader(GL_VERTEX_SHADER);
-	osmesa_glShaderSource(vertex_shader, 1, &vertex_shader_text, NULL);
-	osmesa_glCompileShader(vertex_shader);
+	mVertex_shader = osmesa_glCreateShader(GL_VERTEX_SHADER);
+	osmesa_glShaderSource(mVertex_shader, 1, &vertex_shader_text, NULL);
+	osmesa_glCompileShader(mVertex_shader);
 
-	fragment_shader = osmesa_glCreateShader(GL_FRAGMENT_SHADER);
-	osmesa_glShaderSource(fragment_shader, 1, &fragment_shader_text, NULL);
-	osmesa_glCompileShader(fragment_shader);
+	mFragment_shader = osmesa_glCreateShader(GL_FRAGMENT_SHADER);
+	osmesa_glShaderSource(mFragment_shader, 1, &fragment_shader_text, NULL);
+	osmesa_glCompileShader(mFragment_shader);
 
-	program = osmesa_glCreateProgram();
-	osmesa_glAttachShader(program, vertex_shader);
-	osmesa_glAttachShader(program, fragment_shader);
-	osmesa_glLinkProgram(program);
+	mCompute_shader = osmesa_glCreateShader(GL_COMPUTE_SHADER);
+	osmesa_glShaderSource(mCompute_shader, 1, &compute_shader_text, NULL);
+	osmesa_glCompileShader(mCompute_shader);
 
-	//mvp_location = osmesa_glGetUniformLocation(program, "MVP");
-	vpos_location = osmesa_glGetAttribLocation(program, "vPos");
+	mProgram = osmesa_glCreateProgram();
+	osmesa_glAttachShader(mProgram, mVertex_shader);
+	osmesa_glAttachShader(mProgram, mFragment_shader);
+	osmesa_glAttachShader(mProgram, mCompute_shader);
+	osmesa_glLinkProgram(mProgram);
 
-	osmesa_glEnableVertexAttribArray(vpos_location);
-	osmesa_glVertexAttribPointer(vpos_location, 4, GL_FLOAT, GL_FALSE, sizeof(float4), (void*)0);
+	mVpos_location = osmesa_glGetAttribLocation(mProgram, "vPos");
+
+	osmesa_glEnableVertexAttribArray(mVpos_location);
+	osmesa_glVertexAttribPointer(mVpos_location, 4, GL_FLOAT, GL_FALSE, sizeof(float4), (void*)0);
 
 	glfwGetFramebufferSize(window, &width, &height);
 	ratio = width / (float)height;
@@ -181,9 +194,9 @@ void OSMesaPipeline::start(std::vector<float4> vertices, float* DBTemp)
 
 	//osmesa_glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 	osmesa_glDrawBuffer(GL_NONE);
-	osmesa_glCullFace(GL_FRONT);
+	//osmesa_glCullFace(GL_FRONT);
 
-	osmesa_glUseProgram(program);
+	osmesa_glUseProgram(mProgram);
 	osmesa_glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 
 	// read depth buffer
