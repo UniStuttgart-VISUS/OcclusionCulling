@@ -13,7 +13,7 @@ GLint mMVP_location, mVpos_location, mVcol_location;
 
 // compute shader declarations
 GLuint mCompute_shader;
-GLuint mBlabla;
+GLuint mCompute_Program;
 
 static const struct
 {
@@ -98,6 +98,19 @@ OSMesaPipeline::OSMesaPipeline()
 	int minor = glfwGetWindowAttrib(window, GLFW_CONTEXT_VERSION_MINOR);
 
 	std::cout << "OSMesa OpenGL context " << major << "." << minor << std::endl;
+
+	mVertex_shader = osmesa_glCreateShader(GL_VERTEX_SHADER);
+	osmesa_glShaderSource(mVertex_shader, 1, &vertex_shader_text, NULL);
+	osmesa_glCompileShader(mVertex_shader);
+
+	mFragment_shader = osmesa_glCreateShader(GL_FRAGMENT_SHADER);
+	osmesa_glShaderSource(mFragment_shader, 1, &fragment_shader_text, NULL);
+	osmesa_glCompileShader(mFragment_shader);
+
+	mProgram = osmesa_glCreateProgram();
+	osmesa_glAttachShader(mProgram, mVertex_shader);
+	osmesa_glAttachShader(mProgram, mFragment_shader);
+	osmesa_glLinkProgram(mProgram);
 }
 
 OSMesaPipeline::~OSMesaPipeline()
@@ -149,8 +162,17 @@ void OSMesaPipeline::SetMatrixR(mat4x4 &lhs, float4x4 &rhs) {
 	lhs[3][3] = rhs.r3.w;
 }
 
+void OSMesaPipeline::OccluderFrustumCulling() {
+	mCompute_shader = osmesa_glCreateShader(GL_COMPUTE_SHADER);
+	osmesa_glShaderSource(mCompute_shader, 1, &compute_shader_text, NULL);
+	osmesa_glCompileShader(mCompute_shader);
+
+	mCompute_Program = osmesa_glCreateProgram();
+	osmesa_glAttachShader(mCompute_Program, mCompute_shader);
+	osmesa_glLinkProgram(mCompute_Program);
 
 
+}
 
 void OSMesaPipeline::start(std::vector<float4> vertices, float* DBTemp)
 {
@@ -160,24 +182,6 @@ void OSMesaPipeline::start(std::vector<float4> vertices, float* DBTemp)
 	osmesa_glGenBuffers(1, &mVertex_buffer);
 	osmesa_glBindBuffer(GL_ARRAY_BUFFER, mVertex_buffer);
 	osmesa_glBufferData(GL_ARRAY_BUFFER, sizeof(float4) * vertices.size(), vertices.data(), GL_STATIC_DRAW);
-
-	mVertex_shader = osmesa_glCreateShader(GL_VERTEX_SHADER);
-	osmesa_glShaderSource(mVertex_shader, 1, &vertex_shader_text, NULL);
-	osmesa_glCompileShader(mVertex_shader);
-
-	mFragment_shader = osmesa_glCreateShader(GL_FRAGMENT_SHADER);
-	osmesa_glShaderSource(mFragment_shader, 1, &fragment_shader_text, NULL);
-	osmesa_glCompileShader(mFragment_shader);
-
-	mCompute_shader = osmesa_glCreateShader(GL_COMPUTE_SHADER);
-	osmesa_glShaderSource(mCompute_shader, 1, &compute_shader_text, NULL);
-	osmesa_glCompileShader(mCompute_shader);
-
-	mProgram = osmesa_glCreateProgram();
-	osmesa_glAttachShader(mProgram, mVertex_shader);
-	osmesa_glAttachShader(mProgram, mFragment_shader);
-	osmesa_glAttachShader(mProgram, mCompute_shader);
-	osmesa_glLinkProgram(mProgram);
 
 	mVpos_location = osmesa_glGetAttribLocation(mProgram, "vPos");
 
@@ -192,8 +196,8 @@ void OSMesaPipeline::start(std::vector<float4> vertices, float* DBTemp)
 	osmesa_glClearDepth(1.0);
 	osmesa_glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	//osmesa_glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-	osmesa_glDrawBuffer(GL_NONE);
+	osmesa_glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+	//osmesa_glDrawBuffer(GL_NONE);
 	//osmesa_glCullFace(GL_FRONT);
 
 	osmesa_glUseProgram(mProgram);

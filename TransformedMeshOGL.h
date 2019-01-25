@@ -22,7 +22,6 @@
 #include "CPUT_DX11.h"
 #include "Constants.h"
 #include "HelperScalar.h"
-#include "OSMesaPipeline.hpp"
 
 
 class TransformedMeshOGL : public HelperScalar

@@ -20,6 +20,7 @@
 #include "CPUT_DX11.h"
 #include "TransformedMeshOGL.h"
 #include "HelperScalar.h"
+#include "OSMesaPipeline.hpp"
 
 class TransformedModelOGL : public HelperScalar
 {
@@ -97,27 +98,12 @@ class TransformedModelOGL : public HelperScalar
 			return (mInsideViewFrustum[idx] && !mTooSmall[idx]);
 		}
 
-		std::unique_ptr<OSMesaPipeline> Osmesa;
+		
 
-		struct FrustumModel {
-			float4x4 world;
-			float4x4 viewprojviewport;
-			float3 bbcenterws;
-			float3 bbhalfws;
-			bool IsVisible = 1;
-			bool TooSmall = 0;
-
-			FrustumModel(const float4x4 &w, const float4x4 &v, const float3 &c, const float3 &h) 
-			{
-				world = w; viewprojviewport = v; bbcenterws = c; bbhalfws = h;
-			}
-		};
-
-		FrustumModel GetFrustumModel(const float4x4 &w, const float4x4 &v, const float3 &c, const float3 &h) {
-			FrustumModel frust(w, v, c, h);
-			return frust;
+		FrustumModel &GetFrustumModel() {
+			return mCurrentModel;
 		}
-		std::vector<FrustumModel> FrustumModels;
+		
 	
 	private:
 		CPUTModelDX11 *mpCPUTModel;
@@ -139,6 +125,8 @@ class TransformedModelOGL : public HelperScalar
 		float4 *mpXformedPos[2];
 
 		std::vector<float4> mAllVertices1;
+		
+		FrustumModel mCurrentModel;
 };
 
 #endif
