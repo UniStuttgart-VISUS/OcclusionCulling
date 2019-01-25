@@ -97,7 +97,7 @@ bool TransformedAABBoxOGL::TransformAABBox(float4 xformedPos[], const float4x4 &
 
 	float4 vMin    = vCenter - vHalf;
 	float4 vMax    = vCenter + vHalf;
-
+	
 	// transforms
 	float4 xRow[2], yRow[2], zRow[2];
 	xRow[0] = float4(vMin.x, vMin.x, vMin.x, vMin.x) * cumulativeMatrix.r0;

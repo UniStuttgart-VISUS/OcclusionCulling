@@ -98,7 +98,10 @@ class TransformedModelOGL : public HelperScalar
 			return (mInsideViewFrustum[idx] && !mTooSmall[idx]);
 		}
 
-		
+		void SetCumulativeMatrix(const float4x4 &view, const float4x4 &proj, UINT idx) {
+			mCumulativeMatrix[idx] = view * proj;
+			mCumulativeMatrix[idx] = mWorldMatrix * mCumulativeMatrix[idx];
+		}
 
 		FrustumModel &GetFrustumModel() {
 			return mCurrentModel;

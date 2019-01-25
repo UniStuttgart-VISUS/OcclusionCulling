@@ -37,7 +37,7 @@ class DepthBufferRasterizerOGLST : public DepthBufferRasterizerOGL
 		void RasterizeBinnedTrianglesToDepthBuffer(UINT tileId, UINT idx);
 
 		std::vector<float4> mFinalXformedPos;
-		std::vector<FrustumModel> mFrustumModels;
+		// std::vector<FrustumModel> mFrustumModels; // not used currently
 };
 
 #endif  //DEPTHBUFFERRASTERIZEROGLST_H

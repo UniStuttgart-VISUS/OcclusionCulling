@@ -40,13 +40,13 @@ static const char* vertex_shader_text =
 //"    color = vec3((posNorm.z + 1.f) / 2.f);\n"
 "}\n";
 
-static const char* fragment_shader_text;// =
-//"#version 110\n"
-//"varying vec3 color;\n"
-//"void main()\n"
-//"{\n"
-//"    gl_FragColor = vec4(vec3(gl_FragCoord.z), 1.0);\n"
-//"}\n";
+static const char* fragment_shader_text =
+"#version 110\n"
+"varying vec3 color;\n"
+"void main()\n"
+"{\n"
+"    gl_FragColor = vec4(vec3(gl_FragCoord.z), 1.0);\n"
+"}\n";
 
 static const char* compute_shader_text =
 "";
@@ -193,11 +193,11 @@ void OSMesaPipeline::start(std::vector<float4> vertices, float* DBTemp)
 
 	osmesa_glViewport(0, 0, width, height);
 	osmesa_glClearColor(0.f, 0.f, 0.f, 1.f);
-	osmesa_glClearDepth(1.0);
+	//osmesa_glClearDepth(1.0);
 	osmesa_glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	osmesa_glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-	//osmesa_glDrawBuffer(GL_NONE);
+	//osmesa_glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+	osmesa_glDrawBuffer(GL_NONE);
 	//osmesa_glCullFace(GL_FRONT);
 
 	osmesa_glUseProgram(mProgram);
@@ -205,6 +205,16 @@ void OSMesaPipeline::start(std::vector<float4> vertices, float* DBTemp)
 
 	// read depth buffer
 	osmesa_glReadPixels(0, 0, width, height, GL_DEPTH_COMPONENT, GL_FLOAT, DBTemp);
+
+	// optimize
+	for (int i = 0; i < width*height; ++i) {
+		/*DBTemp[i] = 1.f - DBTemp[i] - 0.444f;
+		if (DBTemp[i] < 0) {
+			DBTemp[i] = 0;
+		}*/
+	}
+
+
 
 	// Write the offscreen framebuffer to disk for debugging
 	// not used if colormask = GL_FALSE or drawbuffer = GL_NONE

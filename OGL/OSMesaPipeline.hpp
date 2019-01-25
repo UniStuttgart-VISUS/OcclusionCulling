@@ -25,6 +25,12 @@ struct FrustumModel {
 	}
 };
 
+struct ModelAABB {
+	float4 AABBVerts[8] = {};
+
+	ModelAABB() {}
+};
+
 class OSMesaPipeline
 {
 public:

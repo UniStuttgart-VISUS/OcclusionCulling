@@ -15,6 +15,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "DepthBufferRasterizerOGLST.h"
+#include <future>
 
 DepthBufferRasterizerOGLST::DepthBufferRasterizerOGLST()
 	: DepthBufferRasterizerOGL()
@@ -31,6 +32,7 @@ DepthBufferRasterizerOGLST::DepthBufferRasterizerOGLST()
 	mpNumTrisInBin[1] = new USHORT[size];
 
 	Osmesa = std::make_unique<OSMesaPipeline>();
+	
 }
 
 DepthBufferRasterizerOGLST::~DepthBufferRasterizerOGLST()
@@ -67,6 +69,7 @@ void DepthBufferRasterizerOGLST::TransformModelsAndRasterizeToDepthBuffer(CPUTCa
 		{
 			// Mesa link inside InsideViewFrustum
 			mpTransformedModels1[i].InsideViewFrustum(setup, idx);
+			mpTransformedModels1[i].SetCumulativeMatrix(mpViewMatrix[idx], mpProjMatrix[idx], idx);
 		}
 	}
 	else
@@ -78,9 +81,6 @@ void DepthBufferRasterizerOGLST::TransformModelsAndRasterizeToDepthBuffer(CPUTCa
 		}
 	}
 
-	//Osmesa->SetFrustumModels(mFrustumModels);
-
-
 	// Recalculate mViewProjViewport with the identity matrix instead of viewportMatrix.
 	// This is required in order to get the proper transformation in the mesa context.
 	setup.mViewProjViewport = mpViewMatrix[idx] * mpProjMatrix[idx];
@@ -91,7 +91,8 @@ void DepthBufferRasterizerOGLST::TransformModelsAndRasterizeToDepthBuffer(CPUTCa
 	
 	// After meshes are transformed, they are rendered to the depth buffer
 	float* pDepthBuffer = (float*)mpRenderTargetPixels[idx];
-	/*mpTransformedModels1->*/Osmesa->start(mFinalXformedPos, pDepthBuffer);
+	//auto mesa_exec = std::async(std::launch::async, &(OSMesaPipeline::start), Osmesa.get(), mFinalXformedPos, pDepthBuffer);
+	Osmesa->start(mFinalXformedPos, pDepthBuffer);
 	mFinalXformedPos.clear();
 
 

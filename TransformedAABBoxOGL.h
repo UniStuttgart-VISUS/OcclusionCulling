@@ -31,6 +31,10 @@ class TransformedAABBoxOGL : public HelperScalar
 		bool RasterizeAndDepthTestAABBox(UINT *pRenderTargetPixels, const float4 pXformedPos[], UINT idx);
 
 		bool IsTooSmall(const BoxTestSetupScalar &setup, float4x4 &cumulativeMatrix);
+
+		float4x4 &GetWorldMatrix() {
+			return mWorldMatrix;
+		}
 		
 	private:
 		CPUTModelDX11 *mpCPUTModel;

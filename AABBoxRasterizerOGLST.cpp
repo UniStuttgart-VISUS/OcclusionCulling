@@ -43,6 +43,7 @@ void AABBoxRasterizerOGLST::TransformAABBoxAndDepthTest(CPUTCamera *pCamera, UIN
 	{
 		for(UINT i = 0; i < mNumModels; i++)
 		{
+			// 
 			mpInsideFrustum[idx][i] = mpTransformedAABBox[i].IsInsideViewFrustum(mpCamera[idx]);
 		}
 	}
@@ -59,9 +60,19 @@ void AABBoxRasterizerOGLST::TransformAABBoxAndDepthTest(CPUTCamera *pCamera, UIN
 		
 		if(mpInsideFrustum[idx][i] && !mpTransformedAABBox[i].IsTooSmall(setup, cumulativeMatrix))
 		{
+			// new cumulativeMatrix without viewport
+			// needed for proper opengl transformation
+			cumulativeMatrix = mpTransformedAABBox[i].GetWorldMatrix();
+			cumulativeMatrix = mViewMatrix[idx] * mProjMatrix[idx];
+
+			// get transformed vertices from xformedPos
 			if(mpTransformedAABBox[i].TransformAABBox(xformedPos, cumulativeMatrix))
 			{
+				// -------------------------------------------------------------------------------------------------------------------
+				// -------------------------------------------------------------------------------------------------------------------
 				mpVisible[idx][i] = mpTransformedAABBox[i].RasterizeAndDepthTestAABBox(mpRenderTargetPixels[idx], xformedPos, idx);
+				// -------------------------------------------------------------------------------------------------------------------
+				// -------------------------------------------------------------------------------------------------------------------
 			}
 			else
 			{
