@@ -277,6 +277,8 @@ void MySample::SetupOcclusionCullingObjects()
 
 		mpAABBOGLST = new AABBoxRasterizerOGLST;
 		mpAABB = mpAABBOGLST;
+
+		Osmesa = std::make_unique<OSMesaPipeline>();
 	}
 }
 
@@ -1644,12 +1646,26 @@ void MySample::Render(double deltaSeconds)
 		
 		mpDBR->SetCPURenderTargetPixels(mpCPURenderTargetPixels, mCurrIdx);
 		// Transform the occluder models and rasterize them to the depth buffer
-		mpDBR->TransformModelsAndRasterizeToDepthBuffer(&mCameraCopy[mCurrIdx], mCurrIdx);
+		if (mSOCType == OGL_TYPE)
+		{
+			mpDBR->TransformModelsAndRasterizeToDepthBufferOGL(&mCameraCopy[mCurrIdx], mCurrIdx, Osmesa);
+		}
+		else
+		{
+			mpDBR->TransformModelsAndRasterizeToDepthBuffer(&mCameraCopy[mCurrIdx], mCurrIdx);
+		}
 		
 		mpAABB->SetCPURenderTargetPixels(mpCPURenderTargetPixels, mCurrIdx);
 		mpAABB->SetDepthSummaryBuffer(mpDBR->GetDepthSummaryBuffer(mCurrIdx), mCurrIdx);
 		// Transform the occludee AABB, rasterize and depth test to determine if occludee is visible or occluded 
-		mpAABB->TransformAABBoxAndDepthTest(&mCameraCopy[mCurrIdx], mCurrIdx);		
+		if (mSOCType == OGL_TYPE)
+		{
+			mpAABB->TransformAABBoxAndDepthTestOGL(&mCameraCopy[mCurrIdx], mCurrIdx, Osmesa);
+		}
+		else
+		{
+			mpAABB->TransformAABBoxAndDepthTest(&mCameraCopy[mCurrIdx], mCurrIdx);
+		}
 
 		if(mEnableTasks)
 		{

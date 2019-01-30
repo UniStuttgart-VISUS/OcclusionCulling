@@ -20,7 +20,6 @@
 #include "CPUT_DX11.h"
 #include "TransformedMeshOGL.h"
 #include "HelperScalar.h"
-#include "OSMesaPipeline.hpp"
 
 class TransformedModelOGL : public HelperScalar
 {

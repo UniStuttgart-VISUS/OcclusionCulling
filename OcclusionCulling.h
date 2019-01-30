@@ -152,6 +152,8 @@ private:
     AABBoxMaskedRasterizerAVXMT		*mpAABBMAVXMT;
 	AABBoxRasterizerOGLST			*mpAABBOGLST;
 
+	std::unique_ptr<OSMesaPipeline> Osmesa;
+
 	UINT				mNumOccluders;
 	UINT				mNumOccludersR2DB;
 	UINT				mNumOccluderTris;
@@ -191,6 +193,7 @@ private:
 
 
 	void				SetupOcclusionCullingObjects();
+
 
 public:
 	MySample();

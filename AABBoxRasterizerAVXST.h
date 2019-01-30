@@ -26,6 +26,7 @@ class AABBoxRasterizerAVXST : public AABBoxRasterizerAVX
 		~AABBoxRasterizerAVXST();
 
 		void TransformAABBoxAndDepthTest(CPUTCamera *pCamera, UINT idx);
+		void TransformAABBoxAndDepthTestOGL(CPUTCamera *pCamera, UINT idx, const std::unique_ptr<OSMesaPipeline> &mesa) {}
 		void WaitForTaskToFinish(UINT idx);
 		void ReleaseTaskHandles(UINT idx);
 };

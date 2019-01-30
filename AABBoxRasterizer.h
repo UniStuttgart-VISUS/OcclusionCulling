@@ -28,6 +28,7 @@ class AABBoxRasterizer
 		virtual ~AABBoxRasterizer();
 		virtual void CreateTransformedAABBoxes(CPUTAssetSet **pAssetSet, UINT numAssetSets) = 0;
 		virtual void TransformAABBoxAndDepthTest(CPUTCamera *pCamera, UINT idx) = 0;
+		virtual void TransformAABBoxAndDepthTestOGL(CPUTCamera *pCamera, UINT idx, const std::unique_ptr<OSMesaPipeline> &mesa) = 0;
 		virtual void WaitForTaskToFinish(UINT idx) = 0;
 		virtual void ReleaseTaskHandles(UINT idx) = 0;
 		virtual void RenderVisible(CPUTAssetSet **pAssetSet,

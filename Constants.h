@@ -19,6 +19,11 @@
 
 #include "CPUTMath.h"
 #include "TaskMgrTBB.h"
+// added for project
+// ----------------------------
+#include "OSMesaPipeline.hpp"
+#include <memory>
+// ----------------------------
 
 // Choose which depth buffer size to use
 // If you change depth buffer size please do a rebuilt all 

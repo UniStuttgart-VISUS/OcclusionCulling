@@ -10,6 +10,8 @@
 
 struct GLFWwindow;
 
+const int NUMAABBVERTICES = 36;
+
 struct FrustumModel {
 	float4x4 world;
 	float4x4 viewprojviewport;
@@ -26,9 +28,10 @@ struct FrustumModel {
 };
 
 struct ModelAABB {
-	float4 AABBVerts[8] = {};
+	std::vector<float4> AABBVerts;
 
 	ModelAABB() {}
+	ModelAABB(const std::vector<float4> &verts) : AABBVerts(verts) {}
 };
 
 class OSMesaPipeline
@@ -37,20 +40,32 @@ public:
 	OSMesaPipeline();
 	~OSMesaPipeline();
 
-	void start(std::vector<float4> vertices, float* DBTemp);
+	void RasterizeDepthBuffer(const std::vector<float4> &vertices, float* DBTemp);
+	void GatherAllAABBs(const float4 xformedPos[], int id);
+	bool SartOcclusionQueries();
 
 	void SetFrustumModels(std::vector<FrustumModel> &models) {
 		mMesaFrustumModels = models;
 	}
 
+	/*std::vector<int[2]> GetVisibilityIndices() {
+		return AABBVisibilityIndex;
+	}*/
+
 private:
 	GLFWwindow * window;
+	
 
 	void OccluderFrustumCulling();
 
 	void SetMatrixR(mat4x4 &lhs, float4x4 &rhs);
 	void SetMatrixP(mat4x4 &lhs, const float4x4 *rhs);
 
+	std::vector<float4> AABBs;
+	std::vector<int> AABBIndexList;
+	std::vector<int[2]> AABBVisibilityIndex;
 	std::vector<FrustumModel> mMesaFrustumModels;
+
+	const GLint BUFFEROFFSET = NUMAABBVERTICES * sizeof(float4);
 };
 #endif // !OSMesaPipeline_hpp

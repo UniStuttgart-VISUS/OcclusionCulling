@@ -15,6 +15,33 @@ GLint mMVP_location, mVpos_location, mVcol_location;
 GLuint mCompute_shader;
 GLuint mCompute_Program;
 
+static const UINT sBBIndexList[NUMAABBVERTICES] =
+{
+	// index for top 
+	1, 3, 2,
+	0, 3, 1,
+
+	// index for bottom
+	5, 7, 4,
+	6, 7, 5,
+
+	// index for left
+	1, 7, 6,
+	2, 7, 1,
+
+	// index for right
+	3, 5, 4,
+	0, 5, 3,
+
+	// index for back
+	2, 4, 7,
+	3, 4, 2,
+
+	// index for front
+	0, 6, 5,
+	1, 6, 0,
+};
+
 static const struct
 {
 	float x, y;
@@ -174,7 +201,72 @@ void OSMesaPipeline::OccluderFrustumCulling() {
 
 }
 
-void OSMesaPipeline::start(std::vector<float4> vertices, float* DBTemp)
+/**
+* Rasterizes and depth tests each AABB.
+* @param xformedPos  8 vertices of the current AABB
+* @return true  if AABB is visible, meaning GL_SAMPLES_PASSED != 0, false otherwise
+*/
+void OSMesaPipeline::GatherAllAABBs(const float4 xformedPos[], int id) {
+	// DepthBuffer remains the same as calculated from RasterizeDepthBuffer() below
+
+	// triangles of AABB
+	std::vector<float4> vertices(NUMAABBVERTICES);
+
+	// 12 triangles per AABB
+	// should do the same as TransformAABBoxOGL::Gather()
+	// store every AABB in array
+	for (int i = 0; i < 12; ++i) {
+		vertices[i * 3 + 0] = xformedPos[sBBIndexList[i * 3 + 0]];
+		vertices[i * 3 + 1] = xformedPos[sBBIndexList[i * 3 + 1]];
+		vertices[i * 3 + 2] = xformedPos[sBBIndexList[i * 3 + 2]];
+	}
+
+	AABBs.insert(AABBs.end(), vertices.begin(), vertices.end());
+	AABBIndexList.push_back(id);
+}
+
+bool OSMesaPipeline::SartOcclusionQueries() {
+	// Calculate Buffer offset for each model to draw the right model
+
+	osmesa_glGenBuffers(1, &mVertex_buffer);
+	osmesa_glBindBuffer(GL_ARRAY_BUFFER, mVertex_buffer);
+	osmesa_glBufferData(GL_ARRAY_BUFFER, sizeof(float4) * AABBs.size(), AABBs.data(), GL_STATIC_DRAW);
+
+	GLuint SamplesPassed = 1;
+	GLsizei NumQueries = AABBs.size() / NUMAABBVERTICES;
+	//std::vector<GLuint> query(NumQueries);
+	GLuint *query = new GLuint[NumQueries];
+
+	for (int i = 0; i < NumQueries; ++i) {
+		osmesa_glGenQueries(NumQueries, &query[i]);
+		// also try GL_ANY_SAMPLES_PASSED and 
+		// GL_ANY_SAMPLES_PASSED_CONSERVATIVE (only if some false positives are acceptable)
+		// --> result may be true (some samples passed) but in reality the object is not visible
+		osmesa_glBeginQuery(GL_ANY_SAMPLES_PASSED, query[i]);
+
+		// make draw call
+		osmesa_glDrawArrays(GL_TRIANGLES, BUFFEROFFSET * i, NUMAABBVERTICES);
+
+		osmesa_glEndQuery(GL_ANY_SAMPLES_PASSED);
+
+		osmesa_glGetQueryObjectuiv(query[i], GL_QUERY_RESULT_NO_WAIT, &SamplesPassed);
+
+		osmesa_glDeleteQueries(1, &query[i]);
+	}
+
+	// all queries returned
+	delete[] query;
+
+	return true;
+}
+
+
+/**
+* Rasterizes the occluder set to the depth buffer
+* @param DBTemp  contains the current and the resulting DepthBuffer
+* @param vertices  contains the whole occluder geometry
+*/
+void OSMesaPipeline::RasterizeDepthBuffer(const std::vector<float4> &vertices, float* DBTemp)
 {
 	float ratio;
 	int width, height;
@@ -230,7 +322,7 @@ void OSMesaPipeline::start(std::vector<float4> vertices, float* DBTemp)
 	}
 
 	/* Swap front and back buffers */
-	glfwSwapBuffers(window);
+	// glfwSwapBuffers(window);
 
 	//glfwTerminate();
 }

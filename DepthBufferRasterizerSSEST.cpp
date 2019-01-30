@@ -37,6 +37,9 @@ DepthBufferRasterizerSSEST::~DepthBufferRasterizerSSEST()
 	SAFE_DELETE_ARRAY(mpNumTrisInBin[1]);
 }
 
+
+
+
 //------------------------------------------------------------------------------
 // * Determine if the occludee model is inside view frustum
 // * Transform the occluder models on the CPU

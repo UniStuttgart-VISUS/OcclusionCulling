@@ -33,6 +33,7 @@ class AABBoxRasterizerSSEMT : public AABBoxRasterizerSSE
 
 		PerTaskData mTaskData[2];
 		void TransformAABBoxAndDepthTest(CPUTCamera *pCamera, UINT idx);
+		void TransformAABBoxAndDepthTestOGL(CPUTCamera *pCamera, UINT idx, const std::unique_ptr<OSMesaPipeline> &mesa) {}
 		void WaitForTaskToFinish(UINT idx);
 		void ReleaseTaskHandles(UINT idx);
 

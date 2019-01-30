@@ -31,6 +31,8 @@ class DepthBufferRasterizerScalarMT : public DepthBufferRasterizerScalar
 		};
 		PerTaskData mTaskData[2];
 		void TransformModelsAndRasterizeToDepthBuffer(CPUTCamera *pCamera, UINT idx);
+		void TransformModelsAndRasterizeToDepthBufferOGL(CPUTCamera *pCamera, UINT idx, const std::unique_ptr<OSMesaPipeline> &mesa) {}
+
 		void ComputeR2DBTime(UINT idx);
 
 	private:

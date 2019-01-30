@@ -27,6 +27,10 @@ class DepthBufferRasterizer
 		virtual ~DepthBufferRasterizer();
 		virtual void CreateTransformedModels(CPUTAssetSet **pAssetSet, UINT numAssetSets) = 0;
 		virtual void TransformModelsAndRasterizeToDepthBuffer(CPUTCamera *pCamera, UINT idx) = 0;
+		// added for project
+		// ----------------------------
+		virtual void TransformModelsAndRasterizeToDepthBufferOGL(CPUTCamera *pCamera, UINT idx, const std::unique_ptr<OSMesaPipeline> &mesa) = 0;
+		// ----------------------------
 
 		virtual void ResetInsideFrustum() = 0;
 		virtual void ComputeR2DBTime(UINT idx) = 0;
