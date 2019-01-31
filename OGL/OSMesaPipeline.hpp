@@ -42,15 +42,23 @@ public:
 
 	void RasterizeDepthBuffer(const std::vector<float4> &vertices, float* DBTemp);
 	void GatherAllAABBs(const float4 xformedPos[], int id);
-	bool SartOcclusionQueries();
+	void SartOcclusionQueries();
 
 	void SetFrustumModels(std::vector<FrustumModel> &models) {
 		mMesaFrustumModels = models;
 	}
 
+	inline std::vector<UINT> &GetIndexList() {
+		return AABBIndexList;
+	}
+
 	/*std::vector<int[2]> GetVisibilityIndices() {
 		return AABBVisibilityIndex;
 	}*/
+
+	std::vector<UINT> AABBIndexList;
+	std::vector<UINT> AABBVisibility;
+	UINT NumDrawCalls = 0;
 
 private:
 	GLFWwindow * window;
@@ -62,10 +70,9 @@ private:
 	void SetMatrixP(mat4x4 &lhs, const float4x4 *rhs);
 
 	std::vector<float4> AABBs;
-	std::vector<int> AABBIndexList;
-	std::vector<int[2]> AABBVisibilityIndex;
+	
 	std::vector<FrustumModel> mMesaFrustumModels;
 
-	const GLint BUFFEROFFSET = NUMAABBVERTICES * sizeof(float4);
+	const UINT BUFFEROFFSET = NUMAABBVERTICES * sizeof(float4);
 };
 #endif // !OSMesaPipeline_hpp

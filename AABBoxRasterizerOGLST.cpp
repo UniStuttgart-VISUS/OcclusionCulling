@@ -74,17 +74,22 @@ void AABBoxRasterizerOGLST::TransformAABBoxAndDepthTestOGL(CPUTCamera *pCamera, 
 				// if order gets scrambled, a wrong result will be given back to the intel context
 				// get all AABBs and start ALL queries afterwards at once
 				mesa->GatherAllAABBs(xformedPos, i);
-				// -------------------------------------------------------------------------------------------------------------------
-				// -------------------------------------------------------------------------------------------------------------------
 				// mpVisible[idx][i] = mpTransformedAABBox[i].RasterizeAndDepthTestAABBox(mpRenderTargetPixels[idx], xformedPos, idx);
-				// -------------------------------------------------------------------------------------------------------------------
-				// -------------------------------------------------------------------------------------------------------------------
 			}
 			else
 			{
 				mpVisible[idx][i] = true;
 			}
 		}
+	}
+
+	mesa->SartOcclusionQueries();
+
+	// if all Queries finished, get the results
+	for (int i = 0; i < mesa->NumDrawCalls; ++i)
+	{
+		// efficient calls? Maybe inline reference getter
+		mpVisible[idx][mesa->AABBIndexList[i]] = mesa->AABBVisibility[i];
 	}
 
 	QueryPerformanceCounter(&mStopTime[idx][0]);

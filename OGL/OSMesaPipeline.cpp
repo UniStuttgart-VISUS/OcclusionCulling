@@ -9,6 +9,7 @@
 
 /* Create triangle geometry and simple shader for debugging */
 GLuint mVertex_buffer, mVertex_shader, mFragment_shader, mProgram;
+GLuint occlusion_buffer;
 GLint mMVP_location, mVpos_location, mVcol_location;
 
 // compute shader declarations
@@ -225,39 +226,55 @@ void OSMesaPipeline::GatherAllAABBs(const float4 xformedPos[], int id) {
 	AABBIndexList.push_back(id);
 }
 
-bool OSMesaPipeline::SartOcclusionQueries() {
+void OSMesaPipeline::SartOcclusionQueries() {
 	// Calculate Buffer offset for each model to draw the right model
 
-	osmesa_glGenBuffers(1, &mVertex_buffer);
-	osmesa_glBindBuffer(GL_ARRAY_BUFFER, mVertex_buffer);
+	osmesa_glGenBuffers(1, &occlusion_buffer);
+	osmesa_glBindBuffer(GL_ARRAY_BUFFER, occlusion_buffer);
 	osmesa_glBufferData(GL_ARRAY_BUFFER, sizeof(float4) * AABBs.size(), AABBs.data(), GL_STATIC_DRAW);
 
-	GLuint SamplesPassed = 1;
-	GLsizei NumQueries = AABBs.size() / NUMAABBVERTICES;
-	//std::vector<GLuint> query(NumQueries);
+	osmesa_glEnableVertexAttribArray(mVpos_location);
+	osmesa_glVertexAttribPointer(mVpos_location, 4, GL_FLOAT, GL_FALSE, sizeof(float4), (void*)0);
+	
+	GLsizei NumQueries = AABBIndexList.size();
+	NumDrawCalls = NumQueries;
+	GLuint QueryFinished = 0;
 	GLuint *query = new GLuint[NumQueries];
+	AABBVisibility.clear();
+	AABBVisibility.resize(NumQueries, 1);
 
+	osmesa_glGenQueries(NumQueries, query);
+
+	// launch queries
 	for (int i = 0; i < NumQueries; ++i) {
-		osmesa_glGenQueries(NumQueries, &query[i]);
 		// also try GL_ANY_SAMPLES_PASSED and 
 		// GL_ANY_SAMPLES_PASSED_CONSERVATIVE (only if some false positives are acceptable)
 		// --> result may be true (some samples passed) but in reality the object is not visible
 		osmesa_glBeginQuery(GL_ANY_SAMPLES_PASSED, query[i]);
 
 		// make draw call
-		osmesa_glDrawArrays(GL_TRIANGLES, BUFFEROFFSET * i, NUMAABBVERTICES);
+		osmesa_glUseProgram(mProgram);
+		//osmesa_glDrawArrays(GL_TRIANGLES, BUFFEROFFSET * i, NUMAABBVERTICES);
+		osmesa_glDrawArrays(GL_TRIANGLES, NUMAABBVERTICES * i, NUMAABBVERTICES);
 
 		osmesa_glEndQuery(GL_ANY_SAMPLES_PASSED);
-
-		osmesa_glGetQueryObjectuiv(query[i], GL_QUERY_RESULT_NO_WAIT, &SamplesPassed);
-
-		osmesa_glDeleteQueries(1, &query[i]);
 	}
+
+	// wait until last query result is available
+	// all other queries should be also available by then (as stated in the Khronos spec)
+	while (!QueryFinished) {
+		osmesa_glGetQueryObjectuiv(query[NumQueries - 1], GL_QUERY_RESULT_AVAILABLE, &QueryFinished);
+	}
+
+	// get result if last query result is available
+	for (int i = 0; i < NumQueries; ++i) {
+		osmesa_glGetQueryObjectuiv(query[i], GL_QUERY_RESULT, &AABBVisibility[i]);
+	}
+
+	osmesa_glDeleteQueries(NumQueries, query);
 
 	// all queries returned
 	delete[] query;
-
-	return true;
 }
 
 
@@ -285,7 +302,7 @@ void OSMesaPipeline::RasterizeDepthBuffer(const std::vector<float4> &vertices, f
 
 	osmesa_glViewport(0, 0, width, height);
 	osmesa_glClearColor(0.f, 0.f, 0.f, 1.f);
-	//osmesa_glClearDepth(1.0);
+	osmesa_glClearDepth(1.0);
 	osmesa_glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	//osmesa_glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
