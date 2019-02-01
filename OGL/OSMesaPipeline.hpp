@@ -8,9 +8,11 @@
 
 #include "linmath.h"
 
+
 struct GLFWwindow;
 
 const int NUMAABBVERTICES = 36;
+const int MAXNUMQUERIES = 27025;
 
 struct FrustumModel {
 	float4x4 world;
@@ -40,38 +42,40 @@ public:
 	OSMesaPipeline();
 	~OSMesaPipeline();
 
-	void RasterizeDepthBuffer(const std::vector<float4> &vertices, float* DBTemp);
-	void GatherAllAABBs(const float4 xformedPos[], int id);
-	void SartOcclusionQueries();
+	void UploadOccluder(const std::vector<float4> &occluder);
+	void UploadOccludeeAABBs();
 
-	void SetFrustumModels(std::vector<FrustumModel> &models) {
-		mMesaFrustumModels = models;
-	}
+	void RasterizeDepthBuffer(const std::vector<float4> &vertices);
+	void GatherAllAABBs(const float4 xformedPos[]);
+	void SartOcclusionQueries(const std::vector<UINT> &ModelIds, const float4x4 &view, const float4x4 &proj);
 
-	inline std::vector<UINT> &GetIndexList() {
-		return AABBIndexList;
+	void GetDepthBuffer(float* DBTemp);
+
+	std::vector<UINT> &GetVisibilityList() {
+		return AABBVisibility;
 	}
 
 	/*std::vector<int[2]> GetVisibilityIndices() {
 		return AABBVisibilityIndex;
 	}*/
 
-	std::vector<UINT> AABBIndexList;
 	std::vector<UINT> AABBVisibility;
 	UINT NumDrawCalls = 0;
 
+	bool InitAllOccludeeBB = true;
+
 private:
 	GLFWwindow * window;
+	int mWidth = 1920, mHeight = 1080;
 	
-
 	void OccluderFrustumCulling();
 
 	void SetMatrixR(mat4x4 &lhs, float4x4 &rhs);
 	void SetMatrixP(mat4x4 &lhs, const float4x4 *rhs);
+	float* ConvertMatrix(const float4x4 &matrix);
+	float mat[16];
 
 	std::vector<float4> AABBs;
-	
-	std::vector<FrustumModel> mMesaFrustumModels;
 
 	const UINT BUFFEROFFSET = NUMAABBVERTICES * sizeof(float4);
 };

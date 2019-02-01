@@ -1,6 +1,7 @@
-#include "OSMesaPipeline.hpp"
-
 #include <iostream>
+#include <algorithm>
+
+#include "OSMesaPipeline.hpp"
 
 #include "osmesa_glad/osmesa_glad.h"
 #include <GLFW/glfw3.h>
@@ -9,8 +10,10 @@
 
 /* Create triangle geometry and simple shader for debugging */
 GLuint mVertex_buffer, mVertex_shader, mFragment_shader, mProgram;
-GLuint occlusion_buffer;
-GLint mMVP_location, mVpos_location, mVcol_location;
+GLuint occluder_buffer, occludee_buffer;
+GLint mView_location, mProj_location, mModel_location, mVpos_location, mVcol_location;
+
+GLuint *query = new GLuint[MAXNUMQUERIES];
 
 // compute shader declarations
 GLuint mCompute_shader;
@@ -60,10 +63,13 @@ static const struct
 static const char* vertex_shader_text =
 "#version 110\n"
 "attribute vec4 vPos;\n"
+//"uniform mat4 model; \n"
+"uniform mat4 view; \n"
+"uniform mat4 proj; \n"
 "varying vec3 color;\n"
 "void main()\n"
 "{\n"
-"    gl_Position = vec4(vPos.x, -vPos.y, vPos.zw);\n"
+"    gl_Position = (proj * view) * vec4(vPos.x, -vPos.y, vPos.zw);\n"
 //"    vec4 posNorm = normalize(vPos);\n"
 //"    color = vec3((posNorm.z + 1.f) / 2.f);\n"
 "}\n";
@@ -90,7 +96,7 @@ OSMesaPipeline::OSMesaPipeline()
 	glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 
 	/* Create a windowed mode window and its OpenGL context */
-	window = glfwCreateWindow(1920, 1080, "Hello OSMesa", NULL, NULL);
+	window = glfwCreateWindow(mWidth, mHeight, "Hello OSMesa", NULL, NULL);
 	if (window == NULL)
 	{
 		std::cout << "Window creation failed." << std::endl;
@@ -139,11 +145,32 @@ OSMesaPipeline::OSMesaPipeline()
 	osmesa_glAttachShader(mProgram, mVertex_shader);
 	osmesa_glAttachShader(mProgram, mFragment_shader);
 	osmesa_glLinkProgram(mProgram);
+
+	osmesa_glUseProgram(mProgram);
+
+	mVpos_location = osmesa_glGetAttribLocation(mProgram, "vPos");
+	//mModel_location = osmesa_glGetAttribLocation(mProgram, "model");
+	mView_location = osmesa_glGetUniformLocation(mProgram, "view");
+	mProj_location = osmesa_glGetUniformLocation(mProgram, "proj");
+
+	osmesa_glGenQueries(MAXNUMQUERIES, query);
+
+	osmesa_glGenBuffers(1, &occluder_buffer);
 }
 
 OSMesaPipeline::~OSMesaPipeline()
 {
 	glfwDestroyWindow(window); //?
+	osmesa_glDeleteBuffers(1, &occluder_buffer);
+	osmesa_glDeleteBuffers(1, &occludee_buffer);
+
+	osmesa_glDeleteShader(mVertex_shader);
+	osmesa_glDeleteShader(mFragment_shader);
+	osmesa_glDeleteProgram(mProgram);
+
+	osmesa_glDeleteQueries(MAXNUMQUERIES, query);
+
+	delete[] query;
 }
 
 void OSMesaPipeline::SetMatrixP(mat4x4 &lhs, const float4x4 *rhs) {
@@ -190,24 +217,32 @@ void OSMesaPipeline::SetMatrixR(mat4x4 &lhs, float4x4 &rhs) {
 	lhs[3][3] = rhs.r3.w;
 }
 
-void OSMesaPipeline::OccluderFrustumCulling() {
-	mCompute_shader = osmesa_glCreateShader(GL_COMPUTE_SHADER);
-	osmesa_glShaderSource(mCompute_shader, 1, &compute_shader_text, NULL);
-	osmesa_glCompileShader(mCompute_shader);
+float* OSMesaPipeline::ConvertMatrix(const float4x4 &matrix) {
+	float temp[] = { matrix.r0.x, matrix.r0.y, matrix.r0.z, matrix.r0.w,
+					matrix.r1.x, matrix.r1.y, matrix.r1.z, matrix.r1.w,
+					matrix.r2.x, matrix.r2.y, matrix.r2.z, matrix.r2.w,
+					matrix.r3.x, matrix.r3.y, matrix.r3.z, matrix.r3.w };
 
-	mCompute_Program = osmesa_glCreateProgram();
-	osmesa_glAttachShader(mCompute_Program, mCompute_shader);
-	osmesa_glLinkProgram(mCompute_Program);
+	std::copy(std::begin(temp), std::end(temp), std::begin(mat));
+	return mat;
+}
 
+void OSMesaPipeline::UploadOccluder(const std::vector<float4> &occluder) {
+	osmesa_glGenBuffers(1, &occluder_buffer);
+	osmesa_glBindBuffer(GL_ARRAY_BUFFER, occluder_buffer);
+	osmesa_glBufferData(GL_ARRAY_BUFFER, sizeof(float4) * occluder.size(), occluder.data(), GL_STATIC_DRAW);
+}
 
+void OSMesaPipeline::UploadOccludeeAABBs() {
+	osmesa_glGenBuffers(1, &occludee_buffer);
+	osmesa_glBindBuffer(GL_ARRAY_BUFFER, occludee_buffer);
+	osmesa_glBufferData(GL_ARRAY_BUFFER, sizeof(float4) * AABBs.size(), AABBs.data(), GL_STATIC_DRAW);
 }
 
 /**
-* Rasterizes and depth tests each AABB.
 * @param xformedPos  8 vertices of the current AABB
-* @return true  if AABB is visible, meaning GL_SAMPLES_PASSED != 0, false otherwise
 */
-void OSMesaPipeline::GatherAllAABBs(const float4 xformedPos[], int id) {
+void OSMesaPipeline::GatherAllAABBs(const float4 xformedPos[]) {
 	// DepthBuffer remains the same as calculated from RasterizeDepthBuffer() below
 
 	// triangles of AABB
@@ -223,39 +258,40 @@ void OSMesaPipeline::GatherAllAABBs(const float4 xformedPos[], int id) {
 	}
 
 	AABBs.insert(AABBs.end(), vertices.begin(), vertices.end());
-	AABBIndexList.push_back(id);
 }
 
-void OSMesaPipeline::SartOcclusionQueries() {
-	// Calculate Buffer offset for each model to draw the right model
-
-	osmesa_glGenBuffers(1, &occlusion_buffer);
-	osmesa_glBindBuffer(GL_ARRAY_BUFFER, occlusion_buffer);
-	osmesa_glBufferData(GL_ARRAY_BUFFER, sizeof(float4) * AABBs.size(), AABBs.data(), GL_STATIC_DRAW);
+/**
+* Starts Occlusion Queries for each AABB from the current occludee set.
+* Tests if bounding boxes pass the depth tests,
+* if yes, set true for visibility, false otherwise
+*/
+void OSMesaPipeline::SartOcclusionQueries(const std::vector<UINT> &ModelIds, const float4x4 &view, const float4x4 &proj) {
+	// only bind needed, since occludees are already uploaded
+	osmesa_glBindBuffer(GL_ARRAY_BUFFER, occludee_buffer);
 
 	osmesa_glEnableVertexAttribArray(mVpos_location);
 	osmesa_glVertexAttribPointer(mVpos_location, 4, GL_FLOAT, GL_FALSE, sizeof(float4), (void*)0);
 	
-	GLsizei NumQueries = AABBIndexList.size();
+	GLsizei NumQueries = ModelIds.size();
 	NumDrawCalls = NumQueries;
 	GLuint QueryFinished = 0;
-	GLuint *query = new GLuint[NumQueries];
 	AABBVisibility.clear();
 	AABBVisibility.resize(NumQueries, 1);
 
-	osmesa_glGenQueries(NumQueries, query);
+	osmesa_glDepthMask(GL_FALSE);
+
+	osmesa_glUniformMatrix4fv(mView_location, 1, GL_FALSE, ConvertMatrix(view));
+	osmesa_glUniformMatrix4fv(mProj_location, 1, GL_FALSE, ConvertMatrix(proj));
 
 	// launch queries
 	for (int i = 0; i < NumQueries; ++i) {
-		// also try GL_ANY_SAMPLES_PASSED and 
-		// GL_ANY_SAMPLES_PASSED_CONSERVATIVE (only if some false positives are acceptable)
+		// also try GL_ANY_SAMPLES_PASSED_CONSERVATIVE (only if some false positives are acceptable)
 		// --> result may be true (some samples passed) but in reality the object is not visible
 		osmesa_glBeginQuery(GL_ANY_SAMPLES_PASSED, query[i]);
 
 		// make draw call
-		osmesa_glUseProgram(mProgram);
-		//osmesa_glDrawArrays(GL_TRIANGLES, BUFFEROFFSET * i, NUMAABBVERTICES);
-		osmesa_glDrawArrays(GL_TRIANGLES, NUMAABBVERTICES * i, NUMAABBVERTICES);
+		//osmesa_glUniformMatrix4fv(mModel_location, 1, GL_FALSE, ConvertMatrix(model[ModelIds[i]]));
+		osmesa_glDrawArrays(GL_TRIANGLES, NUMAABBVERTICES * ModelIds[i], NUMAABBVERTICES);
 
 		osmesa_glEndQuery(GL_ANY_SAMPLES_PASSED);
 	}
@@ -270,11 +306,6 @@ void OSMesaPipeline::SartOcclusionQueries() {
 	for (int i = 0; i < NumQueries; ++i) {
 		osmesa_glGetQueryObjectuiv(query[i], GL_QUERY_RESULT, &AABBVisibility[i]);
 	}
-
-	osmesa_glDeleteQueries(NumQueries, query);
-
-	// all queries returned
-	delete[] query;
 }
 
 
@@ -283,63 +314,43 @@ void OSMesaPipeline::SartOcclusionQueries() {
 * @param DBTemp  contains the current and the resulting DepthBuffer
 * @param vertices  contains the whole occluder geometry
 */
-void OSMesaPipeline::RasterizeDepthBuffer(const std::vector<float4> &vertices, float* DBTemp)
+void OSMesaPipeline::RasterizeDepthBuffer(const std::vector<float4> &occluder)
 {
-	float ratio;
-	int width, height;
-
-	osmesa_glGenBuffers(1, &mVertex_buffer);
-	osmesa_glBindBuffer(GL_ARRAY_BUFFER, mVertex_buffer);
-	osmesa_glBufferData(GL_ARRAY_BUFFER, sizeof(float4) * vertices.size(), vertices.data(), GL_STATIC_DRAW);
-
-	mVpos_location = osmesa_glGetAttribLocation(mProgram, "vPos");
+	osmesa_glBindBuffer(GL_ARRAY_BUFFER, occluder_buffer);
+	osmesa_glBufferData(GL_ARRAY_BUFFER, sizeof(float4) * occluder.size(), occluder.data(), GL_STATIC_DRAW);
 
 	osmesa_glEnableVertexAttribArray(mVpos_location);
 	osmesa_glVertexAttribPointer(mVpos_location, 4, GL_FLOAT, GL_FALSE, sizeof(float4), (void*)0);
 
-	glfwGetFramebufferSize(window, &width, &height);
-	ratio = width / (float)height;
+	// before glClear
+	osmesa_glDepthMask(GL_TRUE);
 
-	osmesa_glViewport(0, 0, width, height);
+	osmesa_glViewport(0, 0, mWidth, mHeight);
 	osmesa_glClearColor(0.f, 0.f, 0.f, 1.f);
 	osmesa_glClearDepth(1.0);
 	osmesa_glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	//osmesa_glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 	osmesa_glDrawBuffer(GL_NONE);
-	//osmesa_glCullFace(GL_FRONT);
 
-	osmesa_glUseProgram(mProgram);
-	osmesa_glDrawArrays(GL_TRIANGLES, 0, vertices.size());
-
-	// read depth buffer
-	osmesa_glReadPixels(0, 0, width, height, GL_DEPTH_COMPONENT, GL_FLOAT, DBTemp);
-
-	// optimize
-	for (int i = 0; i < width*height; ++i) {
-		/*DBTemp[i] = 1.f - DBTemp[i] - 0.444f;
-		if (DBTemp[i] < 0) {
-			DBTemp[i] = 0;
-		}*/
-	}
-
-
+	osmesa_glDrawArrays(GL_TRIANGLES, 0, occluder.size());
 
 	// Write the offscreen framebuffer to disk for debugging
 	// not used if colormask = GL_FALSE or drawbuffer = GL_NONE
 	if (false)
 	{
-		std::vector<unsigned char> image(width*height * 4);
-		osmesa_glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, image.data());
+		std::vector<unsigned char> image(mWidth*mHeight * 4);
+		osmesa_glReadPixels(0, 0, mWidth, mHeight, GL_RGBA, GL_UNSIGNED_BYTE, image.data());
 
 		//Encode the image
-		unsigned error = lodepng::encode("AAACurrBuffer.png", image, width, height);
+		unsigned error = lodepng::encode("AAACurrBuffer.png", image, mWidth, mHeight);
 		//if there's an error, display it
 		if (error) std::cout << "encoder error " << error << ": " << lodepng_error_text(error) << std::endl;
 	}
 
 	/* Swap front and back buffers */
 	// glfwSwapBuffers(window);
+}
 
-	//glfwTerminate();
+void OSMesaPipeline::GetDepthBuffer(float *DBTemp) {
+	osmesa_glReadPixels(0, 0, mWidth, mHeight, GL_DEPTH_COMPONENT, GL_FLOAT, DBTemp);
 }

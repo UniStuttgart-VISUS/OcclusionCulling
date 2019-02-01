@@ -29,6 +29,9 @@ class AABBoxRasterizerOGLST : public AABBoxRasterizerOGL
 		void TransformAABBoxAndDepthTestOGL(CPUTCamera *pCamera, UINT idx, const std::unique_ptr<OSMesaPipeline> &mesa);
 		void WaitForTaskToFinish(UINT idx);
 		void ReleaseTaskHandles(UINT idx);
+
+	private:
+		bool InitAllOccludees = true;
 };
 
 #endif //AABBOXRASTERIZEROGLST_H

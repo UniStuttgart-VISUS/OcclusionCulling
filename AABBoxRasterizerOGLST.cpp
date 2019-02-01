@@ -29,6 +29,7 @@ AABBoxRasterizerOGLST::~AABBoxRasterizerOGLST()
 
 //------------------------------------------------------------------------------
 // * Altered function for project use
+//
 // For each occludee model
 // * Determine if the occludee model AABox is within the viewing frustum 
 // * Transform the AABBox to screen space
@@ -54,27 +55,42 @@ void AABBoxRasterizerOGLST::TransformAABBoxAndDepthTestOGL(CPUTCamera *pCamera, 
 
 	float4 xformedPos[AABB_VERTICES];
 	float4x4 cumulativeMatrix;
+	//float4x4 WorldMatrices[27025];
 
+	if (InitAllOccludees)
+	{
+		for (UINT i = 0; i < mNumModels; i++)
+		{
+			// new cumulativeMatrix only world
+			// needed for proper opengl transformation
+			cumulativeMatrix = mpTransformedAABBox->GetWorldMatrix();
+			//WorldMatrices[i] = cumulativeMatrix;
+
+			// or gather all vertices from xformedPos here, send them to the mesa context and go through all at once
+			// !!! order of vertices is essential here !!!
+			// if order gets scrambled, a wrong result will be given back to the intel context
+			// get all AABBs and start ALL queries afterwards at once
+			mpTransformedAABBox[i].TransformAABBox(xformedPos, cumulativeMatrix);
+			mesa->GatherAllAABBs(xformedPos);
+		}
+
+		mesa->UploadOccludeeAABBs();
+		InitAllOccludees = false;
+	}
+
+	std::vector<UINT> ModelIds;
 	for (UINT i = 0; i < mNumModels; i++)
 	{
 		mpVisible[idx][i] = false;
-
 		if (mpInsideFrustum[idx][i] && !mpTransformedAABBox[i].IsTooSmall(setup, cumulativeMatrix))
 		{
-			// new cumulativeMatrix without viewport
-			// needed for proper opengl transformation
-			cumulativeMatrix = mpTransformedAABBox[i].GetWorldMatrix();
-			cumulativeMatrix = mViewMatrix[idx] * mProjMatrix[idx];
 
-			// get transformed vertices from xformedPos
+			// use only this line and remove if-else
+			// ModelIds.push_back(i);
+
 			if (mpTransformedAABBox[i].TransformAABBox(xformedPos, cumulativeMatrix))
 			{
-				// or gather all vertices here, send them to the mesa context and go through all at once
-				// !!! order of vertices is essential here !!!
-				// if order gets scrambled, a wrong result will be given back to the intel context
-				// get all AABBs and start ALL queries afterwards at once
-				mesa->GatherAllAABBs(xformedPos, i);
-				// mpVisible[idx][i] = mpTransformedAABBox[i].RasterizeAndDepthTestAABBox(mpRenderTargetPixels[idx], xformedPos, idx);
+				ModelIds.push_back(i);
 			}
 			else
 			{
@@ -83,13 +99,13 @@ void AABBoxRasterizerOGLST::TransformAABBoxAndDepthTestOGL(CPUTCamera *pCamera, 
 		}
 	}
 
-	mesa->SartOcclusionQueries();
+	mesa->SartOcclusionQueries(ModelIds, mViewMatrix[idx], mProjMatrix[idx]);
 
 	// if all Queries finished, get the results
-	for (int i = 0; i < mesa->NumDrawCalls; ++i)
+	for (int i = 0; i < ModelIds.size(); ++i)
 	{
-		// efficient calls? Maybe inline reference getter
-		mpVisible[idx][mesa->AABBIndexList[i]] = mesa->AABBVisibility[i];
+		// efficient calls? Maybe reference getter
+		mpVisible[idx][ModelIds[i]] = mesa->AABBVisibility[i];
 	}
 
 	QueryPerformanceCounter(&mStopTime[idx][0]);
@@ -130,12 +146,6 @@ void AABBoxRasterizerOGLST::TransformAABBoxAndDepthTest(CPUTCamera *pCamera, UIN
 		
 		if(mpInsideFrustum[idx][i] && !mpTransformedAABBox[i].IsTooSmall(setup, cumulativeMatrix))
 		{
-			// new cumulativeMatrix without viewport
-			// needed for proper opengl transformation
-			cumulativeMatrix = mpTransformedAABBox[i].GetWorldMatrix();
-			cumulativeMatrix = mViewMatrix[idx] * mProjMatrix[idx];
-
-			// get transformed vertices from xformedPos
 			if(mpTransformedAABBox[i].TransformAABBox(xformedPos, cumulativeMatrix))
 			{
 				mpVisible[idx][i] = mpTransformedAABBox[i].RasterizeAndDepthTestAABBox(mpRenderTargetPixels[idx], xformedPos, idx);

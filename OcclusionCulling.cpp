@@ -1648,6 +1648,7 @@ void MySample::Render(double deltaSeconds)
 		// Transform the occluder models and rasterize them to the depth buffer
 		if (mSOCType == OGL_TYPE)
 		{
+			//mpDBR->TransformModelsAndRasterizeToDepthBuffer(&mCameraCopy[mCurrIdx], mCurrIdx);
 			mpDBR->TransformModelsAndRasterizeToDepthBufferOGL(&mCameraCopy[mCurrIdx], mCurrIdx, Osmesa);
 		}
 		else
@@ -1660,6 +1661,7 @@ void MySample::Render(double deltaSeconds)
 		// Transform the occludee AABB, rasterize and depth test to determine if occludee is visible or occluded 
 		if (mSOCType == OGL_TYPE)
 		{
+			//mpAABB->TransformAABBoxAndDepthTest(&mCameraCopy[mCurrIdx], mCurrIdx);
 			mpAABB->TransformAABBoxAndDepthTestOGL(&mCameraCopy[mCurrIdx], mCurrIdx, Osmesa);
 		}
 		else
@@ -1739,6 +1741,10 @@ void MySample::Render(double deltaSeconds)
 	// If mViewDepthBuffer, debug draw CPU rasterized depth
 	if(mViewDepthBuffer)
 	{
+		// ------------------------------
+		// if mSOCType == OGL_TYPE
+		// request DB here from Mesa (if DB is not already updated in DepthBufferRasterizer)
+		// ------------------------------
 		mpContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 		mpContext->Draw(3, 0);
     }

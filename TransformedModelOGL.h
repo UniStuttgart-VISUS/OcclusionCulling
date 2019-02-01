@@ -98,8 +98,8 @@ class TransformedModelOGL : public HelperScalar
 		}
 
 		void SetCumulativeMatrix(const float4x4 &view, const float4x4 &proj, UINT idx) {
-			mCumulativeMatrix[idx] = view * proj;
-			mCumulativeMatrix[idx] = mWorldMatrix * mCumulativeMatrix[idx];
+			mCumulativeMatrix[idx] = mWorldMatrix * view;
+			mCumulativeMatrix[idx] = mCumulativeMatrix[idx] * proj;
 		}
 
 		FrustumModel &GetFrustumModel() {
