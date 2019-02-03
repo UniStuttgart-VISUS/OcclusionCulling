@@ -1709,6 +1709,11 @@ void MySample::Render(double deltaSeconds)
 	// If mViewDepthBuffer is enabled then blit the CPU rasterized depth buffer to the frame buffer
 	if(mViewDepthBuffer)
 	{
+		// ------------------------------
+		// if mSOCType == OGL_TYPE
+		// request DB here from Mesa (if DB is not already updated in DepthBufferRasterizer)
+		// ------------------------------
+
 		mpShowDepthBufMtrl->SetRenderStates(renderParams);
 		if (mSOCType == MASK_AVX_TYPE)
 		{
@@ -1741,10 +1746,6 @@ void MySample::Render(double deltaSeconds)
 	// If mViewDepthBuffer, debug draw CPU rasterized depth
 	if(mViewDepthBuffer)
 	{
-		// ------------------------------
-		// if mSOCType == OGL_TYPE
-		// request DB here from Mesa (if DB is not already updated in DepthBufferRasterizer)
-		// ------------------------------
 		mpContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 		mpContext->Draw(3, 0);
     }

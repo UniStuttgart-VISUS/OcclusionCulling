@@ -63,7 +63,8 @@ void AABBoxRasterizerOGLST::TransformAABBoxAndDepthTestOGL(CPUTCamera *pCamera, 
 		{
 			// new cumulativeMatrix only world
 			// needed for proper opengl transformation
-			cumulativeMatrix = mpTransformedAABBox->GetWorldMatrix();
+			cumulativeMatrix = mpTransformedAABBox[i].GetWorldMatrix();
+		
 			//WorldMatrices[i] = cumulativeMatrix;
 
 			// or gather all vertices from xformedPos here, send them to the mesa context and go through all at once
