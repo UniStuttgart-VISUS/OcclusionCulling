@@ -46,7 +46,7 @@ public:
 	void UploadOccludeeAABBs();
 
 	void RasterizeDepthBuffer(const std::vector<float4> &vertices);
-	void GatherAllAABBs(const float4 xformedPos[]);
+	void GatherAllAABBs(const float4 xformedPos[], const float4x4 &world);
 	void SartOcclusionQueries(const std::vector<UINT> &ModelIds, const float4x4 &view, const float4x4 &proj);
 
 	void GetDepthBuffer(float* DBTemp);
@@ -75,7 +75,8 @@ private:
 	float* ConvertMatrix(const float4x4 &matrix);
 	float mat[16];
 
-	std::vector<float4> AABBs;
+	std::vector<float4> mAABBs;
+	std::vector<float4x4> mWorldMatrices;
 
 	const UINT BUFFEROFFSET = NUMAABBVERTICES * sizeof(float4);
 };

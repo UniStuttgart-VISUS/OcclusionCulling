@@ -88,7 +88,7 @@ bool TransformedAABBoxOGL::IsTooSmall(const BoxTestSetupScalar &setup, float4x4 
 }
 
 //----------------------------------------------------------------
-// Trasforms the AABB vertices to screen space once every frame
+// Transforms the AABB vertices to screen space once every frame
 //----------------------------------------------------------------
 bool TransformedAABBoxOGL::TransformAABBox(float4 xformedPos[], const float4x4 &cumulativeMatrix)
 {
@@ -100,27 +100,34 @@ bool TransformedAABBoxOGL::TransformAABBox(float4 xformedPos[], const float4x4 &
 	
 	// transforms
 	float4 xRow[2], yRow[2], zRow[2];
-	xRow[0] = float4(vMin.x, vMin.x, vMin.x, vMin.x) * cumulativeMatrix.r0;
+	/*xRow[0] = float4(vMin.x, vMin.x, vMin.x, vMin.x) * cumulativeMatrix.r0;
 	xRow[1] = float4(vMax.x, vMax.x, vMax.x, vMax.x) * cumulativeMatrix.r0;
 	yRow[0] = float4(vMin.y, vMin.y, vMin.y, vMin.y) * cumulativeMatrix.r1;
 	yRow[1] = float4(vMax.y, vMax.y, vMax.y, vMax.y) * cumulativeMatrix.r1;
 	zRow[0] = float4(vMin.z, vMin.z, vMin.z, vMin.z) * cumulativeMatrix.r2;
-	zRow[1] = float4(vMax.z, vMax.z, vMax.z, vMax.z) * cumulativeMatrix.r2;
+	zRow[1] = float4(vMax.z, vMax.z, vMax.z, vMax.z) * cumulativeMatrix.r2;*/
+	xRow[0] = float4(vMin.x, 0.0, 0.0, 0.0);
+	xRow[1] = float4(vMax.x, 0.0, 0.0, 0.0);
+	yRow[0] = float4(0.0, vMin.y, 0.0, 0.0);
+	yRow[1] = float4(0.0, vMax.y, 0.0, 0.0);
+	zRow[0] = float4(0.0, 0.0, vMin.z, 0.0);
+	zRow[1] = float4(0.0, 0.0, vMax.z, 0.0);
 	
-	bool zAllIn = true;
+	//bool zAllIn = true;
 	
 	for(UINT i = 0; i < AABB_VERTICES; i++)
 	{
-		float4 vert = cumulativeMatrix.r3;
+		float4 vert = float4(0.0, 0.0, 0.0, 1.0);
+		//float4 vert = cumulativeMatrix.r3;
 		vert += xRow[sBBxInd[i]];
 		vert += yRow[sBByInd[i]];
 		vert += zRow[sBBzInd[i]];
 
-		zAllIn =  vert.z <= vert.w ?  zAllIn & true : zAllIn & false;
+		//zAllIn =  vert.z <= vert.w ?  zAllIn & true : zAllIn & false;
 
-		xformedPos[i] = vert/ vert.w;
+		xformedPos[i] = vert;// / vert.w;
 	}
-	return zAllIn;
+	return true;
 }
 
 void TransformedAABBoxOGL::Gather(float4 pOut[3], UINT triId, const float4 xformedPos[])

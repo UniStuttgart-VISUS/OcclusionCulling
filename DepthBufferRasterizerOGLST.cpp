@@ -77,7 +77,6 @@ void DepthBufferRasterizerOGLST::TransformModelsAndRasterizeToDepthBufferOGL(CPU
 	{
 		for (UINT i = 0; i < mNumModels1; i++)
 		{
-			// reimplement for Mesa
 			mpTransformedModels1[i].TooSmall(setup, idx);
 		}
 	}

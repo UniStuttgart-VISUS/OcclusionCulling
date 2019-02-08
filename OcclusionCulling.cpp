@@ -150,6 +150,8 @@ MySample::MySample() :
     memset( &mTotalCullTimeHistories, 0, sizeof( mTotalCullTimeHistories ) );
     mTotalCullTimeLastIndex = 0;
     mTotalCullTimeAvg = 0.0;
+
+	Osmesa = std::make_unique<OSMesaPipeline>();
 }
 
 MySample::~MySample()
@@ -278,7 +280,7 @@ void MySample::SetupOcclusionCullingObjects()
 		mpAABBOGLST = new AABBoxRasterizerOGLST;
 		mpAABB = mpAABBOGLST;
 
-		Osmesa = std::make_unique<OSMesaPipeline>();
+		//Osmesa = std::make_unique<OSMesaPipeline>();
 	}
 }
 

@@ -55,28 +55,28 @@ void AABBoxRasterizerOGLST::TransformAABBoxAndDepthTestOGL(CPUTCamera *pCamera, 
 
 	float4 xformedPos[AABB_VERTICES];
 	float4x4 cumulativeMatrix;
-	//float4x4 WorldMatrices[27025];
 
-	if (InitAllOccludees)
+	if (mesa->InitAllOccludeeBB)
 	{
 		for (UINT i = 0; i < mNumModels; i++)
 		{
 			// new cumulativeMatrix only world
 			// needed for proper opengl transformation
-			cumulativeMatrix = mpTransformedAABBox[i].GetWorldMatrix();
-		
-			//WorldMatrices[i] = cumulativeMatrix;
+			//cumulativeMatrix = mpTransformedAABBox[i].GetWorldMatrix();
+
+			// take cumulative matrix out of parameter list of TransformAABBox function
+			//cumulativeMatrix = float4x4Identity();
 
 			// or gather all vertices from xformedPos here, send them to the mesa context and go through all at once
 			// !!! order of vertices is essential here !!!
 			// if order gets scrambled, a wrong result will be given back to the intel context
 			// get all AABBs and start ALL queries afterwards at once
 			mpTransformedAABBox[i].TransformAABBox(xformedPos, cumulativeMatrix);
-			mesa->GatherAllAABBs(xformedPos);
+			mesa->GatherAllAABBs(xformedPos, mpTransformedAABBox[i].GetWorldMatrix());
 		}
 
 		mesa->UploadOccludeeAABBs();
-		InitAllOccludees = false;
+		mesa->InitAllOccludeeBB = false;
 	}
 
 	std::vector<UINT> ModelIds;
@@ -87,16 +87,16 @@ void AABBoxRasterizerOGLST::TransformAABBoxAndDepthTestOGL(CPUTCamera *pCamera, 
 		{
 
 			// use only this line and remove if-else
-			// ModelIds.push_back(i);
+			ModelIds.push_back(i);
 
-			if (mpTransformedAABBox[i].TransformAABBox(xformedPos, cumulativeMatrix))
+			/*if (mpTransformedAABBox[i].TransformAABBox(xformedPos, cumulativeMatrix))
 			{
 				ModelIds.push_back(i);
 			}
 			else
 			{
 				mpVisible[idx][i] = true;
-			}
+			}*/
 		}
 	}
 
@@ -105,7 +105,6 @@ void AABBoxRasterizerOGLST::TransformAABBoxAndDepthTestOGL(CPUTCamera *pCamera, 
 	// if all Queries finished, get the results
 	for (int i = 0; i < ModelIds.size(); ++i)
 	{
-		// efficient calls? Maybe reference getter
 		mpVisible[idx][ModelIds[i]] = mesa->AABBVisibility[i];
 	}
 
