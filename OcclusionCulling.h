@@ -108,7 +108,7 @@ private:
 	CPUTAssetSet		  *mpAssetSetSky;
 
 	CPUTMaterialDX11		 *mpShowDepthBufMtrlScalar;
-	//CPUTMaterialDX11		 *mpShowDepthBufMtrlOGL;
+	CPUTMaterialDX11		 *mpShowDepthBufMtrlOGL;
 	CPUTMaterialDX11		 *mpShowDepthBufMtrlSSE;
 	CPUTMaterialDX11		 *mpShowDepthBufMtrlAVX;
 	CPUTMaterialDX11		 *mpShowDepthBufMtrl;

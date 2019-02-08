@@ -1,6 +1,6 @@
 #include <iostream>
 #include <algorithm>
-#include <Windows.h>
+#include <Windows.h> //	OutputDebugString(L"your message here");
 
 #include "OSMesaPipeline.hpp"
 
@@ -134,7 +134,7 @@ OSMesaPipeline::OSMesaPipeline()
 	int minor = glfwGetWindowAttrib(window, GLFW_CONTEXT_VERSION_MINOR);
 
 	std::cout << "OSMesa OpenGL context " << major << "." << minor << std::endl;
-	OutputDebugString(L"your message here");
+
 	mVertex_shader = osmesa_glCreateShader(GL_VERTEX_SHADER);
 	osmesa_glShaderSource(mVertex_shader, 1, &vertex_shader_text, NULL);
 	osmesa_glCompileShader(mVertex_shader);
@@ -280,7 +280,7 @@ void OSMesaPipeline::SartOcclusionQueries(const std::vector<UINT> &ModelIds, con
 	NumDrawCalls = NumQueries;
 	GLuint QueryFinished = 0;
 	AABBVisibility.clear();
-	AABBVisibility.resize(NumQueries, 1);
+	AABBVisibility.resize(NumQueries, 0);
 
 	osmesa_glDepthMask(GL_FALSE);
 
@@ -311,6 +311,11 @@ void OSMesaPipeline::SartOcclusionQueries(const std::vector<UINT> &ModelIds, con
 	for (int i = 0; i < NumQueries; ++i) {
 		osmesa_glGetQueryObjectuiv(query[i], GL_QUERY_RESULT, &AABBVisibility[i]);
 	}
+
+	int NumVisible = 0;
+	for (int i = 0; i < AABBVisibility.size(); ++i) {
+		if (AABBVisibility[i] == 1) ++NumVisible;
+	}
 }
 
 
@@ -337,10 +342,12 @@ void OSMesaPipeline::RasterizeDepthBuffer(const std::vector<float4> &occluder)
 
 	osmesa_glDrawBuffer(GL_NONE);
 
-	// if not set, weird artifacts appears for objects from the occludee asset set (castleSmallDecoarations/marketStalls)
-	osmesa_glUniformMatrix4fv(mModel_location, 1, GL_FALSE, (GLfloat *)mat4x4_identity);
-	osmesa_glUniformMatrix4fv(mView_location, 1, GL_FALSE, (GLfloat *)mat4x4_identity);
-	osmesa_glUniformMatrix4fv(mProj_location, 1, GL_FALSE, (GLfloat *)mat4x4_identity);
+	// if not set, weird artifacts appear for objects from the occludee asset set (castleSmallDecoarations/marketStalls)
+	mat4x4 id;
+	mat4x4_identity(id);
+	osmesa_glUniformMatrix4fv(mModel_location, 1, GL_FALSE, (GLfloat *)id);
+	osmesa_glUniformMatrix4fv(mView_location, 1, GL_FALSE, (GLfloat *)id);
+	osmesa_glUniformMatrix4fv(mProj_location, 1, GL_FALSE, (GLfloat *)id);
 
 	osmesa_glDrawArrays(GL_TRIANGLES, 0, occluder.size());
 
@@ -357,8 +364,21 @@ void OSMesaPipeline::RasterizeDepthBuffer(const std::vector<float4> &occluder)
 		if (error) std::cout << "encoder error " << error << ": " << lodepng_error_text(error) << std::endl;
 	}
 
+	// get OpenGL states
+	GLint DepthFunc, DepthTest, DepthWriteMask;
+	GLfloat DepthClearValue;
+	GLfloat DepthRange[2];
+	osmesa_glGetFloatv(GL_DEPTH_CLEAR_VALUE, &DepthClearValue);
+	osmesa_glGetIntegerv(GL_DEPTH_FUNC, &DepthFunc);	// GL_LESS = 0x0201 = 513
+	osmesa_glGetIntegerv(GL_DEPTH_TEST, &DepthTest);
+	osmesa_glGetIntegerv(GL_DEPTH_WRITEMASK, &DepthWriteMask);
+	osmesa_glGetFloatv(GL_DEPTH_RANGE, DepthRange);		
+
 	/* Swap front and back buffers */
 	// glfwSwapBuffers(window);
+	//std::vector<float> DBTemp(mWidth*mHeight);
+	//osmesa_glReadPixels(0, 0, mWidth, mHeight, GL_DEPTH_COMPONENT, GL_FLOAT, DBTemp.data());
+	//float min = *std::min_element(DBTemp.begin(), DBTemp.end());
 }
 
 void OSMesaPipeline::GetDepthBuffer(float *DBTemp) {

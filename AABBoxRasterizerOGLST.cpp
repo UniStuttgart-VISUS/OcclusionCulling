@@ -65,7 +65,7 @@ void AABBoxRasterizerOGLST::TransformAABBoxAndDepthTestOGL(CPUTCamera *pCamera, 
 			//cumulativeMatrix = mpTransformedAABBox[i].GetWorldMatrix();
 
 			// take cumulative matrix out of parameter list of TransformAABBox function
-			//cumulativeMatrix = float4x4Identity();
+			cumulativeMatrix = float4x4Identity();
 
 			// or gather all vertices from xformedPos here, send them to the mesa context and go through all at once
 			// !!! order of vertices is essential here !!!
@@ -83,6 +83,7 @@ void AABBoxRasterizerOGLST::TransformAABBoxAndDepthTestOGL(CPUTCamera *pCamera, 
 	for (UINT i = 0; i < mNumModels; i++)
 	{
 		mpVisible[idx][i] = false;
+
 		if (mpInsideFrustum[idx][i] && !mpTransformedAABBox[i].IsTooSmall(setup, cumulativeMatrix))
 		{
 

@@ -615,12 +615,12 @@ void MySample::Create()
 	}
 	else if (mSOCType == OGL_TYPE)
 	{
-		/*mpCPURenderTarget[0] = mpCPURenderTargetOGL[0];		// 2D-Texture
-		mpCPURenderTarget[1] = mpCPURenderTargetOGL[1];			// 2D-Texture
-		mpCPUSRV[0] = mpCPUSRVOGL[0];							// Shader Resource View
-		mpCPUSRV[1] = mpCPUSRVOGL[1];							// Shader Resource View
-		mpShowDepthBufMtrl = mpShowDepthBufMtrlOGL;				// Material
-		rowPitch = SCREENW * 4;									// number of bytes that are in each row on screen */
+		mpCPURenderTarget[0] = mpCPURenderTargetScalar[0];		// 2D-Texture
+		mpCPURenderTarget[1] = mpCPURenderTargetScalar[1];		// 2D-Texture
+		mpCPUSRV[0] = mpCPUSRVScalar[0];						// Shader Resource View
+		mpCPUSRV[1] = mpCPUSRVScalar[1];						// Shader Resource View
+		mpShowDepthBufMtrl = mpShowDepthBufMtrlScalar;			// Material
+		rowPitch = SCREENW * 4;									// number of bytes that are in each row on screen
 	}
 
     // Call ResizeWindow() because it creates some resources that our blur material needs (e.g., the back buffer)
@@ -802,6 +802,7 @@ void MySample::Create()
     }
     mpCamera->SetFov(DirectX::XMConvertToRadians(60.0f)); // TODO: Fix converter's FOV bug (Maya generates cameras for which fbx reports garbage for fov)
     mpCamera->SetFarPlaneDistance(gFarClipDistance);
+	//mpCamera->SetNearPlaneDistance(0.1f);
 	mpCamera->SetPosition(27.0f, 2.0f, 47.0f);
 	mpCamera->LookAt(41.0f, 8.0f, -50.0f);
     mpCamera->Update();
