@@ -1,6 +1,6 @@
 #include <iostream>
 #include <algorithm>
-#include <Windows.h> //	OutputDebugString(L"your message here");
+//#include <Windows.h> //	OutputDebugString(L"your message here");
 
 #include "OSMesaPipeline.hpp"
 
@@ -149,6 +149,7 @@ OSMesaPipeline::OSMesaPipeline()
 	osmesa_glLinkProgram(mProgram);
 
 	osmesa_glUseProgram(mProgram);
+	osmesa_glDepthRange(1.0, 0.0);
 	
 	mVpos_location = osmesa_glGetAttribLocation(mProgram, "vPos");
 	mModel_location = osmesa_glGetUniformLocation(mProgram, "model");
@@ -173,50 +174,6 @@ OSMesaPipeline::~OSMesaPipeline()
 	osmesa_glDeleteQueries(MAXNUMQUERIES, query);
 
 	delete[] query;
-}
-
-void OSMesaPipeline::SetMatrixP(mat4x4 &lhs, const float4x4 *rhs) {
-	lhs[0][0] = rhs->r0.x;
-	lhs[0][1] = rhs->r0.y;
-	lhs[0][2] = rhs->r0.z;
-	lhs[0][3] = rhs->r0.w;
-
-	lhs[1][0] = rhs->r1.x;
-	lhs[1][1] = rhs->r1.y;
-	lhs[1][2] = rhs->r1.z;
-	lhs[1][3] = rhs->r1.w;
-
-	lhs[2][0] = rhs->r2.x;
-	lhs[2][1] = rhs->r2.y;
-	lhs[2][2] = rhs->r2.z;
-	lhs[2][3] = rhs->r2.w;
-
-	lhs[3][0] = rhs->r3.x;
-	lhs[3][1] = rhs->r3.y;
-	lhs[3][2] = rhs->r3.z;
-	lhs[3][3] = rhs->r3.w;
-}
-
-void OSMesaPipeline::SetMatrixR(mat4x4 &lhs, float4x4 &rhs) {
-	lhs[0][0] = rhs.r0.x;
-	lhs[0][1] = rhs.r0.y;
-	lhs[0][2] = rhs.r0.z;
-	lhs[0][3] = rhs.r0.w;
-
-	lhs[1][0] = rhs.r1.x;
-	lhs[1][1] = rhs.r1.y;
-	lhs[1][2] = rhs.r1.z;
-	lhs[1][3] = rhs.r1.w;
-
-	lhs[2][0] = rhs.r2.x;
-	lhs[2][1] = rhs.r2.y;
-	lhs[2][2] = rhs.r2.z;
-	lhs[2][3] = rhs.r2.w;
-
-	lhs[3][0] = rhs.r3.x;
-	lhs[3][1] = rhs.r3.y;
-	lhs[3][2] = rhs.r3.z;
-	lhs[3][3] = rhs.r3.w;
 }
 
 float* OSMesaPipeline::ConvertMatrix(const float4x4 &matrix) {
@@ -277,11 +234,11 @@ void OSMesaPipeline::SartOcclusionQueries(const std::vector<UINT> &ModelIds, con
 	osmesa_glVertexAttribPointer(mVpos_location, 4, GL_FLOAT, GL_FALSE, sizeof(float4), (void*)0);
 	
 	GLsizei NumQueries = ModelIds.size();
-	NumDrawCalls = NumQueries;
 	GLuint QueryFinished = 0;
 	AABBVisibility.clear();
 	AABBVisibility.resize(NumQueries, 0);
 
+	// disable writing to depth buffer before launching the queries
 	osmesa_glDepthMask(GL_FALSE);
 
 	osmesa_glUniformMatrix4fv(mView_location, 1, GL_FALSE, ConvertMatrix(view));
@@ -290,12 +247,11 @@ void OSMesaPipeline::SartOcclusionQueries(const std::vector<UINT> &ModelIds, con
 	// launch queries
 	for (int i = 0; i < NumQueries; ++i) {
 		// also try GL_ANY_SAMPLES_PASSED_CONSERVATIVE (only if some false positives are acceptable)
-		// --> result may be true (some samples passed) but in reality the object is not visible
+		// TESTED: little to no difference
 		osmesa_glBeginQuery(GL_ANY_SAMPLES_PASSED, query[i]);
 
 		// make draw call
 		osmesa_glUniformMatrix4fv(mModel_location, 1, GL_FALSE, ConvertMatrix(mWorldMatrices[ModelIds[i]]));
-		//osmesa_glUniformMatrix4fv(mModel_location, 1, GL_FALSE, (GLfloat *)mat4x4_identity);
 		osmesa_glDrawArrays(GL_TRIANGLES, NUMAABBVERTICES * ModelIds[i], NUMAABBVERTICES);
 
 		osmesa_glEndQuery(GL_ANY_SAMPLES_PASSED);
@@ -312,11 +268,14 @@ void OSMesaPipeline::SartOcclusionQueries(const std::vector<UINT> &ModelIds, con
 		osmesa_glGetQueryObjectuiv(query[i], GL_QUERY_RESULT, &AABBVisibility[i]);
 	}
 
-	int NumVisible = 0;
+	// enable writing depth buffer again after the queries are finished
+	osmesa_glDepthMask(GL_TRUE);
+
+	/*int NumVisible = 0;
 	for (int i = 0; i < AABBVisibility.size(); ++i) {
 		if (AABBVisibility[i] == 1) ++NumVisible;
-	}
-}
+	}*/
+ }
 
 
 /**
@@ -331,9 +290,6 @@ void OSMesaPipeline::RasterizeDepthBuffer(const std::vector<float4> &occluder)
 
 	osmesa_glEnableVertexAttribArray(mVpos_location);
 	osmesa_glVertexAttribPointer(mVpos_location, 4, GL_FLOAT, GL_FALSE, sizeof(float4), (void*)0);
-
-	// before glClear
-	osmesa_glDepthMask(GL_TRUE);
 
 	osmesa_glViewport(0, 0, mWidth, mHeight);
 	osmesa_glClearColor(0.f, 0.f, 0.f, 1.f);
@@ -365,24 +321,27 @@ void OSMesaPipeline::RasterizeDepthBuffer(const std::vector<float4> &occluder)
 	}
 
 	// get OpenGL states
-	GLint DepthFunc, DepthTest, DepthWriteMask;
-	GLfloat DepthClearValue;
-	GLfloat DepthRange[2];
-	osmesa_glGetFloatv(GL_DEPTH_CLEAR_VALUE, &DepthClearValue);
-	osmesa_glGetIntegerv(GL_DEPTH_FUNC, &DepthFunc);	// GL_LESS = 0x0201 = 513
-	osmesa_glGetIntegerv(GL_DEPTH_TEST, &DepthTest);
-	osmesa_glGetIntegerv(GL_DEPTH_WRITEMASK, &DepthWriteMask);
-	osmesa_glGetFloatv(GL_DEPTH_RANGE, DepthRange);		
+	//GLint DepthFunc, DepthTest, DepthWriteMask;
+	//GLfloat DepthClearValue;
+	//GLfloat DepthRange[2];
+	//osmesa_glGetFloatv(GL_DEPTH_CLEAR_VALUE, &DepthClearValue);
+	//osmesa_glGetIntegerv(GL_DEPTH_FUNC, &DepthFunc);	// GL_LESS = 0x0201 = 513
+	//osmesa_glGetIntegerv(GL_DEPTH_TEST, &DepthTest);
+	//osmesa_glGetIntegerv(GL_DEPTH_WRITEMASK, &DepthWriteMask);
+	//osmesa_glGetFloatv(GL_DEPTH_RANGE, DepthRange);		
 
 	/* Swap front and back buffers */
 	// glfwSwapBuffers(window);
-	//std::vector<float> DBTemp(mWidth*mHeight);
-	//osmesa_glReadPixels(0, 0, mWidth, mHeight, GL_DEPTH_COMPONENT, GL_FLOAT, DBTemp.data());
-	//float min = *std::min_element(DBTemp.begin(), DBTemp.end());
+	/*std::vector<float> DBTemp(mWidth*mHeight);
+	osmesa_glReadPixels(0, 0, mWidth, mHeight, GL_DEPTH_COMPONENT, GL_FLOAT, DBTemp.data());
+	float min = *std::min_element(DBTemp.begin(), DBTemp.end());*/
 }
 
 void OSMesaPipeline::GetDepthBuffer(float *DBTemp) {
 	osmesa_glReadPixels(0, 0, mWidth, mHeight, GL_DEPTH_COMPONENT, GL_FLOAT, DBTemp);
 
-	// convert to intelDB 1-DBTemp (set to 0 if <0, also test not to set to 0)
+	// map depth range from [1.0, 0.0] to [-1.0, 1.0]
+	for (int i = 0; i < mWidth * mHeight; ++i) {
+		DBTemp[i] = (1.f - DBTemp[i]) * 2.f - 1.f;
+	}
 }

@@ -1661,7 +1661,7 @@ void MySample::Render(double deltaSeconds)
 		
 		mpAABB->SetCPURenderTargetPixels(mpCPURenderTargetPixels, mCurrIdx);
 		mpAABB->SetDepthSummaryBuffer(mpDBR->GetDepthSummaryBuffer(mCurrIdx), mCurrIdx);
-		// Transform the occludee AABB, rasterize and depth test to determine if occludee is visible or occluded 
+		// Transform the occludee AABB, rasterize and depth test to determine if occludee is visible or occluded
 		if (mSOCType == OGL_TYPE)
 		{
 			//mpAABB->TransformAABBoxAndDepthTest(&mCameraCopy[mCurrIdx], mCurrIdx);
@@ -1712,11 +1712,6 @@ void MySample::Render(double deltaSeconds)
 	// If mViewDepthBuffer is enabled then blit the CPU rasterized depth buffer to the frame buffer
 	if(mViewDepthBuffer)
 	{
-		// ------------------------------
-		// if mSOCType == OGL_TYPE
-		// request DB here from Mesa (if DB is not already updated in DepthBufferRasterizer)
-		// ------------------------------
-
 		mpShowDepthBufMtrl->SetRenderStates(renderParams);
 		if (mSOCType == MASK_AVX_TYPE)
 		{
@@ -1733,6 +1728,15 @@ void MySample::Render(double deltaSeconds)
 			}
 			else
 			{
+				// ------------------------------
+				// if mSOCType == OGL_TYPE
+				// request DB here from Mesa (if DB is not already updated in DepthBufferRasterizer)
+				// ------------------------------
+				if (mSOCType == OGL_TYPE) 
+				{
+					Osmesa->GetDepthBuffer((float*)mpCPUDepthBuf[mCurrIdx]);
+				}
+
 				// Update the GPU-side depth buffer
 				UpdateGPUDepthBuf(mCurrIdx);
 				mpContext->UpdateSubresource(mpCPURenderTarget[mCurrIdx], 0, NULL, mpGPUDepthBuf, rowPitch, 0);

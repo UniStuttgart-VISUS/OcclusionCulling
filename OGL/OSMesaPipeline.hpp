@@ -55,28 +55,21 @@ public:
 		return AABBVisibility;
 	}
 
-	/*std::vector<int[2]> GetVisibilityIndices() {
-		return AABBVisibilityIndex;
-	}*/
-
 	std::vector<UINT> AABBVisibility;
-	UINT NumDrawCalls = 0;
 
 	bool InitAllOccludeeBB = true;
 
 private:
-	GLFWwindow * window;
-	int mWidth = 1920, mHeight = 1080;
-	
 	void OccluderFrustumCulling();
 
-	void SetMatrixR(mat4x4 &lhs, float4x4 &rhs);
-	void SetMatrixP(mat4x4 &lhs, const float4x4 *rhs);
 	float* ConvertMatrix(const float4x4 &matrix);
 	float mat[16];
 
 	std::vector<float4> mAABBs;
 	std::vector<float4x4> mWorldMatrices;
+
+	GLFWwindow * window;
+	int mWidth = 1920, mHeight = 1080;
 
 	const UINT BUFFEROFFSET = NUMAABBVERTICES * sizeof(float4);
 };

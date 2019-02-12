@@ -106,6 +106,7 @@ void AABBoxRasterizerOGLST::TransformAABBoxAndDepthTestOGL(CPUTCamera *pCamera, 
 	// if all Queries finished, get the results
 	for (int i = 0; i < ModelIds.size(); ++i)
 	{
+		// invert results to see all occluded objects
 		mpVisible[idx][ModelIds[i]] = mesa->AABBVisibility[i];
 	}
 
