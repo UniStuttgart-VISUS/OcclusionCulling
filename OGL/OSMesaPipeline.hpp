@@ -48,7 +48,7 @@ public:
 	void RasterizeDepthBuffer(const std::vector<float4> &vertices);
 	void GatherAllAABBs(const float4 xformedPos[], const float4x4 &world);
 	void SartOcclusionQueries(const std::vector<UINT> &ModelIds, const float4x4 &view, const float4x4 &proj);
-	void SartOcclusionQueries(const std::vector<UINT> &ModelIds, const float4x4 &view, const float4x4 &proj, UINT idx);
+	void SartOcclusionQueries(const UINT ModelIds[], int ModelCount, const float4x4 &view, const float4x4 &proj, UINT idx);
 
 	void GetDepthBuffer(float* DBTemp);
 
@@ -57,7 +57,7 @@ public:
 	}
 
 	std::vector<UINT> AABBVisibility;
-	bool *AABBVisible[2];
+	UINT *AABBVisible[2];
 
 	bool InitAllOccludeeBB = true;
 

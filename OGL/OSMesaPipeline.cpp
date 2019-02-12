@@ -141,6 +141,8 @@ OSMesaPipeline::OSMesaPipeline()
 	query = new GLuint[MAXNUMQUERIES];
 	pQuery[0] = new GLuint[MAXNUMQUERIES];
 	pQuery[1] = new GLuint[MAXNUMQUERIES];
+	AABBVisible[0] = new GLuint[MAXNUMQUERIES];
+	AABBVisible[1] = new GLuint[MAXNUMQUERIES];
 	mQueryFinished[0] = 0;
 	mQueryFinished[1] = 0;
 
@@ -239,17 +241,16 @@ void OSMesaPipeline::GatherAllAABBs(const float4 xformedPos[], const float4x4 &w
 * Tests if bounding boxes pass the depth tests,
 * if yes, set true for visibility, false otherwise
 */
-void OSMesaPipeline::SartOcclusionQueries(const std::vector<UINT> &ModelIds, const float4x4 &view, const float4x4 &proj, UINT idx) {
+void OSMesaPipeline::SartOcclusionQueries(const UINT ModelIds[], int ModelCount, const float4x4 &view, const float4x4 &proj, UINT idx) {
 	// only bind needed, since occludees are already uploaded
 	osmesa_glBindBuffer(GL_ARRAY_BUFFER, occludee_buffer);
 
 	osmesa_glEnableVertexAttribArray(mVpos_location);
 	osmesa_glVertexAttribPointer(mVpos_location, 4, GL_FLOAT, GL_FALSE, sizeof(float4), (void*)0);
 
-	mNumQueries[idx] = ModelIds.size();
+	mNumQueries[idx] = ModelCount;
 	GLuint QueryFinished = 0;
-	AABBVisible[idx] = new bool[MAXNUMQUERIES];
-
+	
 	// disable writing to depth buffer before launching the queries
 	osmesa_glDepthMask(GL_FALSE);
 
@@ -272,18 +273,16 @@ void OSMesaPipeline::SartOcclusionQueries(const std::vector<UINT> &ModelIds, con
 	// wait until last query result is available
 	// all other queries should be also available by then (as stated in the Khronos spec)
 	while (!QueryFinished) {
-		osmesa_glGetQueryObjectuiv(query[mNumQueries[idx] - 1], GL_QUERY_RESULT_AVAILABLE, &QueryFinished);
+		osmesa_glGetQueryObjectuiv(pQuery[idx][mNumQueries[idx] - 1], GL_QUERY_RESULT_AVAILABLE, &QueryFinished);
 	}
 
 	// get result if last query result is available
 	for (int i = 0; i < mNumQueries[idx]; ++i) {
-		osmesa_glGetQueryObjectuiv(query[i], GL_QUERY_RESULT, (GLuint *)AABBVisible[idx][i]);
+		osmesa_glGetQueryObjectuiv(pQuery[idx][i], GL_QUERY_RESULT, &AABBVisible[idx][i]);
 	}
 
 	// enable writing depth buffer again after the queries are finished
 	osmesa_glDepthMask(GL_TRUE);
-
-	delete[] AABBVisible[idx];
 
 	/*int NumVisible = 0;
 	for (int i = 0; i < AABBVisibility.size(); ++i) {

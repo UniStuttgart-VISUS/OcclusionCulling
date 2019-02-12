@@ -20,6 +20,8 @@ AABBoxRasterizerOGLST::AABBoxRasterizerOGLST()
 	: AABBoxRasterizerOGL()
 {
 	mpModelIds[0] = mpModelIds[1] = NULL;
+	mpModelIds[0] = new UINT[27025];
+	mpModelIds[1] = new UINT[27025];
 }
 
 AABBoxRasterizerOGLST::~AABBoxRasterizerOGLST()
@@ -81,28 +83,32 @@ void AABBoxRasterizerOGLST::TransformAABBoxAndDepthTestOGL(CPUTCamera *pCamera, 
 	}
 
 	std::vector<UINT> ModelIds;
-	mpModelIds[idx] = new UINT[mNumModels];
+	
+	int NumModels = 0;
+	int current = 0;
 
 	for (UINT i = 0; i < mNumModels; i++)
 	{
 		mpVisible[idx][i] = false;
+		
 
 		if (mpInsideFrustum[idx][i] && !mpTransformedAABBox[i].IsTooSmall(setup, cumulativeMatrix))
 		{
-			ModelIds.push_back(i);
+			//ModelIds.push_back(i);
+			mpModelIds[idx][current++] = i;
+			++NumModels;
 		}
 	}
 
-	mesa->SartOcclusionQueries(ModelIds, mViewMatrix[idx], mProjMatrix[idx], idx);
+	mesa->SartOcclusionQueries(mpModelIds[idx], NumModels, mViewMatrix[idx], mProjMatrix[idx], idx);
 
 	// if all Queries finished, get the results
-	for (int i = 0; i < ModelIds.size(); ++i)
+	for (int i = 0; i < NumModels; ++i)
 	{
 		// invert results to see all occluded objects
-		mpVisible[idx][ModelIds[i]] = mesa->AABBVisibility[i];
+		//mpVisible[idx][ModelIds[i]] = mesa->AABBVisibility[i];
+		mpVisible[idx][mpModelIds[idx][i]] = mesa->AABBVisible[idx][i];
 	}
-
-	delete[] mpModelIds[idx];
 
 	QueryPerformanceCounter(&mStopTime[idx][0]);
 	mDepthTestTime[mTimeCounter++] = ((double)(mStopTime[idx][0].QuadPart - mStartTime[idx][0].QuadPart)) / ((double)glFrequency.QuadPart);
