@@ -14,7 +14,10 @@ GLuint mVertex_buffer, mVertex_shader, mFragment_shader, mProgram;
 GLuint occluder_buffer, occludee_buffer;
 GLint mView_location, mProj_location, mModel_location, mVpos_location, mVcol_location;
 
-GLuint *query = new GLuint[MAXNUMQUERIES];
+GLuint *query;
+GLuint *pQuery[2];
+GLsizei mNumQueries[2];
+GLuint mQueryFinished[2];
 
 // compute shader declarations
 GLuint mCompute_shader;
@@ -135,6 +138,12 @@ OSMesaPipeline::OSMesaPipeline()
 
 	std::cout << "OSMesa OpenGL context " << major << "." << minor << std::endl;
 
+	query = new GLuint[MAXNUMQUERIES];
+	pQuery[0] = new GLuint[MAXNUMQUERIES];
+	pQuery[1] = new GLuint[MAXNUMQUERIES];
+	mQueryFinished[0] = 0;
+	mQueryFinished[1] = 0;
+
 	mVertex_shader = osmesa_glCreateShader(GL_VERTEX_SHADER);
 	osmesa_glShaderSource(mVertex_shader, 1, &vertex_shader_text, NULL);
 	osmesa_glCompileShader(mVertex_shader);
@@ -157,6 +166,8 @@ OSMesaPipeline::OSMesaPipeline()
 	mProj_location = osmesa_glGetUniformLocation(mProgram, "proj");
 
 	osmesa_glGenQueries(MAXNUMQUERIES, query);
+	osmesa_glGenQueries(MAXNUMQUERIES, pQuery[0]);
+	osmesa_glGenQueries(MAXNUMQUERIES, pQuery[1]);
 
 	osmesa_glGenBuffers(1, &occluder_buffer);
 }
@@ -174,6 +185,8 @@ OSMesaPipeline::~OSMesaPipeline()
 	osmesa_glDeleteQueries(MAXNUMQUERIES, query);
 
 	delete[] query;
+	delete[] AABBVisible[0];
+	delete[] AABBVisible[1];
 }
 
 float* OSMesaPipeline::ConvertMatrix(const float4x4 &matrix) {
@@ -219,6 +232,63 @@ void OSMesaPipeline::GatherAllAABBs(const float4 xformedPos[], const float4x4 &w
 
 	mAABBs.insert(mAABBs.end(), vertices.begin(), vertices.end());
 	mWorldMatrices.push_back(world);
+}
+
+/**
+* Starts Occlusion Queries for each AABB from the current occludee set.
+* Tests if bounding boxes pass the depth tests,
+* if yes, set true for visibility, false otherwise
+*/
+void OSMesaPipeline::SartOcclusionQueries(const std::vector<UINT> &ModelIds, const float4x4 &view, const float4x4 &proj, UINT idx) {
+	// only bind needed, since occludees are already uploaded
+	osmesa_glBindBuffer(GL_ARRAY_BUFFER, occludee_buffer);
+
+	osmesa_glEnableVertexAttribArray(mVpos_location);
+	osmesa_glVertexAttribPointer(mVpos_location, 4, GL_FLOAT, GL_FALSE, sizeof(float4), (void*)0);
+
+	mNumQueries[idx] = ModelIds.size();
+	GLuint QueryFinished = 0;
+	AABBVisible[idx] = new bool[MAXNUMQUERIES];
+
+	// disable writing to depth buffer before launching the queries
+	osmesa_glDepthMask(GL_FALSE);
+
+	osmesa_glUniformMatrix4fv(mView_location, 1, GL_FALSE, ConvertMatrix(view));
+	osmesa_glUniformMatrix4fv(mProj_location, 1, GL_FALSE, ConvertMatrix(proj));
+
+	// launch queries
+	for (int i = 0; i < mNumQueries[idx]; ++i) {
+		// also try GL_ANY_SAMPLES_PASSED_CONSERVATIVE (only if some false positives are acceptable)
+		// TESTED: little to no difference
+		osmesa_glBeginQuery(GL_ANY_SAMPLES_PASSED, pQuery[idx][i]);
+
+		// make draw call
+		osmesa_glUniformMatrix4fv(mModel_location, 1, GL_FALSE, ConvertMatrix(mWorldMatrices[ModelIds[i]]));
+		osmesa_glDrawArrays(GL_TRIANGLES, NUMAABBVERTICES * ModelIds[i], NUMAABBVERTICES);
+
+		osmesa_glEndQuery(GL_ANY_SAMPLES_PASSED);
+	}
+
+	// wait until last query result is available
+	// all other queries should be also available by then (as stated in the Khronos spec)
+	while (!QueryFinished) {
+		osmesa_glGetQueryObjectuiv(query[mNumQueries[idx] - 1], GL_QUERY_RESULT_AVAILABLE, &QueryFinished);
+	}
+
+	// get result if last query result is available
+	for (int i = 0; i < mNumQueries[idx]; ++i) {
+		osmesa_glGetQueryObjectuiv(query[i], GL_QUERY_RESULT, (GLuint *)AABBVisible[idx][i]);
+	}
+
+	// enable writing depth buffer again after the queries are finished
+	osmesa_glDepthMask(GL_TRUE);
+
+	delete[] AABBVisible[idx];
+
+	/*int NumVisible = 0;
+	for (int i = 0; i < AABBVisibility.size(); ++i) {
+	if (AABBVisibility[i] == 1) ++NumVisible;
+	}*/
 }
 
 /**

@@ -31,6 +31,7 @@ class AABBoxRasterizerOGLST : public AABBoxRasterizerOGL
 		void ReleaseTaskHandles(UINT idx);
 
 	private:
+		UINT *mpModelIds[2];
 		//bool InitAllOccludees = true;
 };
 
