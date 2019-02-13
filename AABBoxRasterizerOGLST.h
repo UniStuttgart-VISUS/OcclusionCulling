@@ -32,6 +32,8 @@ class AABBoxRasterizerOGLST : public AABBoxRasterizerOGL
 
 	private:
 		UINT *mpModelIds[2];
+		UINT mModelCounts[2];
+		UINT mSwap = 0;
 		//bool InitAllOccludees = true;
 };
 

@@ -135,6 +135,7 @@ void TransformedModelOGL::TransformMeshes(UINT start,
 		for(UINT meshId = 0; meshId < mNumMeshes; meshId++)
 		{		
 			totalNumVertices +=  mpMeshes[meshId].GetNumVertices();
+
 			if(totalNumVertices < start)
 			{
 				continue;

@@ -75,8 +75,6 @@ static const char* vertex_shader_text =
 "{\n"
 "    vec4 temp = (proj * view * model) * vPos;\n"
 "    gl_Position = vec4(temp.x, -temp.y, temp.zw); \n"
-//"    vec4 posNorm = normalize(vPos);\n"
-//"    color = vec3((posNorm.z + 1.f) / 2.f);\n"
 "}\n";
 
 static const char* fragment_shader_text =
@@ -145,6 +143,7 @@ OSMesaPipeline::OSMesaPipeline()
 	AABBVisible[1] = new GLuint[MAXNUMQUERIES];
 	mQueryFinished[0] = 0;
 	mQueryFinished[1] = 0;
+	mVertexStart = 0;
 
 	mVertex_shader = osmesa_glCreateShader(GL_VERTEX_SHADER);
 	osmesa_glShaderSource(mVertex_shader, 1, &vertex_shader_text, NULL);
@@ -189,6 +188,7 @@ OSMesaPipeline::~OSMesaPipeline()
 	delete[] query;
 	delete[] AABBVisible[0];
 	delete[] AABBVisible[1];
+	delete mVertexStart;
 }
 
 float* OSMesaPipeline::ConvertMatrix(const float4x4 &matrix) {
@@ -202,10 +202,12 @@ float* OSMesaPipeline::ConvertMatrix(const float4x4 &matrix) {
 	return mat;
 }
 
-void OSMesaPipeline::UploadOccluder(const std::vector<float4> &occluder) {
+void OSMesaPipeline::UploadOccluder(UINT *VStart) {
 	osmesa_glGenBuffers(1, &occluder_buffer);
 	osmesa_glBindBuffer(GL_ARRAY_BUFFER, occluder_buffer);
-	osmesa_glBufferData(GL_ARRAY_BUFFER, sizeof(float4) * occluder.size(), occluder.data(), GL_STATIC_DRAW);
+	osmesa_glBufferData(GL_ARRAY_BUFFER, sizeof(float4) * mOccluderGeometry.size(), mOccluderGeometry.data(), GL_STATIC_DRAW);
+
+	mVertexStart = VStart;
 }
 
 void OSMesaPipeline::UploadOccludeeAABBs() {
@@ -213,6 +215,12 @@ void OSMesaPipeline::UploadOccludeeAABBs() {
 	osmesa_glBindBuffer(GL_ARRAY_BUFFER, occludee_buffer);
 	osmesa_glBufferData(GL_ARRAY_BUFFER, sizeof(float4) * mAABBs.size(), mAABBs.data(), GL_STATIC_DRAW);
 }
+
+void OSMesaPipeline::GatherAllOccluder(const std::vector<float4> &geo, const float4x4 &world) {
+	mOccluderGeometry.insert(mOccluderGeometry.end(), geo.begin(), geo.end());
+	mWorldMatricesOccluder.push_back(world);
+}
+
 
 /**
 * @param xformedPos  8 vertices of the current AABB
@@ -233,7 +241,7 @@ void OSMesaPipeline::GatherAllAABBs(const float4 xformedPos[], const float4x4 &w
 	}
 
 	mAABBs.insert(mAABBs.end(), vertices.begin(), vertices.end());
-	mWorldMatrices.push_back(world);
+	mWorldMatricesAABB.push_back(world);
 }
 
 /**
@@ -264,7 +272,7 @@ void OSMesaPipeline::SartOcclusionQueries(const UINT ModelIds[], int ModelCount,
 		osmesa_glBeginQuery(GL_ANY_SAMPLES_PASSED, pQuery[idx][i]);
 
 		// make draw call
-		osmesa_glUniformMatrix4fv(mModel_location, 1, GL_FALSE, ConvertMatrix(mWorldMatrices[ModelIds[i]]));
+		osmesa_glUniformMatrix4fv(mModel_location, 1, GL_FALSE, ConvertMatrix(mWorldMatricesAABB[ModelIds[i]]));
 		osmesa_glDrawArrays(GL_TRIANGLES, NUMAABBVERTICES * ModelIds[i], NUMAABBVERTICES);
 
 		osmesa_glEndQuery(GL_ANY_SAMPLES_PASSED);
@@ -272,9 +280,9 @@ void OSMesaPipeline::SartOcclusionQueries(const UINT ModelIds[], int ModelCount,
 
 	// wait until last query result is available
 	// all other queries should be also available by then (as stated in the Khronos spec)
-	while (!QueryFinished) {
-		osmesa_glGetQueryObjectuiv(pQuery[idx][mNumQueries[idx] - 1], GL_QUERY_RESULT_AVAILABLE, &QueryFinished);
-	}
+	//while (!QueryFinished) {
+	//	osmesa_glGetQueryObjectuiv(pQuery[idx][mNumQueries[idx] - 1], GL_QUERY_RESULT_AVAILABLE, &QueryFinished);
+	//}
 
 	// get result if last query result is available
 	for (int i = 0; i < mNumQueries[idx]; ++i) {
@@ -320,7 +328,7 @@ void OSMesaPipeline::SartOcclusionQueries(const std::vector<UINT> &ModelIds, con
 		osmesa_glBeginQuery(GL_ANY_SAMPLES_PASSED, query[i]);
 
 		// make draw call
-		osmesa_glUniformMatrix4fv(mModel_location, 1, GL_FALSE, ConvertMatrix(mWorldMatrices[ModelIds[i]]));
+		osmesa_glUniformMatrix4fv(mModel_location, 1, GL_FALSE, ConvertMatrix(mWorldMatricesAABB[ModelIds[i]]));
 		osmesa_glDrawArrays(GL_TRIANGLES, NUMAABBVERTICES * ModelIds[i], NUMAABBVERTICES);
 
 		osmesa_glEndQuery(GL_ANY_SAMPLES_PASSED);
@@ -404,6 +412,43 @@ void OSMesaPipeline::RasterizeDepthBuffer(const std::vector<float4> &occluder)
 	/*std::vector<float> DBTemp(mWidth*mHeight);
 	osmesa_glReadPixels(0, 0, mWidth, mHeight, GL_DEPTH_COMPONENT, GL_FLOAT, DBTemp.data());
 	float min = *std::min_element(DBTemp.begin(), DBTemp.end());*/
+}
+
+/**
+* Rasterizes the occluder set to the depth buffer
+* @param DBTemp  contains the current and the resulting DepthBuffer
+* @param vertices  contains the whole occluder geometry
+*/
+void OSMesaPipeline::RasterizeDepthBuffer(UINT *OccluderId, const float4x4 &view, const float4x4 &proj, UINT NumModels)
+{
+	osmesa_glBindBuffer(GL_ARRAY_BUFFER, occluder_buffer);
+
+	osmesa_glEnableVertexAttribArray(mVpos_location);
+	osmesa_glVertexAttribPointer(mVpos_location, 4, GL_FLOAT, GL_FALSE, sizeof(float4), (void*)0);
+
+	osmesa_glViewport(0, 0, mWidth, mHeight);
+	osmesa_glClearColor(0.f, 0.f, 0.f, 1.f);
+	osmesa_glClearDepth(1.0);
+	osmesa_glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	osmesa_glDrawBuffer(GL_NONE);
+
+	// if not set, weird artifacts appear for objects from the occludee asset set (castleSmallDecoarations/marketStalls)
+	osmesa_glUniformMatrix4fv(mView_location, 1, GL_FALSE, ConvertMatrix(view));
+	osmesa_glUniformMatrix4fv(mProj_location, 1, GL_FALSE, ConvertMatrix(proj));
+
+	for (int i = 0; i < NumModels; ++i) {
+		int OId = OccluderId[i];
+		int temp = mVertexStart[OId + 1] - mVertexStart[OId];
+		osmesa_glUniformMatrix4fv(mModel_location, 1, GL_FALSE, ConvertMatrix(mWorldMatricesOccluder[OId]));
+		osmesa_glDrawArrays(GL_TRIANGLES, mVertexStart[OId], temp);
+	}
+	
+	/* Swap front and back buffers */
+	// glfwSwapBuffers(window);
+	std::vector<float> DBTemp(mWidth*mHeight);
+	osmesa_glReadPixels(0, 0, mWidth, mHeight, GL_DEPTH_COMPONENT, GL_FLOAT, DBTemp.data());
+	float min = *std::min_element(DBTemp.begin(), DBTemp.end());
 }
 
 void OSMesaPipeline::GetDepthBuffer(float *DBTemp) {

@@ -85,11 +85,6 @@ class TransformedModelOGL : public HelperScalar
 			}
 		}
 
-		std::vector<float4> GetAllXformedPos1()
-		{
-			return mAllVertices1;
-		}
-
 		inline void SetInsideFrustum(bool inFrustum, UINT idx){mInsideViewFrustum[idx] = inFrustum;}
 
 		inline bool IsRasterized2DB(UINT idx)
@@ -102,11 +97,16 @@ class TransformedModelOGL : public HelperScalar
 			mCumulativeMatrix[idx] = mCumulativeMatrix[idx] * proj;
 		}
 
-		FrustumModel &GetFrustumModel() {
-			return mCurrentModel;
+		std::vector<float4> GetAllXformedPos1()
+		{
+			return mAllVertices1;
 		}
-		
-	
+
+		float4x4 &GetWorldMatrix() {
+			return mWorldMatrix;
+		}
+
+
 	private:
 		CPUTModelDX11 *mpCPUTModel;
 		UINT mNumMeshes;
@@ -127,8 +127,7 @@ class TransformedModelOGL : public HelperScalar
 		float4 *mpXformedPos[2];
 
 		std::vector<float4> mAllVertices1;
-		
-		FrustumModel mCurrentModel;
+		std::vector<UINT> mOccluderOffsets;
 };
 
 #endif
