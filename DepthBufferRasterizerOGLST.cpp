@@ -59,6 +59,27 @@ void DepthBufferRasterizerOGLST::TransformModelsAndRasterizeToDepthBufferOGL(CPU
 	QueryPerformanceCounter(&mStartTime[idx]);
 	mpCamera[idx] = pCamera;
 
+	if (mesa->InitAllOccluder)
+		//if(false)
+	{
+		for (UINT i = 0; i < mNumModels1; i++)
+		{
+			UINT thisSurfaceVertexCount = mpTransformedModels1[i].GetNumVertices();
+
+			// set cumulativematrix to mvp without viewport
+			//mpTransformedModels1[i].SetCumulativeMatrix(mpViewMatrix[idx], mpProjMatrix[idx], idx);
+			mpTransformedModels1[i].SetCumulativeMatrix(float4x4Identity(), float4x4Identity(), idx);
+
+			mpTransformedModels1[i].TransformMeshes(0, thisSurfaceVertexCount - 1, mpCamera[idx], idx);
+
+			// gather them all in mesapipeline and manage access via index list
+			mesa->GatherAllOccluder(mpTransformedModels1[i].GetAllXformedPos1(), mpTransformedModels1[i].GetWorldMatrix(), mpTransformedModels1[i].GetNumTriangles());
+		}
+
+		mesa->UploadOccluder(mNumModels1);
+		mesa->InitAllOccluder = false;
+	}
+	
 	BoxTestSetupScalar setup;
 	setup.Init(mpViewMatrix[idx], mpProjMatrix[idx], viewportMatrix, mpCamera[idx], mOccluderSizeThreshold);
 
@@ -68,10 +89,6 @@ void DepthBufferRasterizerOGLST::TransformModelsAndRasterizeToDepthBufferOGL(CPU
 		for (UINT i = 0; i < mNumModels1; i++)
 		{
 			mpTransformedModels1[i].InsideViewFrustum(setup, idx);
-
-			// set cumulativematrix to mvp without viewport
-			//mpTransformedModels1[i].SetCumulativeMatrix(mpViewMatrix[idx], mpProjMatrix[idx], idx);
-			mpTransformedModels1[i].SetCumulativeMatrix(float4x4Identity(), float4x4Identity(), idx);
 		}
 	}
 	else
@@ -82,40 +99,10 @@ void DepthBufferRasterizerOGLST::TransformModelsAndRasterizeToDepthBufferOGL(CPU
 		}
 	}
 
-	if(mesa->InitAllOccluder) 
-	//if(false)
-	{
-		ResetActive(idx);
-
-		// necessary loop
-		for (UINT i = 0; i < mNumModels1; i++)
-		{
-			Activate(i, idx);
-		}
-
-		for (UINT active = 0; active < mNumModelsA[idx]; active++)
-		{
-			UINT ss = mpModelIndexA[idx][active];
-			UINT thisSurfaceVertexCount = mpTransformedModels1[ss].GetNumVertices();
-
-			mpTransformedModels1[ss].TransformMeshes(0, thisSurfaceVertexCount - 1, mpCamera[idx], idx);
-			//std::vector<float4> b = mpTransformedModels1[ss].GetAllXformedPos1();
-			//mAllOccluderxformedPos.insert(mAllOccluderxformedPos.end(), b.begin(), b.end());
-
-			// GatherAllOccluder function just like for Occludees, send .GetAllXformedPos1 and .GetWorldMatrix() in each run,
-			// gather them all in mesapipeline and manage access via index list
-			mesa->GatherAllOccluder(mpTransformedModels1[ss].GetAllXformedPos1(), mpTransformedModels1[ss].GetWorldMatrix());
-		}
-
-		mesa->UploadOccluder(mpStartV1);
-		mesa->InitAllOccluder = false;
-	} 
+	
 
 	ActiveModels(idx);
 	//TransformMeshes(idx);
-
-	// get index list of all active for correct buffer offset
-	// no TransformMeshes(idx) needed anymore, since all occluder are already transformed and uploaded
 
 	// After meshes are transformed, they are rendered to the depth buffer
 	//auto mesa_exec = std::async(std::launch::async, &(OSMesaPipeline::start), Osmesa.get(), mFinalXformedPos);

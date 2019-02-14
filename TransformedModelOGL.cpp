@@ -94,7 +94,6 @@ void TransformedModelOGL::InsideViewFrustum(const BoxTestSetupScalar &setup,
 {
 	mpCPUTModel->GetBoundsWorldSpace(&mBBCenterWS, &mBBHalfWS);
 	mInsideViewFrustum[idx] = setup.mpCamera->mFrustum.IsVisible(mBBCenterWS, mBBHalfWS);
-	//mCurrentModel = FrustumModel(mWorldMatrix, setup.mViewProjViewport, mBBCenterWS, mBBHalfWS);
 
 	if(mInsideViewFrustum[idx])
 	{
@@ -129,8 +128,8 @@ void TransformedModelOGL::TransformMeshes(UINT start,
 {
 	mAllVertices1.clear();
 
-	if(mInsideViewFrustum[idx] && !mTooSmall[idx])
-	{
+	//if(mInsideViewFrustum[idx] && !mTooSmall[idx])
+	//{
 		UINT totalNumVertices = 0;
 		for(UINT meshId = 0; meshId < mNumMeshes; meshId++)
 		{		
@@ -144,7 +143,7 @@ void TransformedModelOGL::TransformMeshes(UINT start,
 			std::vector<float4> b = mpMeshes[meshId].GetAllXformedPos();
 			mAllVertices1.insert(mAllVertices1.end(), b.begin(), b.end());
 		}
-	}
+	//}
 }
 
 //------------------------------------------------------------------------------------

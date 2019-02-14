@@ -143,7 +143,6 @@ OSMesaPipeline::OSMesaPipeline()
 	AABBVisible[1] = new GLuint[MAXNUMQUERIES];
 	mQueryFinished[0] = 0;
 	mQueryFinished[1] = 0;
-	mVertexStart = 0;
 
 	mVertex_shader = osmesa_glCreateShader(GL_VERTEX_SHADER);
 	osmesa_glShaderSource(mVertex_shader, 1, &vertex_shader_text, NULL);
@@ -188,7 +187,6 @@ OSMesaPipeline::~OSMesaPipeline()
 	delete[] query;
 	delete[] AABBVisible[0];
 	delete[] AABBVisible[1];
-	delete mVertexStart;
 }
 
 float* OSMesaPipeline::ConvertMatrix(const float4x4 &matrix) {
@@ -202,12 +200,20 @@ float* OSMesaPipeline::ConvertMatrix(const float4x4 &matrix) {
 	return mat;
 }
 
-void OSMesaPipeline::UploadOccluder(UINT *VStart) {
+void OSMesaPipeline::CalcOccluderOffsets(const UINT NumOffsets) {
+	UINT totaloffset = 0;
+	for (int i = 0; i < NumOffsets; ++i) {
+		mOccluderBufferOffset.push_back(totaloffset);
+		totaloffset += mNumTriangles[i] * 3;
+	}
+}
+
+void OSMesaPipeline::UploadOccluder(const UINT NumModels) {
 	osmesa_glGenBuffers(1, &occluder_buffer);
 	osmesa_glBindBuffer(GL_ARRAY_BUFFER, occluder_buffer);
 	osmesa_glBufferData(GL_ARRAY_BUFFER, sizeof(float4) * mOccluderGeometry.size(), mOccluderGeometry.data(), GL_STATIC_DRAW);
 
-	mVertexStart = VStart;
+	CalcOccluderOffsets(NumModels);
 }
 
 void OSMesaPipeline::UploadOccludeeAABBs() {
@@ -216,9 +222,10 @@ void OSMesaPipeline::UploadOccludeeAABBs() {
 	osmesa_glBufferData(GL_ARRAY_BUFFER, sizeof(float4) * mAABBs.size(), mAABBs.data(), GL_STATIC_DRAW);
 }
 
-void OSMesaPipeline::GatherAllOccluder(const std::vector<float4> &geo, const float4x4 &world) {
+void OSMesaPipeline::GatherAllOccluder(const std::vector<float4> geo, const float4x4 &world, const UINT NumTriangles) {
 	mOccluderGeometry.insert(mOccluderGeometry.end(), geo.begin(), geo.end());
-	mWorldMatricesOccluder.push_back(world);
+	mOccluderWorldMatrices.push_back(world);
+	mNumTriangles.push_back(NumTriangles);
 }
 
 
@@ -433,15 +440,13 @@ void OSMesaPipeline::RasterizeDepthBuffer(UINT *OccluderId, const float4x4 &view
 
 	osmesa_glDrawBuffer(GL_NONE);
 
-	// if not set, weird artifacts appear for objects from the occludee asset set (castleSmallDecoarations/marketStalls)
 	osmesa_glUniformMatrix4fv(mView_location, 1, GL_FALSE, ConvertMatrix(view));
 	osmesa_glUniformMatrix4fv(mProj_location, 1, GL_FALSE, ConvertMatrix(proj));
 
 	for (int i = 0; i < NumModels; ++i) {
 		int OId = OccluderId[i];
-		int temp = mVertexStart[OId + 1] - mVertexStart[OId];
-		osmesa_glUniformMatrix4fv(mModel_location, 1, GL_FALSE, ConvertMatrix(mWorldMatricesOccluder[OId]));
-		osmesa_glDrawArrays(GL_TRIANGLES, mVertexStart[OId], temp);
+		osmesa_glUniformMatrix4fv(mModel_location, 1, GL_FALSE, ConvertMatrix(mOccluderWorldMatrices[OId]));
+		osmesa_glDrawArrays(GL_TRIANGLES, mOccluderBufferOffset[OId], mNumTriangles[OId] * 3);
 	}
 	
 	/* Swap front and back buffers */

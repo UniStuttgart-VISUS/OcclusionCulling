@@ -93,8 +93,9 @@ class TransformedModelOGL : public HelperScalar
 		}
 
 		void SetCumulativeMatrix(const float4x4 &view, const float4x4 &proj, UINT idx) {
-			mCumulativeMatrix[idx] = mWorldMatrix * view;
-			mCumulativeMatrix[idx] = mCumulativeMatrix[idx] * proj;
+			/*mCumulativeMatrix[idx] = mWorldMatrix * view;
+			mCumulativeMatrix[idx] = mCumulativeMatrix[idx] * proj;*/
+			mCumulativeMatrix[idx] = view;
 		}
 
 		std::vector<float4> GetAllXformedPos1()
