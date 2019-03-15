@@ -1,0 +1,397 @@
+\documentclass[journal]{vgtc} 
+\usepackage{hs-vis_ss10}
+
+
+%% Please note that the use of figures other than the optional teaser
+%% is not permitted on the first page of the journal version.  Figures
+%% should begin on the second page and be in CMYK or Grey scale
+%% format, otherwise, colour shifting may occur during the printing
+%% process.  Papers submitted with figures other than the optional
+%% teaser on the first page will be refused.
+
+%% These three lines bring in essential packages: ``mathptmx'' for
+%% Type 1 typefaces, ``graphicx'' for inclusion of EPS figures. and
+%% ``times'' for proper handling of the times font family.
+
+\usepackage{mathptmx} 
+\usepackage{graphicx}
+\usepackage{times}
+
+
+%% allow for this line if you want the electronic option to work
+%% properly
+\vgtcinsertpkg
+
+
+%% author name
+\author{Roy G. Biv}
+
+%% paper title
+\title{Visualisierung von Regenbogenfarben}
+
+%% short title for header
+\shorttitle{Visualisierung von Regenbogenfarben}
+
+
+%% Abstract section.
+\abstract{%
+  Hier sollte eine kurze Zusammenfassung der Ausarbeitung stehen. Der
+  Umfang sollte 150 bis 250 Worte betragen. Duis autem vel eum iriure
+  dolor in hendrerit in vulputate velit esse molestie consequat, vel
+  illum dolore eu feugiat nulla facilisis at vero eros et accumsan et
+  iusto odio dignissim qui blandit praesent luptatum zzril delenit
+  augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit
+  amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod
+  tincidunt ut laoreet dolore magna aliquam erat volutpat.
+
+  Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper
+  suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis
+  autem vel eum iriure dolor in hendrerit in vulputate velit esse
+  molestie consequat, vel illum dolore eu feugiat nulla facilisis at
+  vero eros et accumsan et iusto odio dignissim qui blandit praesent
+  luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
+} % end of abstract
+
+
+%% Uncomment below to include a (optional) teaser figure.
+\teaser{ \centering
+  \includegraphics[width=16cm]{images/CypressView}
+  \caption{In den Wolken: Vancouver von Cypress Mountain. Auf der
+    ersten Seite d"urfen keine Grafiken au"ser dieser optionalen
+    Aufmachgrafik (Teaser) abgebildet sein.}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%% START OF THE PAPER %%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%% The ``\maketitle'' command must be the first command after the
+%% ``\begin{document}'' command. It prepares and prints the title
+%%   block.
+
+%%   the only exception to this rule is the \firstsection command
+\firstsection{Einleitung}
+
+\maketitle
+
+Die Ausarbeitung darf eine L"ange von 6 Seiten nicht unterschreiten
+und 8 Seiten nicht "uberschreiten. Dies beinhaltet Text, Abbildungen
+und Referenzen. Bei Ausarbeitungen mit mehr als 8 Seiten werden nur
+die ersten 8 Seiten zur Bewertung herangezogen. F"ur die Form der
+Ausarbeitung steht auf der Seminarwebseite diese \LaTeX{}-Vorlage
+bereit. Diese Vorlage ist bindend und darf nicht abge"andert
+werden. Abgaben in anderer Form werden nicht akzeptiert.
+
+\section{Instruktionen}
+
+Bitte nachfolgende Abschnitte sorgf"altig durchlesen.
+
+\subsection{Sprache}
+
+Die Ausarbeitung kann entweder auf Deutsch oder Englisch geschrieben
+werden.
+
+\subsection{Abbildungen und Tabellen}
+
+Alle Abbildungen (siehe Abb.\ \ref{fig:sample}) und Tabellen (Tabelle\
+\ref{tab:vis_accept}) sollten zentriert sein
+(\verb|\centering|). Abbildungen "uber beide Textspalten
+(Abb. \ref{fig:multicolumn}) k"onnen mit
+\verb|\begin{figure*}|\ldots\verb|\end{figure*}| eingef"ugt werden.
+
+\subsection{Referenzen}
+
+Literaturangaben wie beispielsweise Levoy \cite{levoy:1989:DSV} werden
+mit Hilfe von BibTeX erzeugt. Dazu werden die Referenzen in die
+Literaturliste (hier \emph{literatur.bib}) eingetragen und
+entsprechend mit \verb|\cite| referenziert.
+
+\subsection{\LaTeX-"Ubersetzung}
+
+Die \LaTeX-Datei kann mit \emph{latex} oder \emph{pdflatex} "ubersetzt
+werden. Dabei ist zu beachten, dass f"ur die "Ubersetzung mit
+\emph{latex} die Grafiken in Postscript (eps) vorliegen, f"ur
+\emph{pdflatex} entsprechend als jpg, png oder pdf.  Der Ablauf ist
+dabei der folgende:
+\begin{enumerate}
+\item \verb|pdflatex <quelldatei.tex>|
+\item \verb|bibtex <quelldatei>|
+\item \verb|pdflatex <quelldatei.tex>| (evtl. mehrfach)
+\end{enumerate}
+Alternativ kann auch das mitgelieferte Makefile verwendet werden.
+
+
+\section{Rendering}
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
+rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
+ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
+sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
+dolore magna aliquyam erat, sed diam
+voluptua~\cite{kitware2003,Max:1995:OMF}. At vero eos et accusam et
+justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
+amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+invidunt ut labore et dolore magna aliquyam erat, sed diam
+voluptua. At vero eos et accusam et justo duo dolores et ea
+rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
+ipsum dolor sit amet.
+
+Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse
+molestie consequat, vel illum dolore eu feugiat nulla facilisis at
+vero eros et accumsan et iusto odio dignissim qui blandit praesent
+luptatum zzril delenit augue duis dolore te feugait nulla
+facilisi~\cite{notes2002}. Lorem ipsum dolor sit amet, consectetuer
+adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
+dolore magna aliquam erat volutpat.
+
+Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper
+suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem
+vel eum iriure dolor in hendrerit in vulputate velit esse molestie
+consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et
+accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
+delenit augue duis dolore te feugait nulla facilisi.
+
+\section{Exposition}
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
+rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
+ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
+sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
+dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
+et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
+amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+invidunt ut labore et dolore magna aliquyam erat, sed diam
+voluptua. At vero eos et accusam et justo duo dolores et ea
+rebum~\cite{ware:2004:IVP}. Stet clita kasd gubergren, no sea takimata
+sanctus est Lorem ipsum dolor sit amet.
+
+Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse
+molestie consequat, vel illum dolore eu feugiat nulla facilisis at
+vero eros et accumsan et iusto odio dignissim qui blandit praesent
+luptatum zzril delenit augue duis dolore te feugait nulla
+facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
+sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna
+aliquam erat volutpat~\cite{kindlmann:1999:SAG}.
+
+Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper
+suscipit lobortis nisl ut aliquip ex ea commodo
+consequat~\cite{levoy:1989:DSV}. Duis autem vel eum iriure dolor in
+hendrerit in vulputate velit esse molestie consequat, vel illum dolore
+eu feugiat nulla facilisis at vero eros et accumsan et iusto odio
+dignissim qui blandit praesent luptatum zzril delenit augue duis
+dolore te feugait nulla facilisi.
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
+rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
+ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
+sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
+dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
+et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
+amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+invidunt ut labore et dolore magna aliquyam erat, sed diam
+voluptua. At vero eos et accusam et justo duo dolores et ea
+rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
+ipsum dolor sit amet.
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
+rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
+ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
+sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
+dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
+et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
+amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+invidunt ut labore et dolore magna aliquyam erat, sed diam
+voluptua. At vero eos et accusam et justo duo dolores et ea
+rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
+ipsum dolor sit amet.
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
+rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
+ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
+sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
+dolore magna aliquyam erat, sed diam voluptua.
+
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=1.5in]{sample}
+  \caption{\label{fig:sample} Beispielillustration.}
+\end{figure}
+
+\begin{equation}
+  \sum_{j=1}^{z} j = \frac{z(z+1)}{2}
+\end{equation}
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
+rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
+ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
+sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
+dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
+et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
+amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+invidunt ut labore et dolore magna aliquyam erat, sed diam
+voluptua. At vero eos et accusam et justo duo dolores et ea
+rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
+ipsum dolor sit amet.
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
+rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
+ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
+sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
+dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
+et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
+amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+invidunt ut labore et dolore magna aliquyam erat, sed diam
+voluptua. At vero eos et accusam et justo duo dolores et ea
+rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
+ipsum dolor sit amet.
+
+\begin{table}
+  %% Table captions on top in journal version
+  \caption{\label{tab:vis_accept} Vis Paper Acceptance Rate}
+  \scriptsize
+  \begin{center}
+    \begin{tabular}{cccc}
+      Year & Submitted & Accepted & Accepted (\%)\\
+      \hline
+      1994 &  91 & 41 & 45.1\\
+      1995 & 102 & 41 & 40.2\\
+      1996 & 101 & 43 & 42.6\\
+      1997 & 117 & 44 & 37.6\\
+      1998 & 118 & 50 & 42.4\\
+      1999 & 129 & 47 & 36.4\\
+      2000 & 151 & 52 & 34.4\\
+      2001 & 152 & 51 & 33.6\\
+      2002 & 172 & 58 & 33.7\\
+      2003 & 192 & 63 & 32.8\\
+      2004 & 167 & 46 & 27.6\\
+      2005 & 268 & 88 & 32.8\\
+      2006 & 228 & 63 & 27.6
+    \end{tabular}
+  \end{center}
+\end{table}
+
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
+rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
+ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
+sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
+dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
+et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+takimata sanctus est Lorem ipsum dolor sit amet.
+
+\begin{figure*}[tb]
+  \centering
+  \includegraphics[width=4cm]{images/foot1}\hfill
+  \includegraphics[width=4cm]{images/foot2}\hfill
+  \includegraphics[width=4cm]{images/foot3}\hfill
+  \includegraphics[width=4cm]{images/foot4}
+  \caption{Illustration "uber beide Textspalten hinweg. Auch
+    Illustrationen m"ussen entsprechend den Quellen gekennzeichnet
+    werden. \cite{strengert2006spectral}}
+  \label{fig:multicolumn}
+\end{figure*}
+
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
+rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
+ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
+sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
+dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
+et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
+amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+invidunt ut labore et dolore magna aliquyam erat, sed diam
+voluptua. At vero eos et accusam et justo duo dolores et ea
+rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
+ipsum dolor sit amet.
+
+
+\subsection{Mezcal Head}
+
+Duis autem~\cite{Lorensen:1987:MCA} vel eum iriure dolor in hendrerit
+in vulputate velit esse molestie consequat, vel illum dolore eu
+feugiat nulla facilisis at vero eros et accumsan et iusto odio
+dignissim qui blandit praesent luptatum zzril delenit augue duis
+dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet,
+consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt
+ut laoreet dolore magna aliquam erat volutpat%
+\footnote{Fu"snoten erscheinen an der Unterkante der Spalte. Sie
+  sollten jedoch vermieden werden, da der Lesefluss gest"ort wird.}.
+
+
+\subsubsection{Ejector Seat Reservation}
+
+Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper
+suscipit lobortis nisl ut aliquip ex ea commodo
+consequat~\cite{Nielson:1991:TAD}. Duis autem vel eum iriure dolor in
+hendrerit in vulputate velit esse molestie consequat, vel illum dolore
+eu feugiat nulla facilisis at vero eros et accumsan et iusto odio
+dignissim qui blandit praesent luptatum zzril delenit augue duis
+dolore te feugait nulla facilisi.
+
+\paragraph{Rejected Ejector Seat Reservation}
+
+Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper
+suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem
+vel eum iriure dolor in hendrerit in vulputate velit esse molestie
+
+\section{Conclusion}
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
+rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
+ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
+sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
+dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
+et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
+amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+invidunt ut labore et dolore magna aliquyam erat, sed diam
+voluptua. At vero eos et accusam et justo duo dolores et ea
+rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
+ipsum dolor sit amet.
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
+rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
+ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
+sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
+dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
+et justo duo dolores et ea rebum.
+
+
+\bibliographystyle{abbrv}
+%% use following if all content of bibtex file should be shown
+% \nocite{*}
+\bibliography{literatur}
+\end{document}

@@ -1,0 +1,86 @@
+Created by Torsten Moeller (vis@cs.sfu.ca), April 6 2004
+modified by Steven Bergner and Torsten Moeller, June 30 2006
+modified by James Peltier and Torsten Moeller, March 28, 2007
+last modified by Martin Falk, March 03, 2010
+
+This distribution provides a document class for formatting papers
+according to the specifications for submission to conferences sponsored by
+the IEEE Visualization & Graphics Technical Committee (VGTC).
+
+The distribution was adapted to the specifications for seminars at
+the Institute for Visualization and Interactive Systems, 
+University of Stuttgart.
+
+It contains thirteen files:
+
+README          - this file
+diamondrule.pdf
+diamondrule.eps - abstract and body separator.
+vislogo.png
+vislogo.eps     - logo of the Institute for Visualization and 
+                  Interactive Systems, University of Stuttgart
+vgtc.cls        - the VGTC class file, which should be placed,
+                  somewhere in the TeX search path
+hs-vis_*.sty    - definitions for current seminar
+template.tex    - an example paper
+literatur.bib   - a small bibliography file used by the example
+sample.jpg
+sample.eps      - an image used by the example paper
+
+template-example.pdf    - an example proper pdf output in default
+                          conference mode
+Makefile     - makefile including bibtex compilation and proper PDF
+                generation
+
+Prior to "building" a paper please be sure to run
+
+  make clean
+
+This will ensure that the paper is built cleanly each and every time. We
+suggest to run this command before each new compilation.
+
+To compile the example, run
+
+  make
+
+or manually, if the makefile does not work for you
+
+  latex template
+  bibtex template
+  latex template
+  latex template
+
+If you run 'make' for the first time, a successful compilation will create
+a file called 'template.pdf'. Please make sure, that its layout is
+identical to the file 'template-journal.pdf' provided with this package.
+
+The included makefile also allows you to run each step of the process
+manually.  Below are a list of available options that may be passed to
+make
+
+ "make clean"
+   removes all files that can be generated automatically.
+
+ "make gs7"
+   This will perform all functions to build a proper paper using GhostScript 7.
+
+ "make gs8"
+   This will perform all functions to build a proper paper using GhostScript 8.
+
+ "make dvi"
+   This will process the .tex file and produce a DVI output file.  This
+   step may process the .tex file several times to process all references
+   and citations.
+
+ "make ps"
+   This will process the .tex file and the DVI output and convert it to a
+   PostScript file.
+
+ "make pdf"
+   This will process the .tex file, the DVI file and the PostScript file
+   and produce the final PDF file.
+
+If you have problems with the makefile please notify us with the output of
+the errors produced when running make and we will work to figure out the
+resolution.
+
