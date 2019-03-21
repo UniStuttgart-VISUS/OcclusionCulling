@@ -1,5 +1,6 @@
 \documentclass[journal]{vgtc} 
 \usepackage{hs-vis_ws1819}
+\usepackage{url}
 
 
 %% Please note that the use of figures other than the optional teaser
@@ -16,9 +17,7 @@
 \usepackage{mathptmx} 
 \usepackage{graphicx}
 \usepackage{times}
-\usepackage[space]{grffile}
-\usepackage{pgfplots}
-\usepackage[font=normalsize,labelfont=bf]{caption}
+
 
 %% allow for this line if you want the electronic option to work
 %% properly
@@ -26,7 +25,7 @@
 
 
 %% author name
-\author{Dominik Sellenthin \and Christian Stegmaier \and Gariharan Kanthasamy}
+\author{Dominik Sellenthin \and Michael Stegmaier \and Gariharan Kanthasamy}
 
 %% paper title
 \title{OpenGL-basiertes Software Occlusion Culling zur Beschleunigung des 3D-Renderings gro{\ss}er Datenmengen und komplexer Szenen}
@@ -37,15 +36,20 @@
 
 %% Abstract section.
 \abstract{%
+
+%%% ÜBERARBEITUNG BENÖTIGT %%%
 In Bereichen des 3D-Rendering, sei es in der wissenschaftlichen Visualisierung oder in Computerspielen, ist die Rechenleistung der Grafikkarte schnell an ihrer Grenze, w"ahrend die CPU kaum in Anspruch genommen wird. Damit die GPU entlastet wird, wird ein Software-Rasterisierer eingesetzt, so dass ein Teil der Berechnungen in einem Vorverarbeitungsschritt auf die CPU ausgelagert wird. Um die vollst"andige Rechenleistung moderner Multi-Core CPUs zu gew"ahrleisten, wird in dieser Arbeit ein bereits vorhandener Rasterierer, Mesa 3D, verwendet, der zus"atzlich die OpenGL API zur Verf"ugung stellt. Ziel des Software-Rasterisierers ist es, komplett parallel zum GPU-Rendering des aktuellen Frames, in zwei Schritten festzustellen, welche Objekte in der kommenden Szene zu sehen sind. Im Wesentlichen gilt es dabei zuerst einen geeigneten Tiefenpuffer zu generieren und anschlie{\ss}end mittels Occlusion Queries alle Objekte zu bestimmen, die noch sichtbar sind (auch Z-Buffering genannt). Das Ergebnis der Occlusion Queries kann nun ohne nennenswerte Latenz verwendet werden, um der GPU mitzuteilen, welche Objekte gerendert werden sollen, so dass unn"otiger Rechenaufwand der GPU vermieden wird (~160).
 } % end of abstract
 
 
 %% Uncomment below to include a (optional) teaser figure.
 \teaser{ \centering
-  \includegraphics[width=16cm]{images/TeaserScene}
-  \caption{Testszene.}
+  \includegraphics[width=\columnwidth]{images/Base1AABB.png}%
+	\includegraphics[width=\columnwidth]{images/Base1Invert.png}%
+	\caption{Links: Testergebnisbild nach einem erfolgreichen Durchlauf der OGL-Methode aus der verwendeten Intel-Testszene. Rote Linien um Objekte stellen die Axis Aligned Bounding Box des jeweiligen Objekts dar. Rechts: Bild aller Objekte, die beim Occlusion Culling als verdeckt klassifiziert wurden und im linken Bild nicht gerendert wurden.}%
+	\label{fig:teaser}
 }
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%% START OF THE PAPER %%%%%%%%%%%%%%%%%%%%%%
@@ -62,90 +66,80 @@ In Bereichen des 3D-Rendering, sei es in der wissenschaftlichen Visualisierung o
 
 \maketitle
 
-Egal, ob im Bereich der wissenschaftlichen Visualisierung oder in anderen 3D-Rendering-Bereichen
+Egal, ob im Bereich der wissenschaftlichen Visualisierung oder in anderen 3D-Rendering-Bereichen, heutige Anwendungen haben immer h"ohere Anspr"uche an die Leistung der Engines(?) und der Wunsch nach besserer Performanz und h"oheren Bildraten (frames per second, FPS) ist gro{\ss}. Hinzukommt, dass in modernen Anwendungen die zu rendernden Szenen immer weniger statisch und immer mehr dynamisch werden, wie es beispielsweise in Computerspielen der Fall ist. Um dieser Dynamik gerecht zu werden, wird sich von Verfahren mit potenziellen Sichtbarkeitsmengen entfernt\cite{MSOC} und es wird sich einer Methode namens \textit{Occlusion Culling} (\textit{to occlude = verdecken, to cull = aussondern, herausfiltern}) bedient. Ziel des Occlusion Cullings ist es, noch vor dem Rendering der n"achsten Szene, herauszufinden, welche Objekte in der kommenden Szene sichtbar sind und welche nicht. Im Wesentlichen gilt es dabei zuerst mit einer ausgew"ahlten Teilmenge der Objekte einen geeigneten Tiefenpuffer (Z-Buffer) zu generieren und darauffolgend mit Hilfe von Occlusion Queries alle Objekte zu bestimmen, die noch sichtbar sind (auch Z-Buffering oder Tiefentest genannt). Das Ergebnis der Occlusion Queries kann anschlie{\ss}end ohne nennenswerte Latenz verwendet werden, um der GPU mitzuteilen, welche Objekte gerendert werden sollen, so dass unn"otiger Rechenaufwand der GPU vermieden wird.
+
+Bei Anwendungen, die ohnehin schon enormen Rechenaufwand ben"otigen und die maximale Rechenkapazit"at der Grafikkarte schnell ausreizen, ist es schwierig den zus"atzlichen Mehraufwand ebenfalls der Grafikkarte aufzuerlegen. Es bietet sich daher an, den Mehraufwand dem wenig genutzten Prozessor zu "ubergeben, der dann komplett parallel zur Grafikkarte das Occlusion Culling in einem Vorverarbeitungsschritt durchf"uhren soll, siehe Abb.\ \ref{fig:ablauf}.
+
+\begin{figure}%
+\includegraphics[width=\columnwidth]{images/Ablauf.PNG}%
+\caption{Prozessor berechnet parallel zum Rendering der Grafikkarte, welche Objekte in der n"achsten Szene zu sehen sind.}%
+\label{fig:ablauf}%
+\end{figure}
+
+Moderne Prozessoren besitzen mittlerweile einige separat nutzbare Kerne, die parallel verwendet werden k"onnen, um das Occlusion Culling so effektiv und effizient wie m"oglich zu implementieren. Damit die gesamte Rechenleistung der Prozessoren auch genutzt wird, wird in dieser Arbeit auf den Software-Rasterisierer Mesa 3D zur"uckgegriffen, der au{\ss}erdem mit der bew"ahrten OpenGL API arbeitet. 
+
+Implementiert wurde die OGL-Methode in einem Software Occlusion Culling (SOC) Framework, das von Intel frei zur Verf"ugung gestellt wird \cite{SOCF}. Das Framework eignet sich sehr gut f"ur die Implementierung einer neuen SOC-Methode, da es sowohl essentielle Ablaufstrukturen als auch eine ausreichend gro{\ss}e und komplexe Testszene zur Verf"ugung stellt, mit der eine Evaluation der OGL-Methode erm"oglicht wird, siehe Abb.\ \ref{fig:teaser} links.
+
 
 \section{Related Work}
+Diese Arbeit orientiert sich stark an Intels SOC-Framework, in das die in dieser Arbeit entwickelte OGL-Methode eingebettet wurde. Da das Framework bereits alle notwendigen Strukturen f"ur schon bestehende Methoden besitzt (siehe Abb.\ \ref{fig:ablaufframework}), gestaltet sich die Erweiterung um eine weitere Methode gr"o{\ss}tenteils unkompliziert. 
+\begin{figure}%
+\includegraphics[width=\columnwidth]{images/AblaufFramework.png}%
+\caption{Verwende gr"o{\ss}tenteils vorhandene Strukturen, um die verwendete Geometrie zu laden. Anschlie{\ss}end erfolgt das Culling durch die neue OGL-Culling-Methode. Zum Schluss wird die nicht gecullte Geometrie an das Framework zur"uckgegeben, damit das Ergebnis gerendert wird.}%
+\label{fig:ablaufframework}%
+\end{figure}
+Hinzukommen lediglich Ver"anderungen der Routinen zum Laden der Testszene und die Implementierung des Cullings selber. Vorhanden sind unter anderem Methoden, die mit \textit{Streaming SIMD Extension} (SSE) und \textit{Intel Advanced Vector Extension} (AVX) arbeiten. Au{\ss}erdem ist noch eine optimierte Variante der AVX-Technik vorhanden, \textit{Masked Software Occlusion Culling} (MSOC) \cite{MSOC}, die mit einer abgewandelten Form des hierarchischen Z-Buffers (HiZ) \cite{HiZ} arbeitet, der durch einen Software-Rasterisierer berechnet wird.
 
-Das Paper \glqq Masked Software Occlusion Culling \grqq{} von Hasselgren et al. implementiert einen neuen Algorithmus zur Berechnung de hierarchischen Z-Buffers in das Intel Occlusion Culling Framework.
-Da heutige Anwendungen immer h"ohere Anspr"uche an die Leistung der Engines stellen wechseln diese von bisherigen Verfahren, wie dem vorherigen berechnen von Mengen die potentiell sichtbar sind, zu Algorithmen die Occluder in einen hierarchischen Z-Buffer rasterisieren.
-Der Z-Buffer wird hierbei mit einem Software Rasterisierer berechnet.
-Anstatt wie bisher alle Drawcalls an die GPU zu schicken kann nun mit dem Z-Buffer auf der CPU berechnet werden ob ein Occludee von einem Occluder verdeckt wird.
-Dadurch kann die Anzahl der Drawcalls an die GPU, unter Verwendung der CPU, verringert werden. In ihrem Paper stellen die Autoren einen Algorithmus vor, der effizient den hierarchischen Z-Buffer berechnen kann und somit die Gesamtperformance entscheidend verbessert.
-Anstatt wie in fr"uheren arbeiten Pixel als kleinste Einheit zu betrachten benutzen die Autoren sogenannte Kacheln. Da AVX2 (Advanced Vector Extensions) es erm"oglicht 8 SIMD Instruktionen mit 32-Bit Pr"azision auszuf"uhren wurde f"ur die Kacheln eine Gr"o\ss{}e von 32x8 Pixeln gew"ahlt.
-Indem Bitmasken von rechts und links in die Kacheln geschoben werden wird am Ende eine Abdeckungsmaske erhalten, die angibt welche Pixel in einer Kachel verdeckt werden.
-W"ahrend ihr Algorithmus keine 100\% Pr"azision garantiert, False Positives sind m"oglich, bewegt sich der Fehler in gleicher Gr"o\ss{}enordnugn wie bei bisherigen Algorithmen.
-Ein wichtiger Faktor f"ur die Performance ihres Algorithmus ist die Reihenfolge in der die Objekte gerendert werden, die Objekte werden von vorne nach hinten gerendert.
-Durch diese Reihenfolge werden die wichtigsten Occluder als erstes dargestellt und f"ur den Fall, dass die Occlusion Culling Time begrenzt ist, wird trotzdem ein nahezu optimales Ergebnis erzielt.
+Hasselgren et al. \cite{MSOC} stellen in ihrer Arbeit einen Algorithmus vor, der durch seinen effizienten HiZ die Performanz signifikant verbessert. Anstatt wie in fr"uheren Arbeiten Pixel als kleinste Einheit zu betrachten, werden nun \textit{Kacheln} verwendet. Kacheln sind dabei lediglich eine Zusammenfassung mehrerer aneinanderliegender Pixel. Da AVX2 erm"oglicht, 8 SIMD Instruktionen mit 32-Bit Pr"azision auszuf"uhren, wurde f"ur die Kacheln eine Gr"o\ss{}e von 32x8 Pixeln gew"ahlt. Indem Bitmasken von rechts und links in die Kacheln geschoben werden, wird am Ende eine Abdeckungsmaske erhalten, die angibt, welche Pixel in einer Kachel verdeckt werden \cite{MSOC}.
+W"ahrend ihr Algorithmus keine 100\% Pr"azision garantiert - \textit{false positives} sind m"oglich - bewegt sich der Fehler in gleicher Gr"o\ss{}enordnung wie bei bisherigen Algorithmen. Ein wichtiger Faktor f"ur die Performanz ihres Algorithmus ist die Reihenfolge, in der die Objekte gerendert werden. Die Objekte sollten bestm"oglichst von vorne nach hinten gerendert werden. Dadurch werden die wichtigsten Occluder als erstes rasterisiert (dargestellt) und f"ur den Fall, dass die Zeit f"ur Occlusion Culling begrenzt ist, wird trotzdem ein nahezu optimales Ergebnis erzielt \cite{MSOC}.
+
+
+
+\section{Software Occlusion Culling}
+Die Menge der Objekte, die es zu Rendern gilt, wird in zwei Mengen aufgeteilt. Zum einen gibt es die Occluder. Occluder sind eine Menge von Objekten, die gro{\ss} genug sind, dass es wahrscheinlich ist, dass sie andere Objekte verdecken. Zum anderen gibt es Occludees. Occludees sind all diejenigen Objekte die potentiell von Occludern verdeckt werden (das hei{\ss}t, sie beinhalten ebenfalls alle Occluder). Sowohl Occluder als auch Occludees liegen dabei in zwei Formen vor. Einmal als Netz bestehend aus Punkten (Mesh), das zur exakten Darstellung des Objekts in der gerenderten Szene dient und einmal in Form einer Axis Aligned Bounding Box (AABB), die sowohl zum Frustumculling als auch zum (Tiefen-)Rasterisieren verwendet wird. AABBs eignen sich wegen ihrer einfachen geometrischen Form sehr gut, um erste grobe Tests durchzuf"uhren, ob ein Objekt "uberhaupt von der Kamera gesehen werden kann (Frustumculling) und dementsprechend f"ur die folgende Rasterisierung beim Occlusion Culling in Frage kommt. Ist die AABB au{\ss}erhalb des Sichtfeldes (Frustum) der Kamera, kann das Objekt ebenfalls nicht sichtbar sein und bereits aus der Menge der zu betrachtenden Objekte genommen werden.
+
+Occlusion Culling besteht im Wesentlichen aus zwei Schritten. Als erstes wird der Tiefenpuffer auf Basis einer Occludermenge beschrieben. Diese Occluder werden in einem ersten Renderingdurchlauf rasterisiert, jedoch ohne die Objekte tats"achlich zu zeichnen, und der Tiefenpuffer wird entsprechend der Occludermenge beschrieben, siehe Abb.\ \ref{fig:db}.
+\begin{figure}%
+\includegraphics[width=0.5\columnwidth]{images/Base1.png}%
+\includegraphics[width=0.5\columnwidth]{images/Base1DB.png}%
+\caption{Links: Testbild der Szene. Rechts: Der dazugeh"orige Tiefenpuffer, der in jedem Frame einmal berechnet wird und sp"ater f"ur die Tiefentests der Occlusion Queries verwendet wird.}%
+\label{fig:db}%
+\end{figure}
+Schritt zwei besteht darin Occlusion Queries durchzuf"uhren. Bei den Occlusion Queries werden die Bounding Boxes aller Occludees gegen den im vorherigen Schritt erstellten Tiefenpuffer getestet und es wird gepr"uft, ob die Occludees den Tiefentest bestehen oder nicht, sprich, ob die Occludees von einem Occluder komplett verdeckt werden oder (teilweise) sichtbar sind.\\
+Unmittelbar vor jedem dieser beiden Schritte wird zus"atzlich noch Frustumculling durchgef"uhrt, um die Menge der zu testenden Objekte bereits im Vorfeld einzuschr"anken und somit weiter an Performanz zu gewinnen. Der grunds"atzliche Ablauf in jedem Frame sieht also wie folgt aus:\\
+
+\begin{minipage}{0.1\textwidth}\end{minipage}\begin{minipage}{0.4\textwidth}Occluder Frustumculling $\rightarrow$ Tiefenpuffer Rasterisierung\\$\rightarrow$ Occludee Frustumculling $\rightarrow$ Occlusion Queries\\$\rightarrow$ Rendern aller passierten Occludees\end{minipage}
+
+
+\subsection{Frustumculling}
+Frustum Culling rendert nur Objekte die sich im Sichtbereich der Kamera befinden und kann somit je nach Kameraposition einen Teil der Objekte cullen.\\
+Vorteil von OC gegen"uber FC (\textbf{ggf bei Ergebnisse}): W"ahrend die Performance des Frustum Cullings sehr konstant bleibt, sind bei den beiden Occlusion Culling Algorithmen gr"o\ss{}ere Schwankungen erkennbar, da ein gro\ss{}er Occluder im Vordergrund potenziell alle Occludees hinter ihm "uberdecken kann und damit die Berechnung stark vereinfacht.\\
+\subsection{Tiefenpuffer Rasterisierung}
+\subsection{Occlusion Queries}
+
+\section{Ergebnisse}
+Daten zur Testszene
 
 Als Basiswert f"ur die Performance des Masked Occlusion Algorithmus (MOC) wurde ein normales Rendering ohne Occlusion Culling, aber mit Frustum Culling verwendet.
-Frustum Culling rendert nur Objekte die sich im Sichtbereich der Kamera befinden und kann somit je nach Kameraposition einen Teil der Objekte cullen.
 Als alternativer Algorithmus wird der \glqq Hierarchical Z Buffer algorithm \grqq{} (HiZ) evaluiert.
-Alles Messungen wurden mit voller Aufl"osung (1920*1080 Pixel) ausgef"uhrt, au\ss{}erdem wurde nur die Single-Core Performance betrachtet.
+Alle Messungen wurden mit voller Aufl"osung (1920*1080 Pixel) ausgef"uhrt, au\ss{}erdem wurde nur die Single-Core Performance betrachtet.
 Der MOC Algorithmus ist im Vergleich zum HiZ Algorithmus etwas vorsichtiger und cullt 2\% weniger Dreiecke, erreicht allerdings trotzdem eine bessere Performance.
 Bei einem ersten Test mit einer kleinen Kamerafahrt im Intel Occlusion Culling Framework wurde die Framezeit, also die Zeit f"ur die Berechnung eines Frames gemessen.
 Szene enth"alt 49k Dreieckige Occluder meshes.
-W"ahrend die Performance des Frustum Cullings sehr konstant bleibt, erkennt man bei den beiden Occlusion Culling Algorithmen gr"o\ss{}ere Schwankungen, da ein gro\ss{}er Occluder im Vordergrund potenziell alle Occludees hinter ihm "uberdecken kann und damit die Berechnung stark vereinfacht.
+
 Mit den Occlusion Culling Algorithmen kann eine 1,5-7x schnellere Total Frame Time erreicht werden.
-Sind die Berechnungen sehr einfach und es k"onnen sehr viele Objekte gecullt werden, ist die Performance von HiZ und MOC sehr gut und fast identisch.
+Sind die Berechnungen sehr einfach und k"onnen sehr viele Objekte gecullt werden, ist die Performance von HiZ und MOC sehr gut und fast identisch.
 Je komplexer die Berechnungen sind und je genauer alle Objekte auf potenzielles culling "uberpr"uft werden m"ussen, desto besser schneidet der MOC Algorithmus ab.
 In einzelnen Frames erreicht er so teilweise eine etwas mehr als doppelt so schneller Total Frame Time.
 In einem zweiten Test wurde eine wesentlich komplexere Szene mit 143k Occluder meshes f"ur die Messung der Daten benutzt.
 Die Occlusion Culling Time des MOC Algorithmus ist ca. 10x so schnell wie die des HiZ Algorithmus.
 Die Autoren halten fest, dass eine 10-fache Beschleunigung durch ihren Algorithmus vermutlich nicht immer angenommen werden kann, ihr Algorithmus jedoch sehr robust gegen"uber komplexen Occluder Strukturen ist.
-Um die Skalierbarkeit des MOC Algorithmus zu testen wurden 32k zuf"allige Occluder Dreiecke mit unterschiedlicher Gr"o\ss{}e erzeugt.
-W"ahrend die Performance bei einer Gr"o\ss{}e der Dreiecke von 10x10 praktisch identisch ist, gewinnt der MOC Algorithmus im Vergleich zum HiZ Algorithmus mit steigende Gr"o\ss{}e der Dreiecke immer mehr an Abstand.
+Um die Skalierbarkeit des MOC Algorithmus zu testen, wurden 32k zuf"allige Occluder Dreiecke mit unterschiedlicher Gr"o\ss{}e erzeugt.
+W"ahrend die Performance bei einer Gr"o\ss{}e der Dreiecke von 10x10 praktisch identisch ist, gewinnt der MOC Algorithmus im Vergleich zum HiZ Algorithmus mit steigender Gr"o\ss{}e der Dreiecke immer mehr an Abstand.
 Als Endergebnis halten sie fest, dass ihr Algorithmus 3x schneller ist als die bisherigen Algorithmen und gleichzeitig nur einen geringen Memory Overhead hat.
-Mit ihrem Algorithmus k"onnen 98\% aller Dreiecke gecullt werden. 
+Mit ihrem Algorithmus k"onnen 98\% aller Dreiecke gecullt werden.
 
 
-
-Intel Paper \cite{hpg.20161189}\\
-SSE, AVX und maskedAVX\\
-
-
-\section{Software Occlusion Culling}
-Die Menge der Objekte, die es zu Rendern gilt, wird in zwei Mengen aufgeteilt. Zum einen gibt es die Occluder. Occluder sind eine Menge von Objekten, die gro\ss{} genug sind, dass es wahrscheinlich ist, dass sie andere Objekte verdecken. Zum anderen gibt es Occludees. Occludees sind all diejenigen Objekte die potentiell von Occludern verdeckt werden (das hei\ss{}t, sie beinhalten ebenfalls alle Occluder). Sowohl Occluder als auch Occludees liegen dabei in zwei Formen vor. Einmal als Mesh, das zur genauen Darstellung des Objekts in der gerenderten Szene dient und einmal in Form einer Axis Aligned Bounding Box (AABB), die sowohl zum Frustumculling als auch zum (Tiefen-)Rasterisieren verwendet wird. AABBs eignen sich wegen ihrer einfachen geometrischen Form sehr gut, um erste (grobe) Tests durchzuführen, ob ein Objekt überhaupt von der Kamera gesehen werden kann (Frustumculling) und dementsprechend für die folgende Rasterisierung beim Culling in Frage kommt.
-
-FrustumCulling bevor jedem Schritt
-
-Occlusion Culling besteht im Wesentlichen aus zwei Schritten. Als erstes wird der Tiefenpuffer auf Basis einer Occludermenge beschrieben. Occluder sind hierbei alle Objekte,  (Occludees). Diese Occluder werden in einem ersten Renderingdurchlauf, allerdings ohne die Objekte zu zeichnen, rasterisiert und der Tiefenpuffer wird entsprechend der Occludermenge beschrieben.\\
-Schritt zwei besteht darin Occlusion Queries durchzuführen. Bei den Occlusion Queries werden die Bounding Boxes aller Occludees gegen den im vorherigen Schritt erstellten Tiefenpuffer getestet und es wird geprüft, ob die Occludees den Tiefentest bestehen oder nicht, sprich, ob die Occludees von einem Occluder verdeckt werden oder sichtbar sind. 
-
-OcclusionQuery
-
-\section{Ergebnisse}
-Das ist ein Testsatz f"ur Ergebnisse.
-\clearpage
-
-\newpage
-\begin{figure}
-	\centering
-	\begin{minipage}{0.5\textwidth}	
-		\includegraphics[width=\textwidth]{images/Evaluation_1_Results_FPS.png}
-		\caption{Frame Number PNG}
-	\end{minipage}
-\end{figure}
-
--
-\newpage
--
-	
-\begin{figure}
-	\begin{minipage}{0.5\textwidth}
-		\input{images/Evaluation_1_Results_FPS.pgf}
-		\caption{Frame Number PGF}
-	\end{minipage}
-\end{figure}
-
-\begin{figure}
-	\begin{minipage}{\textwidth}
-		\includegraphics[width=\textwidth]{images/Evaluation_1_Results_FPS.pdf}
-		\caption{Frame Number PDF}
-	\end{minipage}
-\end{figure}
-
-\newpage
--
 \section{Fazit}
 Das ist ein Testsatz f"ur das Fazit.
 
