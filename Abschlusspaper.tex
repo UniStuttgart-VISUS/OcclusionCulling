@@ -17,6 +17,8 @@
 \usepackage{mathptmx} 
 \usepackage{graphicx}
 \usepackage{times}
+\usepackage[space]{grffile}
+\usepackage{hyperref}
 
 
 %% allow for this line if you want the electronic option to work
@@ -137,8 +139,111 @@ Die Autoren halten fest, dass eine 10-fache Beschleunigung durch ihren Algorithm
 Um die Skalierbarkeit des MOC Algorithmus zu testen, wurden 32k zuf"allige Occluder Dreiecke mit unterschiedlicher Gr"o\ss{}e erzeugt.
 W"ahrend die Performance bei einer Gr"o\ss{}e der Dreiecke von 10x10 praktisch identisch ist, gewinnt der MOC Algorithmus im Vergleich zum HiZ Algorithmus mit steigender Gr"o\ss{}e der Dreiecke immer mehr an Abstand.
 Als Endergebnis halten sie fest, dass ihr Algorithmus 3x schneller ist als die bisherigen Algorithmen und gleichzeitig nur einen geringen Memory Overhead hat.
-Mit ihrem Algorithmus k"onnen 98\% aller Dreiecke gecullt werden.
+Mit ihrem Algorithmus k"onnen 98\% aller Dreiecke gecullt werden.\\
 
+\begin{figure}
+	\begin{minipage}{0.5\textwidth}
+		\includegraphics[width=0.5\textwidth]{images/Evaluation_1_Results_FPS.pdf}
+		\includegraphics[width=0.5\textwidth]{images/Evaluation_1_Results_Percentage culled.pdf}
+		\includegraphics[width=0.5\textwidth]{images/Evaluation_1_Results_Draw Calls.pdf}
+		\includegraphics[width=0.5\textwidth]{images/Evaluation_1_Results_Culling time.pdf}
+		\caption{Vergleich der 5 verschiedenen Varianten}
+		\label{fig:performance_all_5}
+	\end{minipage}
+\end{figure}
+
+\begin{table}
+	\begin{tabular}{| l | r | r | r | r | r |}
+		\hline
+		                   & Scalar  & SSE     & AVX      & Masked    & OGL      \\ \hline
+		FPS                & 24.21   & 29.30   & 26.21    & 22.12     & 3.63     \\ \hline
+		Tries culled (\%)  & 43.97   & 43.88   & 43.85    & 40.41     & 43.81    \\ \hline
+		Drawcalls          & 8299    & 8442    & 8471     & 10529     & 8514     \\ \hline
+		Culling t (ms)     & 11.30   & 4.24    & 3.73     & 1.99      & 292.60   \\ \hline
+		Depth Test t (ms)  & 6.90    & 1.59    & 1.72     & 1.45      & 228.38   \\ \hline
+		Rasterizer t (ms)  & 4.36    & 2.65    & 2.01     & 2.01      & 64.21    \\ 
+		\hline
+	\end{tabular}
+	\caption{Vergleich der 5 verschiedenen Varianten}
+	\label{tbl:performance_all_5}
+\end{table}
+
+Unsere Ergebnisse wurden mit dem Intel-Occlusion-Culling-Framework berechnet und verwenden die dortige Testszene einer Burg.
+Die Burg hat 115 Occluder mit 48700 Dreiecken und 27025  Occludee Model mit $\approx$ 1923000 Dreiecken.
+Unsere Ergebnisse wurden, sofern nicht anders angeben, mit einer Kamerafahrt "uber 100 Frames erstellt.
+Der Tiefenbuffer ist standardm"a"sig auf 1920x1080 Pixel gesetzt.
+Die Kamera startet mit Blick auf die Burg aus einiger Entfernung und fliegt auf die Burg zu.
+An der Burg angekommen dreht sich die Kamera Richtung Boden und entfernt sich anschlie"send wieder von der Burg.
+Die Anzahl der Objekte im Sichtfeld ist am Anfang sehr hoch, sinkt in der Mitte der Kamerafahrt ab und steigt am Ende wieder auf den Startwert.
+Als Hardware wurde ein Rechner mit einem Intel Core i9-7900X, einer NVIDIA Titan Xp und 64 GB RAM verwendet.
+
+In \autoref{fig:performance_all_5} ist die Leistung der 4 verschiedenen Occlusion Culling Methoden im Intel-Framework im Vergleich zu unserer eigenen Implementierung (OGL) zu sehen.
+Die Durchschnittswerte sind in \autoref{tbl:performance_all_5} zu sehen.
+Die Anzahl der gecullten Elemente und die Anzahl der Drawcalls ist bei allen Methoden sehr "ahnlich.
+Nur das Masked Occlusion Culling cullt $\approx$ 3,5 \% weniger und f"uhrt deswegen mehr Drawcalls aus.
+
+\begin{figure}
+	\begin{minipage}{0.5\textwidth}
+		\includegraphics[width=0.5\textwidth]{images/Evaluation_4_Results_FPS.pdf}
+		\includegraphics[width=0.5\textwidth]{images/Evaluation_4_Results_Percentage culled.pdf}
+		\includegraphics[width=0.5\textwidth]{images/Evaluation_4_Results_Draw Calls.pdf}
+		\includegraphics[width=0.5\textwidth]{images/Evaluation_4_Results_Culling time.pdf}
+		\caption{OGL mit unterschiedlicher Aufl"osung des Tiefenbuffers}
+		\label{fig:different_resolutions}
+	\end{minipage}
+\end{figure}
+
+\begin{table}
+	\begin{tabular}{| l | r | r | r | r | r |}
+		\hline
+		& 320x192   & 640x360   & 1280x720  & 1920x1080 & 2432x1440 \\ \hline
+		FPS                & 6.03      & 5.35      & 4.53      & 3.59      & 3.47      \\ \hline
+		Tries culled (\%)  & 51.88     & 47.65     & 44.69     & 43.81     & 48.55     \\ \hline
+		Draw Calls         & 3640      & 5759      & 7725      & 8515      & 7920      \\ \hline
+		Culling t (ms)     & 171.02    & 188.8     & 223.72    & 295.06    & 312.97    \\ \hline
+		Depth Test t (ms)  & 108.86    & 125.27    & 160.27    & 231.08    & 249.05    \\ \hline
+		Rasterizer t (ms)  & 62.15     & 63.53     & 63.46     & 63.97     & 63.92     \\
+		\hline
+	\end{tabular}
+	\caption{OGL mit unterschiedlicher Aufl"osung des Tiefenbuffers}
+	\label{tbl:different_resolutions}
+\end{table}
+
+In \autoref{fig:different_resolutions} wurde unser Programm mit f"unf unterschiedlichen Aufl"osungen des Tiefenbuffers ausgef"uhrt.
+Je niedriger die Aufl"osung ist, desto h"ohere Frameraten k"onnen erreicht werden.
+Betrachtet man die Werte aus \autoref{tbl:different_resolutions} stellt man fest, dass durch die niedrige Aufl"osung  beim Culling und beim Tiefentest Zeit gespart werden kann.\\
+
+
+Evaluation 1: alle 5, Kamerafahrt 1\\
+Evaluation 2: alle 5, Kamerafahrt 2\\
+Evaluation 3: alle 5, DB\_Very\_Large vs DB\_Small\\
+Evaluation 4: OGL, alle 5 Aufl"osungen\\
+Evaluation 5: OGL, mit und ohne Frustum culling\\
+Evaluation 6: alle 5 + OGL ohne Mesa\\
+Evaluation 7: OGL + SSE, MT / MT + Frustum Culling / MT + Frustum Culling + Depth Test Culling\\
+Evaluation 8: OGL + SSE, Depth Test Tasks 5 / 20 / 100
+
+\begin{figure}
+	\begin{minipage}{0.5\textwidth}
+		\includegraphics[width=0.5\textwidth]{images/Evaluation_5_Results_FPS.pdf}
+		\includegraphics[width=0.5\textwidth]{images/Evaluation_5_Results_Percentage culled.pdf}
+		\includegraphics[width=0.5\textwidth]{images/Evaluation_5_Results_Draw Calls.pdf}
+		\includegraphics[width=0.5\textwidth]{images/Evaluation_5_Results_Culling time.pdf}
+		\caption{OGL mit und ohne Frustum Culling}
+		\label{fig:performance_frustum}
+	\end{minipage}
+\end{figure}
+
+\begin{figure}
+	\begin{minipage}{0.5\textwidth}
+		\includegraphics[width=0.5\textwidth]{images/Evaluation_6_Results_FPS.pdf}
+		\includegraphics[width=0.5\textwidth]{images/Evaluation_6_Results_Percentage culled.pdf}
+		\includegraphics[width=0.5\textwidth]{images/Evaluation_6_Results_Draw Calls.pdf}
+		\includegraphics[width=0.5\textwidth]{images/Evaluation_6_Results_Culling time.pdf}
+		\caption{Vergleich der 5 verschiedenen Varianten + OGL ohne OSMesa}
+		\label{fig:performance_OSMesa}
+	\end{minipage}
+\end{figure}
 
 \section{Fazit}
 Das ist ein Testsatz f"ur das Fazit.

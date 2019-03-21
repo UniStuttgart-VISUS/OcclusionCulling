@@ -1,3 +1,46 @@
-This is BibTeX, Version 0.99dThe top-level auxiliary file: Abschlusspaper.aux
+This is BibTeX, Version 0.99d (TeX Live 2018/W32TeX)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: Abschlusspaper.aux
 The style file: abbrv.bst
 Database file #1: literatur.bib
+You've used 3 entries,
+            2118 wiz_defined-function locations,
+            519 strings with 4365 characters,
+and the built_in function-call counts, 1212 in all, are:
+= -- 114
+> -- 72
+< -- 1
++ -- 27
+- -- 24
+* -- 79
+:= -- 202
+add.period$ -- 11
+call.type$ -- 3
+change.case$ -- 20
+chr.to.int$ -- 0
+cite$ -- 3
+duplicate$ -- 44
+empty$ -- 93
+format.name$ -- 24
+if$ -- 261
+int.to.chr$ -- 0
+int.to.str$ -- 3
+missing$ -- 2
+newline$ -- 18
+num.names$ -- 8
+pop$ -- 30
+preamble$ -- 1
+purify$ -- 17
+quote$ -- 0
+skip$ -- 32
+stack$ -- 0
+substring$ -- 47
+swap$ -- 14
+text.length$ -- 1
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 12
+warning$ -- 0
+while$ -- 10
+width$ -- 4
+write$ -- 35

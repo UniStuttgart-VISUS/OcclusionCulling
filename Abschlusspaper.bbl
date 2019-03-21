@@ -1,6 +1,19 @@
 \begin{thebibliography}{1}
 
-\bibitem{hpg.20161189}
+\bibitem{SOCF}
+C.~Chandrasekaran, D.~Mcnabb, K.~Kiefer, M.~Fauconneau, and F.~Giesen.
+\newblock Software occlusion culling.
+\newblock
+  \url{https://software.intel.com/en-us/articles/software-occlusion-culling},
+  2013-2016.
+
+\bibitem{HiZ}
+N.~Greene, M.~Kass, and G.~Miller.
+\newblock Hierarchical z-buffer visibility.
+\newblock In {\em Proceedings of the 20th annual conference on Computer
+  graphics and interactive techniques}, pages 231--238. ACM, 1993.
+
+\bibitem{MSOC}
 J.~Hasselgren, M.~Andersson, and T.~Akenine-M"oller.
 \newblock {Masked Software Occlusion Culling}.
 \newblock In U.~Assarsson and W.~Hunt, editors, {\em Eurographics/ ACM SIGGRAPH
