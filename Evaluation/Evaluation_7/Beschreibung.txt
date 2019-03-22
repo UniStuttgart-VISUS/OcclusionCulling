@@ -1,0 +1,12 @@
+Evaluation_7
+
+SSE
+OGL
+
+- Standardwerte
+- Kamerafahrt 1
+- MT / MT + Frustum Culling / MT + Frustum Culling + Depth Test Culling
+
+Output: 
+- FPS.pdf
+- Percentage culled.pdf

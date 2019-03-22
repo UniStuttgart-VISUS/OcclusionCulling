@@ -1,0 +1,11 @@
+Evaluation_5
+
+OGL
+
+- Standardwerte
+- Kamerafahrt 1
+- mit und ohne Frustum Culling
+
+Output: 
+- FPS.pdf
+- Percentage culled.pdf

@@ -1,0 +1,11 @@
+Evaluation_4
+
+OGL
+
+- Standardwerte
+- Kamerafahrt 1
+- Alle 5 Auflösungen
+
+Output: 
+- FPS.pdf
+- Percentage culled.pdf

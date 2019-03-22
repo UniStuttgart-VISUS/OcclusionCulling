@@ -1,0 +1,14 @@
+Evaluation_2
+
+Scalar
+SSE
+AVX
+Masked
+OGL
+
+- Standardwerte
+- Kamerafahrt 2
+
+Output: 
+- FPS.pdf
+- Percentage culled.pdf

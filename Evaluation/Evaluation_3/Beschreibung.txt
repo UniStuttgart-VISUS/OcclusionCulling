@@ -1,0 +1,21 @@
+Evaluation_3
+
+Scalar
+SSE
+AVX
+Masked
+OGL
+
+- Standardwerte
+- Kamerafahrt 1
+- DB_Very_LARGE vs DB_SMALL
+
+1) Select DB_Very_Large
+2) run Evaluation_3_1.bat
+3) Select DB_Small
+4) run Evaluation_3_2.bat
+6) run Evaluation_3_3.bat
+
+Output: 
+- FPS.pdf
+- Percentage culled.pdf

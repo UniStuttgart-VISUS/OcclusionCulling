@@ -1,0 +1,9 @@
+\hline
+                   & SCALAR    & SSE       & AVX       & Masked    & OGL       \\ \hline
+FPS                & 24.21     & 29.3      & 26.21     & 22.12     & 3.63      \\ \hline
+Tries culled (\%)  & 43.97     & 43.88     & 43.85     & 40.41     & 43.81     \\ \hline
+Draw Calls         & 8299      & 8442      & 8471      & 10529     & 8515      \\ \hline
+Culling t (ms)     & 11.3      & 4.24      & 3.73      & 1.99      & 292.6     \\ \hline
+Depth Test t (ms)  & 6.93      & 1.59      & 1.72      & 1.45      & 228.38    \\ \hline
+Rasterizer t (ms)  & 4.36      & 2.65      & 2.01      & 0.54      & 64.21     \\
+\hline
