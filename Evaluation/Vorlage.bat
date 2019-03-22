@@ -1,6 +1,7 @@
 SET currentEvaluationPath=%~dp0
-SET evaluationPath=%currentEvaluationPath:~0,-13%
-SET cullingPath=%currentEvaluationPath:~0,-25%
+::SET evaluationPath=%currentEvaluationPath:~0,-13%
+::SET cullingPath=%currentEvaluationPath:~0,-25%
+SET cullingPath=%currentEvaluationPath:~0,-11%
 SET evaluationNr=Evaluation_4
 
 SET evaluationName=OGL_0
@@ -25,7 +26,7 @@ SET framesForEvaluation=100             &:: default: 0          Values: [int]
 SET DBResolution=3                      &:: default: 3          Values: [0-5]
 
 START /WAIT /D %cullingPath% OcclusionCullingD.exe -type %type% -depthBuffer %depthBuffer% -culling %culling% -frustumCulling %frustumCulling% -boundingBox %boundingBox% -multithreading %multithreading% -pipeline %pipeline% -camera %cameraPosX% %cameraPosY% %cameraPosZ% %cameraLookX% %cameraLookY% %cameraLookZ% -occluderSizeThreshold %occluderSizeThreshold% -occludeeSizeThreshold %occludeeSizeThreshold% -depthTestTasks %depthTestTasks% -cameraTour %cameraTour% -DBResolution %DBResolution% -evaluationName %evaluationName% -evaluationNr %evaluationNr% -framesForEvaluation %framesForEvaluation%
-python %evaluationPath%/create_diagram_for_value.py %evaluationName% %currentEvaluationPath% %framesForEvaluation% %*
+::python %evaluationPath%/create_diagram_for_value.py %evaluationName% %currentEvaluationPath% %framesForEvaluation% %*
 
 :: SET evaluation=OGL_0 OGL_1 "OGL_0"
 :: SET output=%evaluationNr%_Results
