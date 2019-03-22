@@ -22,6 +22,7 @@ SET occludeeSizeThreshold=0.01          &:: default: 0.01       Values: [0.0 - 0
 SET depthTestTasks=20                   &:: default: 20         Values: [1 - 50]
 SET cameraTour=1                        &:: default: 0          Values: [1]
 SET framesForEvaluation=100             &:: default: 0          Values: [int]
+SET DBResolution=3                      &:: default: 3          Values: [0-4]
 
 START /WAIT /D %cullingPath% OcclusionCullingD.exe -type %type% -depthBuffer %depthBuffer% -culling %culling% -frustumCulling %frustumCulling% -boundingBox %boundingBox% -multithreading %multithreading% -pipeline %pipeline% -camera %cameraPosX% %cameraPosY% %cameraPosZ% %cameraLookX% %cameraLookY% %cameraLookZ% -occluderSizeThreshold %occluderSizeThreshold% -occludeeSizeThreshold %occludeeSizeThreshold% -depthTestTasks %depthTestTasks% -cameraTour %cameraTour% -DBResolution %DBResolution% -evaluationName %evaluationName% -evaluationNr %evaluationNr% -framesForEvaluation %framesForEvaluation%
 python %evaluationPath%/create_diagram_for_value.py %evaluationName% %currentEvaluationPath% %framesForEvaluation% %*
@@ -48,6 +49,7 @@ SET occludeeSizeThreshold=0.01          &:: default: 0.01       Values: [0.0 - 0
 SET depthTestTasks=20                   &:: default: 20         Values: [1 - 50]
 SET cameraTour=1                        &:: default: 0          Values: [1]
 SET framesForEvaluation=100             &:: default: 0          Values: [int]
+SET DBResolution=3                      &:: default: 3          Values: [0-4]
 
 START /WAIT /D %cullingPath% OcclusionCullingD.exe -type %type% -depthBuffer %depthBuffer% -culling %culling% -frustumCulling %frustumCulling% -boundingBox %boundingBox% -multithreading %multithreading% -pipeline %pipeline% -camera %cameraPosX% %cameraPosY% %cameraPosZ% %cameraLookX% %cameraLookY% %cameraLookZ% -occluderSizeThreshold %occluderSizeThreshold% -occludeeSizeThreshold %occludeeSizeThreshold% -depthTestTasks %depthTestTasks% -cameraTour %cameraTour% -DBResolution %DBResolution% -evaluationName %evaluationName% -evaluationNr %evaluationNr% -framesForEvaluation %framesForEvaluation%
 python %evaluationPath%/create_diagram_for_value.py %evaluationName% %currentEvaluationPath% %framesForEvaluation% %*
@@ -74,6 +76,7 @@ SET occludeeSizeThreshold=0.01          &:: default: 0.01       Values: [0.0 - 0
 SET depthTestTasks=20                   &:: default: 20         Values: [1 - 50]
 SET cameraTour=1                        &:: default: 0          Values: [1]
 SET framesForEvaluation=100             &:: default: 0          Values: [int]
+SET DBResolution=3                      &:: default: 3          Values: [0-4]
 
 START /WAIT /D %cullingPath% OcclusionCullingD.exe -type %type% -depthBuffer %depthBuffer% -culling %culling% -frustumCulling %frustumCulling% -boundingBox %boundingBox% -multithreading %multithreading% -pipeline %pipeline% -camera %cameraPosX% %cameraPosY% %cameraPosZ% %cameraLookX% %cameraLookY% %cameraLookZ% -occluderSizeThreshold %occluderSizeThreshold% -occludeeSizeThreshold %occludeeSizeThreshold% -depthTestTasks %depthTestTasks% -cameraTour %cameraTour% -DBResolution %DBResolution% -evaluationName %evaluationName% -evaluationNr %evaluationNr% -framesForEvaluation %framesForEvaluation%
 python %evaluationPath%/create_diagram_for_value.py %evaluationName% %currentEvaluationPath% %framesForEvaluation% %*
@@ -100,6 +103,7 @@ SET occludeeSizeThreshold=0.01          &:: default: 0.01       Values: [0.0 - 0
 SET depthTestTasks=20                   &:: default: 20         Values: [1 - 50]
 SET cameraTour=1                        &:: default: 0          Values: [1]
 SET framesForEvaluation=100             &:: default: 0          Values: [int]
+SET DBResolution=3                      &:: default: 3          Values: [0-4]
 
 START /WAIT /D %cullingPath% OcclusionCullingD.exe -type %type% -depthBuffer %depthBuffer% -culling %culling% -frustumCulling %frustumCulling% -boundingBox %boundingBox% -multithreading %multithreading% -pipeline %pipeline% -camera %cameraPosX% %cameraPosY% %cameraPosZ% %cameraLookX% %cameraLookY% %cameraLookZ% -occluderSizeThreshold %occluderSizeThreshold% -occludeeSizeThreshold %occludeeSizeThreshold% -depthTestTasks %depthTestTasks% -cameraTour %cameraTour% -DBResolution %DBResolution% -evaluationName %evaluationName% -evaluationNr %evaluationNr% -framesForEvaluation %framesForEvaluation%
 python %evaluationPath%/create_diagram_for_value.py %evaluationName% %currentEvaluationPath% %framesForEvaluation% %*
@@ -126,6 +130,7 @@ SET occludeeSizeThreshold=0.01          &:: default: 0.01       Values: [0.0 - 0
 SET depthTestTasks=20                   &:: default: 20         Values: [1 - 50]
 SET cameraTour=1                        &:: default: 0          Values: [1]
 SET framesForEvaluation=100             &:: default: 0          Values: [int]
+SET DBResolution=3                      &:: default: 3          Values: [0-4]
 
 START /WAIT /D %cullingPath% OcclusionCullingD.exe -type %type% -depthBuffer %depthBuffer% -culling %culling% -frustumCulling %frustumCulling% -boundingBox %boundingBox% -multithreading %multithreading% -pipeline %pipeline% -camera %cameraPosX% %cameraPosY% %cameraPosZ% %cameraLookX% %cameraLookY% %cameraLookZ% -occluderSizeThreshold %occluderSizeThreshold% -occludeeSizeThreshold %occludeeSizeThreshold% -depthTestTasks %depthTestTasks% -cameraTour %cameraTour% -DBResolution %DBResolution% -evaluationName %evaluationName% -evaluationNr %evaluationNr% -framesForEvaluation %framesForEvaluation%
 python %evaluationPath%/create_diagram_for_value.py %evaluationName% %currentEvaluationPath% %framesForEvaluation% %*

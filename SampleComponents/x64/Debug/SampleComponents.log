@@ -1,4 +1,9 @@
-﻿  SampleComponents.vcxproj -> C:\Users\chris\Projekt-Inf\OcclusionCulling\x64\Debug\SampleComponents.lib
+﻿  DynamicTaskMgrBase.cpp
+  TaskMgrCRT.cpp
+  TaskMgrSS.cpp
+  TaskMgrTBB.cpp
+  TaskScheduler.cpp
+  SampleComponents.vcxproj -> C:\Users\chris\Projekt-Inf\OcclusionCulling\x64\Debug\SampleComponents.lib
   C:\Users\chris\Projekt-Inf\OcclusionCulling\SampleComponents\Middleware\TBB\bin\x64\v141\tbb_debug.dll
   1 File(s) copied
   C:\Users\chris\Projekt-Inf\OcclusionCulling\SampleComponents\Middleware\TBB\bin\x64\v141\tbb_debug.pdb
