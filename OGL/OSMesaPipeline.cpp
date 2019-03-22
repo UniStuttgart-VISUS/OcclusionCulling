@@ -363,16 +363,34 @@ void OSMesaPipeline::SartOcclusionQueries(const UINT ModelIds[], int ModelCount,
 	osmesa_glUniformMatrix4fv(mProj_location, 1, GL_FALSE, ConvertMatrix(proj));
 
 	// launch queries
+	//int NumLaunched = 0;
+	//int PackSize = 5;
+	//int Cnt = 0;
+	//while (NumLaunched < mNumQueries[idx]) {
+	//	// also try GL_ANY_SAMPLES_PASSED_CONSERVATIVE (only if some false positives are acceptable)
+	//	// TESTED: little to no difference
+	//	osmesa_glBeginQuery(GL_ANY_SAMPLES_PASSED, pQuery[idx][Cnt]);
+
+	//	// make draw call
+	//	osmesa_glUniformMatrix4fv(mModel_location, 1, GL_FALSE, ConvertMatrix(mWorldMatricesAABB[ModelIds[Cnt]]));
+	//	osmesa_glDrawArrays(GL_TRIANGLES, NUMAABBVERTICES * ModelIds[NumLaunched], NUMAABBVERTICES * PackSize);
+
+	//	osmesa_glEndQuery(GL_ANY_SAMPLES_PASSED);
+
+	//	++Cnt;
+	//	NumLaunched += PackSize;
+	//}
+
 	for (int i = 0; i < mNumQueries[idx]; ++i) {
-		// also try GL_ANY_SAMPLES_PASSED_CONSERVATIVE (only if some false positives are acceptable)
-		// TESTED: little to no difference
-		osmesa_glBeginQuery(GL_ANY_SAMPLES_PASSED, pQuery[idx][i]);
+			// also try GL_ANY_SAMPLES_PASSED_CONSERVATIVE (only if some false positives are acceptable)
+			// TESTED: little to no difference
+			osmesa_glBeginQuery(GL_ANY_SAMPLES_PASSED, pQuery[idx][i]);
 
-		// make draw call
-		osmesa_glUniformMatrix4fv(mModel_location, 1, GL_FALSE, ConvertMatrix(mWorldMatricesAABB[ModelIds[i]]));
-		osmesa_glDrawArrays(GL_TRIANGLES, NUMAABBVERTICES * ModelIds[i], NUMAABBVERTICES);
+			// make draw call
+			osmesa_glUniformMatrix4fv(mModel_location, 1, GL_FALSE, ConvertMatrix(mWorldMatricesAABB[ModelIds[i]]));
+			osmesa_glDrawArrays(GL_TRIANGLES, NUMAABBVERTICES * ModelIds[i], NUMAABBVERTICES);
 
-		osmesa_glEndQuery(GL_ANY_SAMPLES_PASSED);
+			osmesa_glEndQuery(GL_ANY_SAMPLES_PASSED);
 	}
 
 	static bool first_frame = true;
@@ -391,6 +409,10 @@ void OSMesaPipeline::SartOcclusionQueries(const UINT ModelIds[], int ModelCount,
 	}*/
 	
 	// get result if last query result is available
+	/*for (int i = 0; i < Cnt; ++i) {
+		osmesa_glGetQueryObjectuiv(pQuery[inverted_idx][i], GL_QUERY_RESULT, &AABBVisible[inverted_idx][i]);
+	}*/
+
 	for (int i = 0; i < mNumQueries[inverted_idx]; ++i) {
 		osmesa_glGetQueryObjectuiv(pQuery[inverted_idx][i], GL_QUERY_RESULT, &AABBVisible[inverted_idx][i]);
 	}

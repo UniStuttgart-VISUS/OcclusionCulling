@@ -111,6 +111,23 @@ void AABBoxRasterizerOGLST::TransformAABBoxAndDepthTestOGL(CPUTCamera *pCamera, 
 		mpVisible[idx][mpModelIds[!mSwap][i]] = mesa->AABBVisible[!mSwap][i];
 	}
 
+	/*for (int i = 0; i < floor(mModelCounts[!mSwap] / 5.f); ++i)
+	{
+		// invert results to see all occluded objects
+		//mpVisible[idx][ModelIds[i]] = mesa->AABBVisibility[i];
+		//mpVisible[idx][mpModelIds[!mSwap][i]] = mesa->AABBVisible[!mSwap][i];
+		if (mesa->AABBVisible[!mSwap][i] == true) {
+			for (int j = 0; j < 5; ++j) {
+				mpVisible[idx][mpModelIds[!mSwap][5 * i + j]] = true;
+			}
+		}
+		else {
+			for (int j = 0; j < 5; ++j) {
+				mpVisible[idx][mpModelIds[!mSwap][5 * i + j]] = false;
+			}
+		}
+	}*/
+
 	mSwap = !mSwap;
 
 	QueryPerformanceCounter(&mStopTime[idx][0]);
