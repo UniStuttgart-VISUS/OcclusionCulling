@@ -109,7 +109,6 @@ void AABBoxRasterizerOGLST::TransformAABBoxAndDepthTestOGL(CPUTCamera *pCamera, 
 		// invert results to see all occluded objects
 		//mpVisible[idx][ModelIds[i]] = mesa->AABBVisibility[i];
 		mpVisible[idx][mpModelIds[!mSwap][i]] = mesa->AABBVisible[!mSwap][i];
-		//mpVisible[idx][mpModelIds[!mSwap][i]] = mesa->AABBVisible[mSwap][i];
 	}
 
 	mSwap = !mSwap;

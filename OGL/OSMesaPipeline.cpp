@@ -380,7 +380,7 @@ void OSMesaPipeline::SartOcclusionQueries(const UINT ModelIds[], int ModelCount,
 	// wait until last query result is available
 	// all other queries should be also available by then (as stated in the Khronos spec)
 	UINT inverted_idx = (idx + 1) % 2;
-	if (!first_frame) {
+	/*if (!first_frame) {
 		while (!QueryFinished) {
 			osmesa_glGetQueryObjectuiv(pQuery[inverted_idx][mNumQueries[inverted_idx] - 1], GL_QUERY_RESULT_AVAILABLE, &QueryFinished);
 		}
@@ -388,11 +388,11 @@ void OSMesaPipeline::SartOcclusionQueries(const UINT ModelIds[], int ModelCount,
 	else
 	{
 		first_frame = false;
-	}
+	}*/
 	
 	// get result if last query result is available
 	for (int i = 0; i < mNumQueries[inverted_idx]; ++i) {
-		osmesa_glGetQueryObjectuiv(pQuery[inverted_idx][i], GL_QUERY_RESULT, &AABBVisible[idx][i]);
+		osmesa_glGetQueryObjectuiv(pQuery[inverted_idx][i], GL_QUERY_RESULT, &AABBVisible[inverted_idx][i]);
 	}
 
 	// enable writing depth buffer again after the queries are finished
