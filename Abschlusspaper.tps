@@ -11,14 +11,14 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=1834
-NormalPos.bottom=987
+NormalPos.right=1831
+NormalPos.bottom=777
 Class=LaTeXView
 Document=Abschlusspaper.tex
 
 [Frame0_View0,0]
-TopLine=28
-Cursor=2874
+TopLine=112
+Cursor=10059
 
 [SessionInfo]
 FrameCount=1
