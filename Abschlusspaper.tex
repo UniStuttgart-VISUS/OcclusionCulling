@@ -95,6 +95,9 @@ Hinzukommen lediglich Ver"anderungen der Routinen zum Laden der Testszene und di
 Hasselgren et al. \cite{MSOC} stellen in ihrer Arbeit einen Algorithmus vor, der durch seinen effizienten HiZ die Performanz signifikant verbessert. Anstatt wie in fr"uheren Arbeiten Pixel als kleinste Einheit zu betrachten, werden nun \textit{Kacheln} verwendet. Kacheln sind dabei lediglich eine Zusammenfassung mehrerer aneinanderliegender Pixel. Da AVX2 erm"oglicht, 8 SIMD Instruktionen mit 32-Bit Pr"azision auszuf"uhren, wurde f"ur die Kacheln eine Gr"o\ss{}e von 32x8 Pixeln gew"ahlt. Indem Bitmasken von rechts und links in die Kacheln geschoben werden, wird am Ende eine Abdeckungsmaske erhalten, die angibt, welche Pixel in einer Kachel verdeckt werden \cite{MSOC}.
 W"ahrend ihr Algorithmus keine 100\% Pr"azision garantiert - \textit{false positives} sind m"oglich - bewegt sich der Fehler in gleicher Gr"o\ss{}enordnung wie bei bisherigen Algorithmen. Ein wichtiger Faktor f"ur die Performanz ihres Algorithmus ist die Reihenfolge, in der die Objekte gerendert werden. Die Objekte sollten bestm"oglichst von vorne nach hinten gerendert werden. Dadurch werden die wichtigsten Occluder als erstes rasterisiert (dargestellt) und f"ur den Fall, dass die Zeit f"ur Occlusion Culling begrenzt ist, wird trotzdem ein nahezu optimales Ergebnis erzielt \cite{MSOC}.
 
+Bei einem Vergleich zwischen einem HiZ-Algorithmus und dem MSOC - bei voller Aufl"osung (1920*1080 Pixel) und Single-Core Performanz - geht hervor, dass der MSOC-Algorithmus 2\% weniger Dreiecke als der HiZ wegwirft, aber dennoch eine bessere Performanz erzielt. Mit beiden Occlusion Culling Algorithmen kann eine 1,5-7x schnellere Total Frame Time gegen"uber Rendering mit nur Frustumculling erreicht werden. In einem zweiten Test in einer wesentlich komplexeren Szene mit 143k Occluder-Meshes ist die Occlusion Culling Time des MSOC-Algorithmus zeitweise bis zu 10x schneller als die des HiZ-Algorithmus. Die Skalierbarkeit des MSOC is der des HiZ deutlich "uberlegen. Mit steigender Gr"o"se der Dreiecke steigt auch der Performanzunterschied zwischen dem MSOC und dem HiZ. Im Allgemeinen soll der MSOC-Algorithmus 3x schneller sein und gleichzeitig 98\% aller Dreiecke wegwerfen als die bisherigen Algorithmen bei einem nur geringen Memory Overhead.
+
+
 
 \section{Software Occlusion Culling}
 Die Menge der Objekte, die es zu Rendern gilt, wird in zwei Mengen aufgeteilt. Zum einen gibt es die \textit{Occluder}. Occluder sind eine Menge von Objekten, die gro{\ss} genug sind, dass es wahrscheinlich ist, dass sie andere Objekte verdecken. Zum anderen gibt es \textit{Occludees}. Occludees sind all diejenigen Objekte die potenziell von Occludern verdeckt werden (das hei{\ss}t, sie beinhalten ebenfalls alle Occluder).
@@ -137,30 +140,22 @@ Alle Occluder, die nach dem Frustumculling als sichtbar markiert sind, werden in
 An dieser Stelle sei erw"ahnt, dass die gesamte Occludeemenge zu Beginn des Programms einmal hochgeladen wurde (wohin?) und im Programm selber nur via Indexlisten zugegriffen wird, so dass zus"atzliche Ladezeiten vermieden werden. Die Realisierung der Occlusion Queries gestaltet sich durch die von der OpenGL API zur Verf"ugung gestellten \textit{glQuery} sehr unkompliziert. Zu Anfang werden f"ur alle Occludees, die innerhalb des Frustums sind, eine Occlusion Query gestartet. Die Occludees werden wie die Occluder rasterisiert, allerdings wird in diesem Schritt der Tiefenpuffer nicht "uberschrieben, sondern es wird ausschlie{\ss}lich getestet, ob der Tiefenwert des Occludees kleiner als der des Tiefenpuffers ist. Die Occlusion Query testet also, ob ein Teil des Occludees bei einem potenziellen Renderdurchlauf sichtbar w"are. In diesem Fall liefert die Occlusion Query \glqq true\grqq{} zur"uck, andernfalls \glqq false\grqq{}. Nachdem alle Occlusion Queries ihre Berechnungen beendet haben, werden zum Schluss alle Ergebnisse abgefragt und an das Framework f"ur den weiteren Renderingverlauf weitergeleitet.
 
 
-
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%% ERGEBNISSE %%%%%
+%%%%%%%%%%%%%%%%%%%%%%
 \section{Ergebnisse}
-Daten zur Testszene
 Probleme mit Occlusion Queries (lange Wartezeit bei Ergebnis holen), meiste Zeit in OQ --> Performanceverlust
 
+Die dokumentierten Ergebnisse wurden mit dem SOC-Framework von Intel berechnet und verwenden die dortige Testszene einer Burg beziehungsweise eines Markplatzes, siehe Abb.\ \ref{fig:teaser}. Die Burg umfasst 115 Occluder mit 48700 Dreiecken und 27025  Occludees mit $\approx$ 1923000 Dreiecken. Sofern nicht anders angeben, wurden s"amtliche Ergebnisse mit einer Kamerafahrt, wie sie in Abb.\ \ref{fig:fahrt} angedeutet ist, "uber 100 Frames erstellt.
+\begin{figure}%
+\includegraphics[width=0.33\columnwidth]{images/Tour1.png}%
+\includegraphics[width=0.33\columnwidth]{images/Tour2.png}%
+\includegraphics[width=0.33\columnwidth]{images/Tour3.png}%
+\caption{Links: Startposition der Kamerafahrt. Mitte: n"ahert sich in einem Kreisbogen der Br"ucke an. Rechts: Die Kamera verl"asst die Szene in gleichem Bogen, wie sie sich angen"ahert hat.}%
+\label{fig:fahrt}%
+\end{figure}
+Der Tiefenpuffer ist standardm"a"sig auf eine Aufl"osung von 1920x1080 Pixel gesetzt. Die Kamera startet mit Blick auf die Burg aus einiger Entfernung und fliegt auf die Burg zu. An der Burg angekommen dreht sich die Kamera in Richtung Boden und entfernt sich anschlie"send wieder von der Burg. Die Anzahl der Objekte im Sichtfeld ist am Anfang sehr hoch, sinkt in der Mitte der Kamerafahrt ab und steigt am Ende wieder auf den Startwert. Als Hardware wurde ein Rechner mit einem Intel Core i9-7900X, einer NVIDIA Titan Xp und 64 GB RAM verwendet.
 
-Als Basiswert f"ur die Performance des Masked Occlusion Algorithmus (MOC) wurde ein normales Rendering ohne Occlusion Culling, aber mit Frustum Culling verwendet.
-Als alternativer Algorithmus wird der \glqq Hierarchical Z Buffer algorithm \grqq{} (HiZ) evaluiert.
-Alle Messungen wurden mit voller Aufl"osung (1920*1080 Pixel) ausgef"uhrt, au\ss{}erdem wurde nur die Single-Core Performance betrachtet.
-Der MOC Algorithmus ist im Vergleich zum HiZ Algorithmus etwas vorsichtiger und cullt 2\% weniger Dreiecke, erreicht allerdings trotzdem eine bessere Performance.
-Bei einem ersten Test mit einer kleinen Kamerafahrt im Intel Occlusion Culling Framework wurde die Framezeit, also die Zeit f"ur die Berechnung eines Frames gemessen.
-Szene enth"alt 49k Dreieckige Occluder meshes.
-
-Mit den Occlusion Culling Algorithmen kann eine 1,5-7x schnellere Total Frame Time erreicht werden.
-Sind die Berechnungen sehr einfach und k"onnen sehr viele Objekte gecullt werden, ist die Performance von HiZ und MOC sehr gut und fast identisch.
-Je komplexer die Berechnungen sind und je genauer alle Objekte auf potenzielles culling "uberpr"uft werden m"ussen, desto besser schneidet der MOC Algorithmus ab.
-In einzelnen Frames erreicht er so teilweise eine etwas mehr als doppelt so schneller Total Frame Time.
-In einem zweiten Test wurde eine wesentlich komplexere Szene mit 143k Occluder meshes f"ur die Messung der Daten benutzt.
-Die Occlusion Culling Time des MOC Algorithmus ist ca. 10x so schnell wie die des HiZ Algorithmus.
-Die Autoren halten fest, dass eine 10-fache Beschleunigung durch ihren Algorithmus vermutlich nicht immer angenommen werden kann, ihr Algorithmus jedoch sehr robust gegen"uber komplexen Occluder Strukturen ist.
-Um die Skalierbarkeit des MOC Algorithmus zu testen, wurden 32k zuf"allige Occluder Dreiecke mit unterschiedlicher Gr"o\ss{}e erzeugt.
-W"ahrend die Performance bei einer Gr"o\ss{}e der Dreiecke von 10x10 praktisch identisch ist, gewinnt der MOC Algorithmus im Vergleich zum HiZ Algorithmus mit steigender Gr"o\ss{}e der Dreiecke immer mehr an Abstand.
-Als Endergebnis halten sie fest, dass ihr Algorithmus 3x schneller ist als die bisherigen Algorithmen und gleichzeitig nur einen geringen Memory Overhead hat.
-Mit ihrem Algorithmus k"onnen 98\% aller Dreiecke gecullt werden.\\
 
 \begin{figure}
 	\begin{minipage}{0.5\textwidth}
@@ -189,14 +184,6 @@ Mit ihrem Algorithmus k"onnen 98\% aller Dreiecke gecullt werden.\\
 	\label{tbl:performance_all_5}
 \end{table}
 
-Unsere Ergebnisse wurden mit dem Intel-Occlusion-Culling-Framework berechnet und verwenden die dortige Testszene einer Burg.
-Die Burg hat 115 Occluder mit 48700 Dreiecken und 27025  Occludee Model mit $\approx$ 1923000 Dreiecken.
-Unsere Ergebnisse wurden, sofern nicht anders angeben, mit einer Kamerafahrt "uber 100 Frames erstellt.
-Der Tiefenbuffer ist standardm"a"sig auf 1920x1080 Pixel gesetzt.
-Die Kamera startet mit Blick auf die Burg aus einiger Entfernung und fliegt auf die Burg zu.
-An der Burg angekommen dreht sich die Kamera Richtung Boden und entfernt sich anschlie"send wieder von der Burg.
-Die Anzahl der Objekte im Sichtfeld ist am Anfang sehr hoch, sinkt in der Mitte der Kamerafahrt ab und steigt am Ende wieder auf den Startwert.
-Als Hardware wurde ein Rechner mit einem Intel Core i9-7900X, einer NVIDIA Titan Xp und 64 GB RAM verwendet.
 
 In \autoref{fig:performance_all_5} ist die Leistung der 4 verschiedenen Occlusion Culling Methoden im Intel-Framework im Vergleich zu unserer eigenen Implementierung (OGL) zu sehen.
 Die Durchschnittswerte sind in \autoref{tbl:performance_all_5} zu sehen.
@@ -266,8 +253,16 @@ Evaluation 8: OGL + SSE, Depth Test Tasks 5 / 20 / 100
 	\end{minipage}
 \end{figure}
 
+
+
+
+
 \section{Fazit}
 Das ist ein Testsatz f"ur das Fazit.
+
+\section{Future Work}
+Occludee zu Paketen schn"uren und als Paket hochladen. Ziel ist es, weniger Occlusion Queries bei gleichem Ergebnis zu generieren und dadurch an Performance zu gewinnen.
+Auswahl der Occludee, die zu einem Paket zusammengeschn"urt werden ist dabei von gro"ser Wichtigkeit und entscheidend f"r das Ergebnis, sowohl im Hinblick auf die Performance, als auch auf die Korrektheit des Ergebnisses (werden alle Occludee angezeigt, die sichtbar sind oder fehlen offensichtliche Objekte in der Szene).
 
 \bibliographystyle{abbrv} 
 %% use following if all content of bibtex file should be shown
