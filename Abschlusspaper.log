@@ -1,14 +1,16 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6840 64-bit) (preloaded format=pdflatex 2018.10.24)  22 MAR 2019 18:03
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018/W32TeX) (preloaded format=pdflatex 2019.2.19)  22 MAR 2019 18:10
 entering extended mode
-**./Abschlusspaper.tex
-(Abschlusspaper.tex
-LaTeX2e <2018-04-01> patch level 5
-(vgtc.cls
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**Abschlusspaper.tex
+(./Abschlusspaper.tex
+LaTeX2e <2018-12-01>
+(./vgtc.cls
 Document Class: vgtc 2010/03/03 VIS Hauptseminar, University of Stuttgart
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\article.cls"
-Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\size10.clo"
-File: size10.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
+(c:/texlive/2018/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2018/09/03 v1.4i Standard LaTeX document class
+(c:/texlive/2018/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2018/09/03 v1.4i Standard LaTeX file (size option)
 )
 \c@part=\count80
 \c@section=\count81
@@ -21,24 +23,26 @@ File: size10.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
 \abovecaptionskip=\skip41
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
-) ("C:\Program Files\MiKTeX 2.9\tex\latex\base\inputenc.sty"
-Package: inputenc 2018/04/06 v1.3b Input encoding file
+)
+(c:/texlive/2018/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2018/08/11 v1.3c Input encoding file
 \inpenc@prehook=\toks14
 \inpenc@posthook=\toks15
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\latin1.def"
-File: latin1.def 2018/04/06 v1.3b Input encoding file
-)) ("C:\Program Files\MiKTeX 2.9\tex\latex\base\fontenc.sty"
-Package: fontenc 2017/04/05 v2.0i Standard LaTeX package
+(c:/texlive/2018/texmf-dist/tex/latex/base/latin1.def
+File: latin1.def 2018/08/11 v1.3c Input encoding file
+))
+(c:/texlive/2018/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2018/08/11 v2.0j Standard LaTeX package
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\t1enc.def"
-File: t1enc.def 2017/04/05 v2.0i Standard LaTeX file
+(c:/texlive/2018/texmf-dist/tex/latex/base/t1enc.def
+File: t1enc.def 2018/08/11 v2.0j Standard LaTeX file
 LaTeX Font Info:    Redeclaring font encoding T1 on input line 48.
 ))
-(C:\Users\sellendk\AppData\Roaming\MiKTeX\2.9\tex\generic\german\ngerman.sty v2.5e 1998-07-08
+(c:/texlive/2018/texmf-dist/tex/generic/german/ngerman.sty v2.5e 1998-07-08
 Package: ngerman 1998/07/08 v2.5e Support for writing german texts (br)
 \grmnU@D=\dimen103
-ngerman -- \language number for naustrian undefined, default 45 used.
+ngerman -- \language number for naustrian undefined, default 33 used.
 )
 \captionmargin=\skip43
 \bibindent=\dimen104
@@ -47,12 +51,12 @@ ngerman -- \language number for naustrian undefined, default 45 used.
 \teaserspace=\skip45
 \abstxtspace=\skip46
 \vgtc@copyrightlength=\skip47
-) (hs-vis_ws1819.sty)
-(C:\Users\sellendk\AppData\Roaming\MiKTeX\2.9\tex\latex\url\url.sty
+)
+(./hs-vis_ws1819.sty) (c:/texlive/2018/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip10
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\mathptmx.sty"
+(c:/texlive/2018/texmf-dist/tex/latex/psnfss/mathptmx.sty
 Package: mathptmx 2005/04/12 PSNFSS-v9.2a Times w/ Math, improved (SPQR, WaS) 
 LaTeX Font Info:    Redeclaring symbol font `operators' on input line 28.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
@@ -88,54 +92,58 @@ LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
 (Font)                  OT1/cmr/bx/it --> OT1/ptm/m/it on input line 35.
 LaTeX Info: Redefining \hbar on input line 50.
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
+(c:/texlive/2018/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
+(c:/texlive/2018/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks16
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
+(c:/texlive/2018/texmf-dist/tex/latex/graphics/graphics.sty
 Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
- ("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+
+(c:/texlive/2018/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
-) ("C:\Program Files\MiKTeX 2.9\tex\latex\graphics-cfg\graphics.cfg"
+)
+(c:/texlive/2018/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 99.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics-def\pdftex.def"
+(c:/texlive/2018/texmf-dist/tex/latex/graphics-def/pdftex.def
 File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
 ))
 \Gin@req@height=\dimen106
 \Gin@req@width=\dimen107
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\times.sty"
+(c:/texlive/2018/texmf-dist/tex/latex/psnfss/times.sty
 Package: times 2005/04/12 PSNFSS-v9.2a (SPQR) 
-) ("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\grffile.sty"
+)
+(c:/texlive/2018/texmf-dist/tex/latex/oberdiek/grffile.sty
 Package: grffile 2017/06/30 v1.18 Extended file name support for graphics (HO)
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ifpdf.sty"
+
+(c:/texlive/2018/texmf-dist/tex/generic/oberdiek/ifpdf.sty
 Package: ifpdf 2018/09/07 v3.3 Provides the ifpdf switch
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\ifxetex\ifxetex.sty"
+(c:/texlive/2018/texmf-dist/tex/generic/ifxetex/ifxetex.sty
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\kvoptions.sty"
+(c:/texlive/2018/texmf-dist/tex/latex/oberdiek/kvoptions.sty
 Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
+(c:/texlive/2018/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
 Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\kvsetkeys.sty"
+(c:/texlive/2018/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
 Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
+(c:/texlive/2018/texmf-dist/tex/generic/oberdiek/infwarerr.sty
 Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\etexcmds.sty"
+(c:/texlive/2018/texmf-dist/tex/generic/oberdiek/etexcmds.sty
 Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ifluatex.sty"
+(c:/texlive/2018/texmf-dist/tex/generic/oberdiek/ifluatex.sty
 Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
 Package ifluatex Info: LuaTeX not detected.
 )
@@ -144,8 +152,9 @@ Package etexcmds Info: Could not find \expanded.
 (etexcmds)             that some package has redefined \expanded.
 (etexcmds)             In the latter case, load this package earlier.
 )))
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\pdftexcmds.sty"
-Package: pdftexcmds 2018/09/10 v0.29 Utility functions of pdfTeX for LuaTeX (HO)
+(c:/texlive/2018/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2018/09/10 v0.29 Utility functions of pdfTeX for LuaTeX (HO
+)
 Package pdftexcmds Info: LuaTeX not detected.
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
@@ -156,13 +165,14 @@ Package grffile Info: Option `extendedchars' is set to `false'.
 Package grffile Info: Option `space' is set to `true'.
 Package grffile Info: \Gin@ii of package `graphicx' fixed on input line 494.
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\hyperref.sty"
-Package: hyperref 2018/09/30 v6.88a Hypertext links for LaTeX
+(c:/texlive/2018/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2018/11/30 v6.88e Hypertext links for LaTeX
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\hobsub-hyperref.sty"
+(c:/texlive/2018/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
 Package: hobsub-hyperref 2016/05/16 v1.14 Bundle oberdiek, subset hyperref (HO)
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\hobsub-generic.sty"
+
+(c:/texlive/2018/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty
 Package: hobsub-generic 2016/05/16 v1.14 Bundle oberdiek, subset generic (HO)
 Package: hobsub 2016/05/16 v1.14 Construct package bundles (HO)
 Package hobsub Info: Skipping package `infwarerr' (already loaded).
@@ -177,7 +187,8 @@ Package hobsub Info: Skipping package `kvsetkeys' (already loaded).
 Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
 Package hobsub Info: Skipping package `pdftexcmds' (already loaded).
 Package: pdfescape 2016/05/16 v1.14 Implements pdfTeX's escape features (HO)
-Package: bigintcalc 2016/05/16 v1.4 Expandable calculations on big integers (HO)
+Package: bigintcalc 2016/05/16 v1.4 Expandable calculations on big integers (HO
+)
 Package: bitset 2016/05/16 v1.2 Handle bit-vector datatype (HO)
 Package: uniquecounter 2016/05/16 v1.3 Provide unlimited unique counter (HO)
 )
@@ -191,62 +202,64 @@ Package: atbegshi 2016/06/09 v1.18 At begin shipout hook (HO)
 Package: refcount 2016/05/16 v3.5 Data extraction from label references (HO)
 Package: hycolor 2016/05/16 v1.8 Color options for hyperref/bookmark (HO)
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\auxhook.sty"
+(c:/texlive/2018/texmf-dist/tex/latex/oberdiek/auxhook.sty
 Package: auxhook 2016/05/16 v1.4 Hooks for auxiliary files (HO)
 )
 \@linkdim=\dimen108
 \Hy@linkcounter=\count88
 \Hy@pagecounter=\count89
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\pd1enc.def"
-File: pd1enc.def 2018/09/30 v6.88a Hyperref: PDFDocEncoding definition (HO)
+(c:/texlive/2018/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2018/11/30 v6.88e Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
 )
 \Hy@SavedSpaceFactor=\count90
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\hyperref.cfg"
+(c:/texlive/2018/texmf-dist/tex/latex/latexconfig/hyperref.cfg
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
 )
-Package hyperref Info: Hyper figures OFF on input line 4535.
-Package hyperref Info: Link nesting OFF on input line 4540.
-Package hyperref Info: Hyper index ON on input line 4543.
-Package hyperref Info: Plain pages OFF on input line 4550.
-Package hyperref Info: Backreferencing OFF on input line 4555.
+Package hyperref Info: Hyper figures OFF on input line 4519.
+Package hyperref Info: Link nesting OFF on input line 4524.
+Package hyperref Info: Hyper index ON on input line 4527.
+Package hyperref Info: Plain pages OFF on input line 4534.
+Package hyperref Info: Backreferencing OFF on input line 4539.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
-Package hyperref Info: Bookmarks ON on input line 4788.
+Package hyperref Info: Bookmarks ON on input line 4772.
 \c@Hy@tempcnt=\count91
-LaTeX Info: Redefining \url on input line 5141.
+LaTeX Info: Redefining \url on input line 5125.
 \XeTeXLinkMargin=\dimen109
 \Fld@menulength=\count92
 \Field@Width=\dimen110
 \Fld@charsize=\dimen111
-Package hyperref Info: Hyper figures OFF on input line 6396.
-Package hyperref Info: Link nesting OFF on input line 6401.
-Package hyperref Info: Hyper index ON on input line 6404.
-Package hyperref Info: backreferencing OFF on input line 6411.
-Package hyperref Info: Link coloring OFF on input line 6416.
-Package hyperref Info: Link coloring with OCG OFF on input line 6421.
-Package hyperref Info: PDF/A mode OFF on input line 6426.
-LaTeX Info: Redefining \ref on input line 6466.
-LaTeX Info: Redefining \pageref on input line 6470.
+Package hyperref Info: Hyper figures OFF on input line 6380.
+Package hyperref Info: Link nesting OFF on input line 6385.
+Package hyperref Info: Hyper index ON on input line 6388.
+Package hyperref Info: backreferencing OFF on input line 6395.
+Package hyperref Info: Link coloring OFF on input line 6400.
+Package hyperref Info: Link coloring with OCG OFF on input line 6405.
+Package hyperref Info: PDF/A mode OFF on input line 6410.
+LaTeX Info: Redefining \ref on input line 6450.
+LaTeX Info: Redefining \pageref on input line 6454.
 \Hy@abspage=\count93
 \c@Item=\count94
 \c@Hfootnote=\count95
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\hpdftex.def"
-File: hpdftex.def 2018/09/30 v6.88a Hyperref driver for pdfTeX
+(c:/texlive/2018/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2018/11/30 v6.88e Hyperref driver for pdfTeX
 \Fld@listcount=\count96
 \c@bookmark@seq@number=\count97
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\rerunfilecheck.sty"
+(c:/texlive/2018/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
 Package: rerunfilecheck 2016/05/16 v1.8 Rerun checks for auxiliary files (HO)
-Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 282.
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+82.
 )
 \Hy@SectionHShift=\skip48
-) (Abschlusspaper.aux)
+)
+(./Abschlusspaper.aux)
 \openout1 = `Abschlusspaper.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 60.
@@ -264,17 +277,16 @@ LaTeX Font Info:    ... okay on input line 60.
 LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 60.
 LaTeX Font Info:    ... okay on input line 60.
 LaTeX Font Info:    Try loading font information for T1+ptm on input line 60.
-
-("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\t1ptm.fd"
+ (c:/texlive/2018/texmf-dist/tex/latex/psnfss/t1ptm.fd
 File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
 )
 \big@size=\dimen112
 
-(C:\Users\sellendk\AppData\Roaming\MiKTeX\2.9\tex\context\base\supp-pdf.mkii
+(c:/texlive/2018/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count98
 \scratchdimen=\dimen113
-\scratchbox=\box26
+\scratchbox=\box27
 \nofMPsegments=\count99
 \nofMParguments=\count100
 \everyMPshowfont=\toks17
@@ -283,24 +295,30 @@ File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
 \MPnumerator=\count102
 \makeMPintoPDFobject=\count103
 \everyMPtoPDFconversion=\toks18
-) ("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\epstopdf-base.sty"
+) (c:/texlive/2018/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\grfext.sty"
+(c:/texlive/2018/texmf-dist/tex/latex/oberdiek/grfext.sty
 Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
 )
-Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 438.
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+38.
 Package grfext Info: Graphics extension search list:
-(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps]
+(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 456.
-)
-\AtBeginShipoutBox=\box27
+
+(c:/texlive/2018/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+\AtBeginShipoutBox=\box28
 Package hyperref Info: Link coloring OFF on input line 60.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
+(c:/texlive/2018/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\gettitlestring.sty"
+(c:/texlive/2018/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count104
@@ -308,34 +326,43 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 60.
 LaTeX Info: Redefining \pageref on input line 60.
 LaTeX Info: Redefining \nameref on input line 60.
- (Abschlusspaper.out) (Abschlusspaper.out)
+
+(./Abschlusspaper.out) (./Abschlusspaper.out)
 \@outlinefile=\write3
 \openout3 = `Abschlusspaper.out'.
 
 LaTeX Font Info:    Try loading font information for T1+phv on input line 70.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\t1phv.fd"
+(c:/texlive/2018/texmf-dist/tex/latex/psnfss/t1phv.fd
 File: t1phv.fd 2001/06/04 scalable font definitions for T1/phv.
 )
-LaTeX Font Info:    Try loading font information for OT1+ztmcm on input line 70.
- ("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\ot1ztmcm.fd"
+LaTeX Font Info:    Try loading font information for OT1+ztmcm on input line 70
+.
+
+(c:/texlive/2018/texmf-dist/tex/latex/psnfss/ot1ztmcm.fd
 File: ot1ztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OT1/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for OML+ztmcm on input line 70.
+LaTeX Font Info:    Try loading font information for OML+ztmcm on input line 70
+.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\omlztmcm.fd"
+(c:/texlive/2018/texmf-dist/tex/latex/psnfss/omlztmcm.fd
 File: omlztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OML/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for OMS+ztmcm on input line 70.
- ("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\omsztmcm.fd"
+LaTeX Font Info:    Try loading font information for OMS+ztmcm on input line 70
+.
+
+(c:/texlive/2018/texmf-dist/tex/latex/psnfss/omsztmcm.fd
 File: omsztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for OMX+ztmcm on input line 70.
- ("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\omxztmcm.fd"
+LaTeX Font Info:    Try loading font information for OMX+ztmcm on input line 70
+.
+
+(c:/texlive/2018/texmf-dist/tex/latex/psnfss/omxztmcm.fd
 File: omxztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMX/ztmcm.
 )
 LaTeX Font Info:    Try loading font information for OT1+ptm on input line 70.
- ("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\ot1ptm.fd"
+
+(c:/texlive/2018/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
@@ -344,19 +371,19 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 70.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 70.
-<images/Base1AABB.png, id=39, 1445.4pt x 903.375pt>
+<images/Base1AABB.png, id=40, 1445.4pt x 903.375pt>
 File: images/Base1AABB.png Graphic file (type png)
 <use images/Base1AABB.png>
 Package pdftex.def Info: images/Base1AABB.png  used on input line 70.
 (pdftex.def)             Requested size: 251.31898pt x 157.07295pt.
-<images/Base1Invert.png, id=40, 1445.4pt x 903.375pt>
+<images/Base1Invert.png, id=41, 1445.4pt x 903.375pt>
 File: images/Base1Invert.png Graphic file (type png)
 <use images/Base1Invert.png>
 Package pdftex.def Info: images/Base1Invert.png  used on input line 70.
 (pdftex.def)             Requested size: 251.31898pt x 157.07295pt.
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <8> not available
 (Font)              Font shape `T1/phv/b/n' tried instead on input line 70.
-<diamondrule.pdf, id=41, 213.79875pt x 12.045pt>
+<diamondrule.pdf, id=42, 213.79875pt x 12.045pt>
 File: diamondrule.pdf Graphic file (type pdf)
 <use diamondrule.pdf>
 Package pdftex.def Info: diamondrule.pdf  used on input line 70.
@@ -369,36 +396,37 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 70.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 70.
-<vislogo.pdf, id=42, 21.80145pt x 11.92455pt>
+<vislogo.pdf, id=43, 21.80145pt x 11.92455pt>
 File: vislogo.pdf Graphic file (type pdf)
 <use vislogo.pdf>
 Package pdftex.def Info: vislogo.pdf  used on input line 70.
 (pdftex.def)             Requested size: 24.75375pt x 13.53969pt.
-<images/Ablauf.PNG, id=45, 1320.43312pt x 124.96687pt>
+<images/Ablauf.PNG, id=46, 1320.43312pt x 124.96687pt>
 File: images/Ablauf.PNG Graphic file (type png)
 <use images/Ablauf.PNG>
 Package pdftex.def Info: images/Ablauf.PNG  used on input line 76.
 (pdftex.def)             Requested size: 251.31898pt x 23.784pt.
- [1{C:/Users/sellendk/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}
+ [1{c:/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
- <./images/Base1AABB.png> <./images/Base1Invert.png> <./diamondrule.pdf> <./vislogo.pdf> <./images/Ablauf.PNG>]
-<images/AblaufFramework.png, id=74, 514.92375pt x 79.79813pt>
+ <./images/Base1AABB.png> <./images/Base1Invert.png> <./diamondrule.pdf> <./vis
+logo.pdf> <./images/Ablauf.PNG>]
+<images/AblaufFramework.png, id=75, 514.92375pt x 79.79813pt>
 File: images/AblaufFramework.png Graphic file (type png)
 <use images/AblaufFramework.png>
 Package pdftex.def Info: images/AblaufFramework.png  used on input line 89.
 (pdftex.def)             Requested size: 251.31898pt x 38.94678pt.
-<images/Occluder.png, id=80, 1445.4pt x 903.375pt>
+<images/Occluder.png, id=81, 1445.4pt x 903.375pt>
 File: images/Occluder.png Graphic file (type png)
 <use images/Occluder.png>
 Package pdftex.def Info: images/Occluder.png  used on input line 105.
 (pdftex.def)             Requested size: 125.65948pt x 78.52957pt.
-<images/Occludees.png, id=81, 1445.4pt x 903.375pt>
+<images/Occludees.png, id=82, 1445.4pt x 903.375pt>
 File: images/Occludees.png Graphic file (type png)
 <use images/Occludees.png>
 Package pdftex.def Info: images/Occludees.png  used on input line 106.
 (pdftex.def)             Requested size: 125.65948pt x 78.52957pt.
-<images/SOCAblauf2.png, id=87, 701.62125pt x 301.8778pt>
+<images/SOCAblauf2.png, id=88, 701.62125pt x 301.8778pt>
 File: images/SOCAblauf2.png Graphic file (type png)
 <use images/SOCAblauf2.png>
 Package pdftex.def Info: images/SOCAblauf2.png  used on input line 118.
@@ -407,12 +435,14 @@ LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <9> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 126.
 
 Underfull \hbox (badness 1629) in paragraph at lines 125--127
-\T1/ptm/m/n/9 Ver-lauf nicht wei-ter be-trach-tet. Die-ser Zwi-schen-schritt ist zwar
+\T1/ptm/m/n/9 Ver-lauf nicht wei-ter be-trach-tet. Die-ser Zwi-schen-schritt is
+t zwar
  []
 
 
 Underfull \hbox (badness 1147) in paragraph at lines 125--127
-\T1/ptm/m/n/9 bleibt, sind bei an-de-ren Oc-clu-si-on Cul-ling Al-go-rith-men grö-ÿe-re
+\T1/ptm/m/n/9 bleibt, sind bei an-de-ren Oc-clu-si-on Cul-ling Al-go-rith-men g
+rö-ÿe-re
  []
 
 
@@ -423,13 +453,15 @@ Underfull \hbox (badness 10000) in paragraph at lines 125--127
 
 Overfull \vbox (2.10262pt too high) has occurred while \output is active []
 
- [2 <./images/AblaufFramework.png> <./images/Occluder.png> <./images/Occludees.png> <./images/SOCAblauf2.png>]
-<images/Base1.png, id=98, 1445.4pt x 903.375pt>
+
+[2 <./images/AblaufFramework.png> <./images/Occluder.png> <./images/Occludees.p
+ng> <./images/SOCAblauf2.png>]
+<images/Base1.png, id=99, 1445.4pt x 903.375pt>
 File: images/Base1.png Graphic file (type png)
 <use images/Base1.png>
 Package pdftex.def Info: images/Base1.png  used on input line 132.
 (pdftex.def)             Requested size: 125.65948pt x 78.52957pt.
-<images/Base1DB.png, id=99, 1445.4pt x 903.375pt>
+<images/Base1DB.png, id=100, 1445.4pt x 903.375pt>
 File: images/Base1DB.png Graphic file (type png)
 <use images/Base1DB.png>
 Package pdftex.def Info: images/Base1DB.png  used on input line 133.
@@ -438,277 +470,156 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 149.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 149.
-<images/Tour1.png, id=102, 1445.4pt x 903.375pt>
+<images/Tour1.png, id=103, 1445.4pt x 903.375pt>
 File: images/Tour1.png Graphic file (type png)
 <use images/Tour1.png>
 Package pdftex.def Info: images/Tour1.png  used on input line 151.
 (pdftex.def)             Requested size: 82.93571pt x 51.82924pt.
-<images/Tour2.png, id=103, 1445.4pt x 903.375pt>
+<images/Tour2.png, id=104, 1445.4pt x 903.375pt>
 File: images/Tour2.png Graphic file (type png)
 <use images/Tour2.png>
 Package pdftex.def Info: images/Tour2.png  used on input line 152.
 (pdftex.def)             Requested size: 82.93571pt x 51.82924pt.
-<images/Tour3.png, id=104, 1445.4pt x 903.375pt>
+<images/Tour3.png, id=105, 1445.4pt x 903.375pt>
 File: images/Tour3.png Graphic file (type png)
 <use images/Tour3.png>
 Package pdftex.def Info: images/Tour3.png  used on input line 153.
 (pdftex.def)             Requested size: 82.93571pt x 51.82924pt.
-<images/Evaluation_1_Results_FPS.pdf, id=105, 289.08pt x 178.66502pt>
+<images/Evaluation_1_Results_Percentage culled.pdf, id=106, 289.08pt x 178.6650
+2pt>
+File: images/Evaluation_1_Results_Percentage culled.pdf Graphic file (type pdf)
+
+<use images/Evaluation_1_Results_Percentage culled.pdf>
+Package pdftex.def Info: images/Evaluation_1_Results_Percentage culled.pdf  use
+d on input line 161.
+(pdftex.def)             Requested size: 257.46187pt x 159.13132pt.
+<images/Evaluation_4_Results_Percentage culled.pdf, id=107, 289.08pt x 178.6650
+2pt>
+File: images/Evaluation_4_Results_Percentage culled.pdf Graphic file (type pdf)
+
+<use images/Evaluation_4_Results_Percentage culled.pdf>
+Package pdftex.def Info: images/Evaluation_4_Results_Percentage culled.pdf  use
+d on input line 162.
+(pdftex.def)             Requested size: 257.46187pt x 159.13132pt.
+
+Overfull \hbox (1.71002pt too wide) in paragraph at lines 161--163
+[][] [] 
+ []
+
+<images/Evaluation_7_Results_SSE_Draw Calls.pdf, id=108, 289.08pt x 178.66502pt
+>
+File: images/Evaluation_7_Results_SSE_Draw Calls.pdf Graphic file (type pdf)
+<use images/Evaluation_7_Results_SSE_Draw Calls.pdf>
+Package pdftex.def Info: images/Evaluation_7_Results_SSE_Draw Calls.pdf  used o
+n input line 184.
+(pdftex.def)             Requested size: 205.96634pt x 127.2947pt.
+
+Overfull \hbox (81.22787pt too wide) in paragraph at lines 198--199
+ [][] 
+ []
+
+<images/Evaluation_7_Results_OGL_Draw Calls.pdf, id=109, 289.08pt x 178.66502pt
+>
+File: images/Evaluation_7_Results_OGL_Draw Calls.pdf Graphic file (type pdf)
+<use images/Evaluation_7_Results_OGL_Draw Calls.pdf>
+Package pdftex.def Info: images/Evaluation_7_Results_OGL_Draw Calls.pdf  used o
+n input line 202.
+(pdftex.def)             Requested size: 205.96634pt x 127.2947pt.
+
+Overfull \hbox (81.22787pt too wide) in paragraph at lines 216--217
+ [][] 
+ []
+
+<images/Evaluation_1_Results_FPS.pdf, id=110, 289.08pt x 178.66502pt>
 File: images/Evaluation_1_Results_FPS.pdf Graphic file (type pdf)
 <use images/Evaluation_1_Results_FPS.pdf>
-Package pdftex.def Info: images/Evaluation_1_Results_FPS.pdf  used on input line 162.
-(pdftex.def)             Requested size: 128.73093pt x 79.56157pt.
-<images/Evaluation_1_Results_Percentage culled.pdf, id=106, 289.08pt x 178.66502pt>
-File: images/Evaluation_1_Results_Percentage culled.pdf Graphic file (type pdf)
-<use images/Evaluation_1_Results_Percentage culled.pdf>
-Package pdftex.def Info: images/Evaluation_1_Results_Percentage culled.pdf  used on input line 163.
-(pdftex.def)             Requested size: 128.73093pt x 79.56157pt.
-<images/Evaluation_1_Results_Draw Calls.pdf, id=107, 289.08pt x 178.66502pt>
-File: images/Evaluation_1_Results_Draw Calls.pdf Graphic file (type pdf)
-<use images/Evaluation_1_Results_Draw Calls.pdf>
-Package pdftex.def Info: images/Evaluation_1_Results_Draw Calls.pdf  used on input line 164.
-(pdftex.def)             Requested size: 128.73093pt x 79.56157pt.
-<images/Evaluation_1_Results_Culling time.pdf, id=108, 289.08pt x 178.66502pt>
-File: images/Evaluation_1_Results_Culling time.pdf Graphic file (type pdf)
-<use images/Evaluation_1_Results_Culling time.pdf>
-Package pdftex.def Info: images/Evaluation_1_Results_Culling time.pdf  used on input line 165.
-(pdftex.def)             Requested size: 128.73093pt x 79.56157pt.
-
-Overfull \hbox (1.71pt too wide) in paragraph at lines 162--166
-[][] []
- []
-
-
-Overfull \hbox (1.71pt too wide) in paragraph at lines 162--166
-[] [] 
- []
-
-
-Overfull \hbox (6.14288pt too wide) in paragraph at lines 161--169
-[]$[]$ 
- []
-
+Package pdftex.def Info: images/Evaluation_1_Results_FPS.pdf  used on input lin
+e 224.
+(pdftex.def)             Requested size: 257.46187pt x 159.13132pt.
 <images/Evaluation_4_Results_FPS.pdf, id=111, 289.08pt x 178.66502pt>
 File: images/Evaluation_4_Results_FPS.pdf Graphic file (type pdf)
 <use images/Evaluation_4_Results_FPS.pdf>
-Package pdftex.def Info: images/Evaluation_4_Results_FPS.pdf  used on input line 195.
-(pdftex.def)             Requested size: 128.73093pt x 79.56157pt.
-<images/Evaluation_4_Results_Percentage culled.pdf, id=112, 289.08pt x 178.66502pt>
-File: images/Evaluation_4_Results_Percentage culled.pdf Graphic file (type pdf)
-<use images/Evaluation_4_Results_Percentage culled.pdf>
-Package pdftex.def Info: images/Evaluation_4_Results_Percentage culled.pdf  used on input line 196.
-(pdftex.def)             Requested size: 128.73093pt x 79.56157pt.
-<images/Evaluation_4_Results_Draw Calls.pdf, id=113, 289.08pt x 178.66502pt>
-File: images/Evaluation_4_Results_Draw Calls.pdf Graphic file (type pdf)
-<use images/Evaluation_4_Results_Draw Calls.pdf>
-Package pdftex.def Info: images/Evaluation_4_Results_Draw Calls.pdf  used on input line 197.
-(pdftex.def)             Requested size: 128.73093pt x 79.56157pt.
-<images/Evaluation_4_Results_Culling time.pdf, id=114, 289.08pt x 178.66502pt>
-File: images/Evaluation_4_Results_Culling time.pdf Graphic file (type pdf)
-<use images/Evaluation_4_Results_Culling time.pdf>
-Package pdftex.def Info: images/Evaluation_4_Results_Culling time.pdf  used on input line 198.
-(pdftex.def)             Requested size: 128.73093pt x 79.56157pt.
+Package pdftex.def Info: images/Evaluation_4_Results_FPS.pdf  used on input lin
+e 225.
+(pdftex.def)             Requested size: 257.46187pt x 159.13132pt.
 
-Overfull \hbox (1.71pt too wide) in paragraph at lines 195--199
-[][] []
+Overfull \hbox (1.71002pt too wide) in paragraph at lines 224--226
+[][] [] 
  []
 
-
-Overfull \hbox (1.71pt too wide) in paragraph at lines 195--199
-[] [] 
- []
-
-
-Overfull \hbox (6.14288pt too wide) in paragraph at lines 194--202
-[]$[]$ 
- []
-
-
-Overfull \hbox (63.29333pt too wide) in paragraph at lines 205--216
-[][] 
- []
-
-
-Underfull \hbox (badness 1038) in paragraph at lines 220--223
-\T1/ptm/m/n/9 ist, de-sto hö-he-re Fra-me-ra-ten kön-nen er-reicht wer-den. Be-trach-tet
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 220--223
-
- []
-
-<images/Evaluation_5_Results_FPS.pdf, id=117, 289.08pt x 178.66502pt>
-File: images/Evaluation_5_Results_FPS.pdf Graphic file (type pdf)
-<use images/Evaluation_5_Results_FPS.pdf>
-Package pdftex.def Info: images/Evaluation_5_Results_FPS.pdf  used on input line 236.
-(pdftex.def)             Requested size: 128.73093pt x 79.56157pt.
-<images/Evaluation_5_Results_Percentage culled.pdf, id=118, 289.08pt x 178.66502pt>
-File: images/Evaluation_5_Results_Percentage culled.pdf Graphic file (type pdf)
-<use images/Evaluation_5_Results_Percentage culled.pdf>
-Package pdftex.def Info: images/Evaluation_5_Results_Percentage culled.pdf  used on input line 237.
-(pdftex.def)             Requested size: 128.73093pt x 79.56157pt.
-<images/Evaluation_5_Results_Draw Calls.pdf, id=119, 289.08pt x 178.66502pt>
-File: images/Evaluation_5_Results_Draw Calls.pdf Graphic file (type pdf)
-<use images/Evaluation_5_Results_Draw Calls.pdf>
-Package pdftex.def Info: images/Evaluation_5_Results_Draw Calls.pdf  used on input line 238.
-(pdftex.def)             Requested size: 128.73093pt x 79.56157pt.
-<images/Evaluation_5_Results_Culling time.pdf, id=120, 289.08pt x 178.66502pt>
-File: images/Evaluation_5_Results_Culling time.pdf Graphic file (type pdf)
-<use images/Evaluation_5_Results_Culling time.pdf>
-Package pdftex.def Info: images/Evaluation_5_Results_Culling time.pdf  used on input line 239.
-(pdftex.def)             Requested size: 128.73093pt x 79.56157pt.
-
-Overfull \hbox (1.71pt too wide) in paragraph at lines 236--240
-[][] []
- []
-
-
-Overfull \hbox (1.71pt too wide) in paragraph at lines 236--240
-[] [] 
- []
-
-
-Overfull \hbox (6.14288pt too wide) in paragraph at lines 235--243
-[]$[]$ 
- []
-
-<images/Evaluation_6_Results_FPS.pdf, id=121, 289.08pt x 178.66502pt>
-File: images/Evaluation_6_Results_FPS.pdf Graphic file (type pdf)
-<use images/Evaluation_6_Results_FPS.pdf>
-Package pdftex.def Info: images/Evaluation_6_Results_FPS.pdf  used on input line 247.
-(pdftex.def)             Requested size: 128.73093pt x 79.56157pt.
-<images/Evaluation_6_Results_Percentage culled.pdf, id=122, 289.08pt x 178.66502pt>
-File: images/Evaluation_6_Results_Percentage culled.pdf Graphic file (type pdf)
-<use images/Evaluation_6_Results_Percentage culled.pdf>
-Package pdftex.def Info: images/Evaluation_6_Results_Percentage culled.pdf  used on input line 248.
-(pdftex.def)             Requested size: 128.73093pt x 79.56157pt.
-<images/Evaluation_6_Results_Draw Calls.pdf, id=123, 289.08pt x 178.66502pt>
-File: images/Evaluation_6_Results_Draw Calls.pdf Graphic file (type pdf)
-<use images/Evaluation_6_Results_Draw Calls.pdf>
-Package pdftex.def Info: images/Evaluation_6_Results_Draw Calls.pdf  used on input line 249.
-(pdftex.def)             Requested size: 128.73093pt x 79.56157pt.
-<images/Evaluation_6_Results_Culling time.pdf, id=124, 289.08pt x 178.66502pt>
-File: images/Evaluation_6_Results_Culling time.pdf Graphic file (type pdf)
-<use images/Evaluation_6_Results_Culling time.pdf>
-Package pdftex.def Info: images/Evaluation_6_Results_Culling time.pdf  used on input line 250.
-(pdftex.def)             Requested size: 128.73093pt x 79.56157pt.
-
-Overfull \hbox (1.71pt too wide) in paragraph at lines 247--251
-[][] []
- []
-
-
-Overfull \hbox (1.71pt too wide) in paragraph at lines 247--251
-[] [] 
- []
-
-
-Overfull \hbox (6.14288pt too wide) in paragraph at lines 246--254
-[]$[]$ 
- []
-
-
-Overfull \vbox (2.10262pt too high) has occurred while \output is active []
-
- [3 <./images/Base1.png> <./images/Base1DB.png> <./images/Tour1.png> <./images/Tour2.png> <./images/Tour3.png> <./images
-/Evaluation_1_Results_FPS.pdf> <./images/Evaluation_1_Results_Percentage culled.pdf
-
-pdfTeX warning: pdflatex.exe (file ./images/Evaluation_1_Results_Percentage culled.pdf): PDF inclusion: multiple pdfs wi
-th page group included in a single page
-> <./images/Evaluation_1_Results_Draw Calls.pdf
-
-pdfTeX warning: pdflatex.exe (file ./images/Evaluation_1_Results_Draw Calls.pdf): PDF inclusion: multiple pdfs with page
- group included in a single page
-> <./images/Evaluation_1_Results_Culling time.pdf
-
-pdfTeX warning: pdflatex.exe (file ./images/Evaluation_1_Results_Culling time.pdf): PDF inclusion: multiple pdfs with pa
-ge group included in a single page
->]
-ngerman: "rr is now obsolete, please use rrr instead on input line 265.
-(Abschlusspaper.bbl
+ngerman: "rr is now obsolete, please use rrr instead on input line 286.
+(./Abschlusspaper.bbl
 LaTeX Font Info:    Try loading font information for T1+pcr on input line 7.
- ("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\t1pcr.fd"
+ (c:/texlive/2018/texmf-dist/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 )
 Underfull \hbox (badness 10000) in paragraph at lines 4--9
-\T1/pcr/m/n/8 com / en-[]us / articles / software-[]occlusion-[]culling$[]\T1/ptm/m/n/8 ,
+\T1/pcr/m/n/8 com / en-[]us / articles / software-[]occlusion-[]culling$[]\T1/p
+tm/m/n/8 ,
  []
 
 )
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 271.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 292.
 
 Overfull \vbox (2.10262pt too high) has occurred while \output is active []
 
- [4 <./images/Evaluation_4_Results_FPS.pdf> <./images/Evaluation_4_Results_Percentage culled.pdf
 
-pdfTeX warning: pdflatex.exe (file ./images/Evaluation_4_Results_Percentage culled.pdf): PDF inclusion: multiple pdfs wi
-th page group included in a single page
-> <./images/Evaluation_4_Results_Draw Calls.pdf
+[3 <./images/Base1.png> <./images/Base1DB.png> <./images/Tour1.png> <./images/T
+our2.png> <./images/Tour3.png>]
+Overfull \vbox (2.10262pt too high) has occurred while \output is active []
 
-pdfTeX warning: pdflatex.exe (file ./images/Evaluation_4_Results_Draw Calls.pdf): PDF inclusion: multiple pdfs with page
- group included in a single page
-> <./images/Evaluation_4_Results_Culling time.pdf
 
-pdfTeX warning: pdflatex.exe (file ./images/Evaluation_4_Results_Culling time.pdf): PDF inclusion: multiple pdfs with pa
-ge group included in a single page
-> <./images/Evaluation_5_Results_FPS.pdf
+[4 <./images/Evaluation_1_Results_Percentage culled.pdf> <./images/Evaluation_4
+_Results_Percentage culled.pdf
 
-pdfTeX warning: pdflatex.exe (file ./images/Evaluation_5_Results_FPS.pdf): PDF inclusion: multiple pdfs with page group 
-included in a single page
-> <./images/Evaluation_5_Results_Percentage culled.pdf
+pdfTeX warning: pdflatex.exe (file ./images/Evaluation_4_Results_Percentage cul
+led.pdf): PDF inclusion: multiple pdfs with page group included in a single pag
+e
+> <./images/Evaluation_7_Results_SSE_Draw Calls.pdf
 
-pdfTeX warning: pdflatex.exe (file ./images/Evaluation_5_Results_Percentage culled.pdf): PDF inclusion: multiple pdfs wi
-th page group included in a single page
-> <./images/Evaluation_5_Results_Draw Calls.pdf
+pdfTeX warning: pdflatex.exe (file ./images/Evaluation_7_Results_SSE_Draw Calls
+.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+> <./images/Evaluation_7_Results_OGL_Draw Calls.pdf
 
-pdfTeX warning: pdflatex.exe (file ./images/Evaluation_5_Results_Draw Calls.pdf): PDF inclusion: multiple pdfs with page
- group included in a single page
-> <./images/Evaluation_5_Results_Culling time.pdf
-
-pdfTeX warning: pdflatex.exe (file ./images/Evaluation_5_Results_Culling time.pdf): PDF inclusion: multiple pdfs with pa
-ge group included in a single page
-> <./images/Evaluation_6_Results_FPS.pdf
-
-pdfTeX warning: pdflatex.exe (file ./images/Evaluation_6_Results_FPS.pdf): PDF inclusion: multiple pdfs with page group 
-included in a single page
-> <./images/Evaluation_6_Results_Percentage culled.pdf
-
-pdfTeX warning: pdflatex.exe (file ./images/Evaluation_6_Results_Percentage culled.pdf): PDF inclusion: multiple pdfs wi
-th page group included in a single page
-> <./images/Evaluation_6_Results_Draw Calls.pdf
-
-pdfTeX warning: pdflatex.exe (file ./images/Evaluation_6_Results_Draw Calls.pdf): PDF inclusion: multiple pdfs with page
- group included in a single page
-> <./images/Evaluation_6_Results_Culling time.pdf
-
-pdfTeX warning: pdflatex.exe (file ./images/Evaluation_6_Results_Culling time.pdf): PDF inclusion: multiple pdfs with pa
-ge group included in a single page
+pdfTeX warning: pdflatex.exe (file ./images/Evaluation_7_Results_OGL_Draw Calls
+.pdf): PDF inclusion: multiple pdfs with page group included in a single page
 >]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 271.
- (Abschlusspaper.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 271.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 271.
+Overfull \vbox (2.10262pt too high) has occurred while \output is active []
+
+
+[5 <./images/Evaluation_1_Results_FPS.pdf> <./images/Evaluation_4_Results_FPS.p
+df
+
+pdfTeX warning: pdflatex.exe (file ./images/Evaluation_4_Results_FPS.pdf): PDF 
+inclusion: multiple pdfs with page group included in a single page
+>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 292.
+ (./Abschlusspaper.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 292.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 292.
 Package rerunfilecheck Info: File `Abschlusspaper.out' has not changed.
-(rerunfilecheck)             Checksum: 7337C3C47CEC13ED5DACE9D261E8DFB7;498.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 271.
+(rerunfilecheck)             Checksum: 08A24E06456AE27A0D13C14E4669C241;489.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 292.
  ) 
 Here is how much of TeX's memory you used:
- 6050 strings out of 492970
- 92096 string characters out of 3135845
- 191104 words of memory out of 3000000
- 9788 multiletter control sequences out of 15000+200000
- 67451 words of font info for 90 fonts, out of 3000000 for 9000
+ 6005 strings out of 492616
+ 89424 string characters out of 6132768
+ 195305 words of memory out of 5000000
+ 9783 multiletter control sequences out of 15000+600000
+ 67451 words of font info for 90 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 36i,7n,29p,1335b,376s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/c
-msy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/courier/ucrr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/h
-elvetic/uhvb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/t
-ype1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX 2.9/fon
-ts/type1/urw/times/utmri8a.pfb>
-Output written on Abschlusspaper.pdf (4 pages, 26632783 bytes).
+ 36i,10n,29p,1333b,376s stack positions out of 5000i,500n,10000p,200000b,80000s
+{c:/texlive/2018/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/texlive/2018/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2018/texmf-dist/fo
+nts/type1/urw/courier/ucrr8a.pfb><c:/texlive/2018/texmf-dist/fonts/type1/urw/he
+lvetic/uhvb8a.pfb><c:/texlive/2018/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.p
+fb><c:/texlive/2018/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/201
+8/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2018/texmf-dist/fonts
+/type1/urw/times/utmri8a.pfb>
+Output written on Abschlusspaper.pdf (5 pages, 26429427 bytes).
 PDF statistics:
- 771 PDF objects out of 1000 (max. 8388607)
- 32 named destinations out of 1000 (max. 500000)
- 223 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 378 PDF objects out of 1000 (max. 8388607)
+ 159 compressed objects within 2 object streams
+ 30 named destinations out of 1000 (max. 500000)
+ 173 words of extra memory for PDF output out of 10000 (max. 10000000)
 
