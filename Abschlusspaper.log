@@ -1,48 +1,48 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018/W32TeX) (preloaded format=pdflatex 2019.2.19)  22 MAR 2019 18:10
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630 64-bit) (preloaded format=pdflatex 2018.4.23)  24 MAR 2019 19:05
 entering extended mode
- restricted \write18 enabled.
- %&-line parsing enabled.
-**Abschlusspaper.tex
-(./Abschlusspaper.tex
-LaTeX2e <2018-12-01>
-(./vgtc.cls
+**./Abschlusspaper.tex
+(Abschlusspaper.tex
+LaTeX2e <2017-04-15>
+Babel <3.18> and hyphenation patterns for 75 language(s) loaded.
+(vgtc.cls
 Document Class: vgtc 2010/03/03 VIS Hauptseminar, University of Stuttgart
-(c:/texlive/2018/texmf-dist/tex/latex/base/article.cls
-Document Class: article 2018/09/03 v1.4i Standard LaTeX document class
-(c:/texlive/2018/texmf-dist/tex/latex/base/size10.clo
-File: size10.clo 2018/09/03 v1.4i Standard LaTeX file (size option)
+(F:\Programme\MiKTeX\tex\latex\base\article.cls
+Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
+(F:\Programme\MiKTeX\tex\latex\base\size10.clo
+File: size10.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
 )
-\c@part=\count80
-\c@section=\count81
-\c@subsection=\count82
-\c@subsubsection=\count83
-\c@paragraph=\count84
-\c@subparagraph=\count85
-\c@figure=\count86
-\c@table=\count87
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
 \abovecaptionskip=\skip41
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
 )
-(c:/texlive/2018/texmf-dist/tex/latex/base/inputenc.sty
-Package: inputenc 2018/08/11 v1.3c Input encoding file
+(F:\Programme\MiKTeX\tex\latex\base\inputenc.sty
+Package: inputenc 2015/03/17 v1.2c Input encoding file
 \inpenc@prehook=\toks14
 \inpenc@posthook=\toks15
 
-(c:/texlive/2018/texmf-dist/tex/latex/base/latin1.def
-File: latin1.def 2018/08/11 v1.3c Input encoding file
+(F:\Programme\MiKTeX\tex\latex\base\latin1.def
+File: latin1.def 2015/03/17 v1.2c Input encoding file
 ))
-(c:/texlive/2018/texmf-dist/tex/latex/base/fontenc.sty
-Package: fontenc 2018/08/11 v2.0j Standard LaTeX package
+(F:\Programme\MiKTeX\tex\latex\base\fontenc.sty
+Package: fontenc 2017/04/05 v2.0i Standard LaTeX package
 
-(c:/texlive/2018/texmf-dist/tex/latex/base/t1enc.def
-File: t1enc.def 2018/08/11 v2.0j Standard LaTeX file
+(F:\Programme\MiKTeX\tex\latex\base\t1enc.def
+File: t1enc.def 2017/04/05 v2.0i Standard LaTeX file
 LaTeX Font Info:    Redeclaring font encoding T1 on input line 48.
 ))
-(c:/texlive/2018/texmf-dist/tex/generic/german/ngerman.sty v2.5e 1998-07-08
+(C:\Users\Selle\AppData\Roaming\MiKTeX\2.9\tex\generic\german\ngerman.sty
+v2.5e 1998-07-08
 Package: ngerman 1998/07/08 v2.5e Support for writing german texts (br)
 \grmnU@D=\dimen103
-ngerman -- \language number for naustrian undefined, default 33 used.
+ngerman -- \language number for naustrian undefined, default 45 used.
 )
 \captionmargin=\skip43
 \bibindent=\dimen104
@@ -51,12 +51,12 @@ ngerman -- \language number for naustrian undefined, default 33 used.
 \teaserspace=\skip45
 \abstxtspace=\skip46
 \vgtc@copyrightlength=\skip47
-)
-(./hs-vis_ws1819.sty) (c:/texlive/2018/texmf-dist/tex/latex/url/url.sty
+) (hs-vis_ws1819.sty)
+(C:\Users\Selle\AppData\Roaming\MiKTeX\2.9\tex\latex\url\url.sty
 \Urlmuskip=\muskip10
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-(c:/texlive/2018/texmf-dist/tex/latex/psnfss/mathptmx.sty
+(F:\Programme\MiKTeX\tex\latex\psnfss\mathptmx.sty
 Package: mathptmx 2005/04/12 PSNFSS-v9.2a Times w/ Math, improved (SPQR, WaS) 
 LaTeX Font Info:    Redeclaring symbol font `operators' on input line 28.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
@@ -92,58 +92,58 @@ LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
 (Font)                  OT1/cmr/bx/it --> OT1/ptm/m/it on input line 35.
 LaTeX Info: Redefining \hbar on input line 50.
 )
-(c:/texlive/2018/texmf-dist/tex/latex/graphics/graphicx.sty
+(F:\Programme\MiKTeX\tex\latex\graphics\graphicx.sty
 Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
 
-(c:/texlive/2018/texmf-dist/tex/latex/graphics/keyval.sty
+(F:\Programme\MiKTeX\tex\latex\graphics\keyval.sty
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks16
 )
-(c:/texlive/2018/texmf-dist/tex/latex/graphics/graphics.sty
+(F:\Programme\MiKTeX\tex\latex\graphics\graphics.sty
 Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
 
-(c:/texlive/2018/texmf-dist/tex/latex/graphics/trig.sty
+(F:\Programme\MiKTeX\tex\latex\graphics\trig.sty
 Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
 )
-(c:/texlive/2018/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+(F:\Programme\MiKTeX\tex\latex\graphics-cfg\graphics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 99.
 
-(c:/texlive/2018/texmf-dist/tex/latex/graphics-def/pdftex.def
+(F:\Programme\MiKTeX\tex\latex\graphics-def\pdftex.def
 File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
 ))
 \Gin@req@height=\dimen106
 \Gin@req@width=\dimen107
 )
-(c:/texlive/2018/texmf-dist/tex/latex/psnfss/times.sty
+(F:\Programme\MiKTeX\tex\latex\psnfss\times.sty
 Package: times 2005/04/12 PSNFSS-v9.2a (SPQR) 
 )
-(c:/texlive/2018/texmf-dist/tex/latex/oberdiek/grffile.sty
+(F:\Programme\MiKTeX\tex\latex\oberdiek\grffile.sty
 Package: grffile 2017/06/30 v1.18 Extended file name support for graphics (HO)
 
-(c:/texlive/2018/texmf-dist/tex/generic/oberdiek/ifpdf.sty
-Package: ifpdf 2018/09/07 v3.3 Provides the ifpdf switch
+(F:\Programme\MiKTeX\tex\generic\oberdiek\ifpdf.sty
+Package: ifpdf 2017/03/15 v3.2 Provides the ifpdf switch
 )
-(c:/texlive/2018/texmf-dist/tex/generic/ifxetex/ifxetex.sty
+(F:\Programme\MiKTeX\tex\generic\ifxetex\ifxetex.sty
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
-(c:/texlive/2018/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+(F:\Programme\MiKTeX\tex\latex\oberdiek\kvoptions.sty
 Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
 
-(c:/texlive/2018/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+(F:\Programme\MiKTeX\tex\generic\oberdiek\ltxcmds.sty
 Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
 )
-(c:/texlive/2018/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+(F:\Programme\MiKTeX\tex\generic\oberdiek\kvsetkeys.sty
 Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
 
-(c:/texlive/2018/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+(F:\Programme\MiKTeX\tex\generic\oberdiek\infwarerr.sty
 Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
 )
-(c:/texlive/2018/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+(F:\Programme\MiKTeX\tex\generic\oberdiek\etexcmds.sty
 Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
 
-(c:/texlive/2018/texmf-dist/tex/generic/oberdiek/ifluatex.sty
+(F:\Programme\MiKTeX\tex\generic\oberdiek\ifluatex.sty
 Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
 Package ifluatex Info: LuaTeX not detected.
 )
@@ -152,8 +152,8 @@ Package etexcmds Info: Could not find \expanded.
 (etexcmds)             that some package has redefined \expanded.
 (etexcmds)             In the latter case, load this package earlier.
 )))
-(c:/texlive/2018/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
-Package: pdftexcmds 2018/09/10 v0.29 Utility functions of pdfTeX for LuaTeX (HO
+(F:\Programme\MiKTeX\tex\generic\oberdiek\pdftexcmds.sty
+Package: pdftexcmds 2018/01/21 v0.26 Utility functions of pdfTeX for LuaTeX (HO
 )
 Package pdftexcmds Info: LuaTeX not detected.
 Package pdftexcmds Info: \pdf@primitive is available.
@@ -165,14 +165,14 @@ Package grffile Info: Option `extendedchars' is set to `false'.
 Package grffile Info: Option `space' is set to `true'.
 Package grffile Info: \Gin@ii of package `graphicx' fixed on input line 494.
 )
-(c:/texlive/2018/texmf-dist/tex/latex/hyperref/hyperref.sty
-Package: hyperref 2018/11/30 v6.88e Hypertext links for LaTeX
+(F:\Programme\MiKTeX\tex\latex\hyperref\hyperref.sty
+Package: hyperref 2018/02/06 v6.86b Hypertext links for LaTeX
 
-(c:/texlive/2018/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
+(F:\Programme\MiKTeX\tex\generic\oberdiek\hobsub-hyperref.sty
 Package: hobsub-hyperref 2016/05/16 v1.14 Bundle oberdiek, subset hyperref (HO)
 
 
-(c:/texlive/2018/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty
+(F:\Programme\MiKTeX\tex\generic\oberdiek\hobsub-generic.sty
 Package: hobsub-generic 2016/05/16 v1.14 Bundle oberdiek, subset generic (HO)
 Package: hobsub 2016/05/16 v1.14 Construct package bundles (HO)
 Package hobsub Info: Skipping package `infwarerr' (already loaded).
@@ -202,103 +202,101 @@ Package: atbegshi 2016/06/09 v1.18 At begin shipout hook (HO)
 Package: refcount 2016/05/16 v3.5 Data extraction from label references (HO)
 Package: hycolor 2016/05/16 v1.8 Color options for hyperref/bookmark (HO)
 )
-(c:/texlive/2018/texmf-dist/tex/latex/oberdiek/auxhook.sty
+(F:\Programme\MiKTeX\tex\latex\oberdiek\auxhook.sty
 Package: auxhook 2016/05/16 v1.4 Hooks for auxiliary files (HO)
 )
 \@linkdim=\dimen108
-\Hy@linkcounter=\count88
-\Hy@pagecounter=\count89
+\Hy@linkcounter=\count87
+\Hy@pagecounter=\count88
 
-(c:/texlive/2018/texmf-dist/tex/latex/hyperref/pd1enc.def
-File: pd1enc.def 2018/11/30 v6.88e Hyperref: PDFDocEncoding definition (HO)
-Now handling font encoding PD1 ...
-... no UTF-8 mapping file for font encoding PD1
+(F:\Programme\MiKTeX\tex\latex\hyperref\pd1enc.def
+File: pd1enc.def 2018/02/06 v6.86b Hyperref: PDFDocEncoding definition (HO)
 )
-\Hy@SavedSpaceFactor=\count90
+\Hy@SavedSpaceFactor=\count89
 
-(c:/texlive/2018/texmf-dist/tex/latex/latexconfig/hyperref.cfg
+(F:\Programme\MiKTeX\tex\latex\00miktex\hyperref.cfg
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
 )
-Package hyperref Info: Hyper figures OFF on input line 4519.
-Package hyperref Info: Link nesting OFF on input line 4524.
-Package hyperref Info: Hyper index ON on input line 4527.
-Package hyperref Info: Plain pages OFF on input line 4534.
-Package hyperref Info: Backreferencing OFF on input line 4539.
+Package hyperref Info: Hyper figures OFF on input line 4509.
+Package hyperref Info: Link nesting OFF on input line 4514.
+Package hyperref Info: Hyper index ON on input line 4517.
+Package hyperref Info: Plain pages OFF on input line 4524.
+Package hyperref Info: Backreferencing OFF on input line 4529.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
-Package hyperref Info: Bookmarks ON on input line 4772.
-\c@Hy@tempcnt=\count91
-LaTeX Info: Redefining \url on input line 5125.
+Package hyperref Info: Bookmarks ON on input line 4762.
+\c@Hy@tempcnt=\count90
+LaTeX Info: Redefining \url on input line 5115.
 \XeTeXLinkMargin=\dimen109
-\Fld@menulength=\count92
+\Fld@menulength=\count91
 \Field@Width=\dimen110
 \Fld@charsize=\dimen111
-Package hyperref Info: Hyper figures OFF on input line 6380.
-Package hyperref Info: Link nesting OFF on input line 6385.
-Package hyperref Info: Hyper index ON on input line 6388.
-Package hyperref Info: backreferencing OFF on input line 6395.
-Package hyperref Info: Link coloring OFF on input line 6400.
-Package hyperref Info: Link coloring with OCG OFF on input line 6405.
-Package hyperref Info: PDF/A mode OFF on input line 6410.
-LaTeX Info: Redefining \ref on input line 6450.
-LaTeX Info: Redefining \pageref on input line 6454.
-\Hy@abspage=\count93
-\c@Item=\count94
-\c@Hfootnote=\count95
+Package hyperref Info: Hyper figures OFF on input line 6369.
+Package hyperref Info: Link nesting OFF on input line 6374.
+Package hyperref Info: Hyper index ON on input line 6377.
+Package hyperref Info: backreferencing OFF on input line 6384.
+Package hyperref Info: Link coloring OFF on input line 6389.
+Package hyperref Info: Link coloring with OCG OFF on input line 6394.
+Package hyperref Info: PDF/A mode OFF on input line 6399.
+LaTeX Info: Redefining \ref on input line 6439.
+LaTeX Info: Redefining \pageref on input line 6443.
+\Hy@abspage=\count92
+\c@Item=\count93
+\c@Hfootnote=\count94
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
 
-(c:/texlive/2018/texmf-dist/tex/latex/hyperref/hpdftex.def
-File: hpdftex.def 2018/11/30 v6.88e Hyperref driver for pdfTeX
-\Fld@listcount=\count96
-\c@bookmark@seq@number=\count97
+(F:\Programme\MiKTeX\tex\latex\hyperref\hpdftex.def
+File: hpdftex.def 2018/02/06 v6.86b Hyperref driver for pdfTeX
+\Fld@listcount=\count95
+\c@bookmark@seq@number=\count96
 
-(c:/texlive/2018/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
+(F:\Programme\MiKTeX\tex\latex\oberdiek\rerunfilecheck.sty
 Package: rerunfilecheck 2016/05/16 v1.8 Rerun checks for auxiliary files (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 82.
 )
 \Hy@SectionHShift=\skip48
 )
-(./Abschlusspaper.aux)
+(Abschlusspaper.aux)
 \openout1 = `Abschlusspaper.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 60.
-LaTeX Font Info:    ... okay on input line 60.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 60.
-LaTeX Font Info:    ... okay on input line 60.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 60.
-LaTeX Font Info:    ... okay on input line 60.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 60.
-LaTeX Font Info:    ... okay on input line 60.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 60.
-LaTeX Font Info:    ... okay on input line 60.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 60.
-LaTeX Font Info:    ... okay on input line 60.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 60.
-LaTeX Font Info:    ... okay on input line 60.
-LaTeX Font Info:    Try loading font information for T1+ptm on input line 60.
- (c:/texlive/2018/texmf-dist/tex/latex/psnfss/t1ptm.fd
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Try loading font information for T1+ptm on input line 59.
+ (F:\Programme\MiKTeX\tex\latex\psnfss\t1ptm.fd
 File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
 )
 \big@size=\dimen112
 
-(c:/texlive/2018/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+(C:\Users\Selle\AppData\Roaming\MiKTeX\2.9\tex\context\base\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count98
+\scratchcounter=\count97
 \scratchdimen=\dimen113
-\scratchbox=\box27
-\nofMPsegments=\count99
-\nofMParguments=\count100
+\scratchbox=\box26
+\nofMPsegments=\count98
+\nofMParguments=\count99
 \everyMPshowfont=\toks17
-\MPscratchCnt=\count101
+\MPscratchCnt=\count100
 \MPscratchDim=\dimen114
-\MPnumerator=\count102
-\makeMPintoPDFobject=\count103
+\MPnumerator=\count101
+\makeMPintoPDFobject=\count102
 \everyMPtoPDFconversion=\toks18
-) (c:/texlive/2018/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+) (F:\Programme\MiKTeX\tex\latex\oberdiek\epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
 
-(c:/texlive/2018/texmf-dist/tex/latex/oberdiek/grfext.sty
+(F:\Programme\MiKTeX\tex\latex\oberdiek\grfext.sty
 Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
 )
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
@@ -307,146 +305,136 @@ Package grfext Info: Graphics extension search list:
 (grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPE
 G,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 456.
+)
+\AtBeginShipoutBox=\box27
+Package hyperref Info: Link coloring OFF on input line 59.
 
-(c:/texlive/2018/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
-File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
-e
-))
-\AtBeginShipoutBox=\box28
-Package hyperref Info: Link coloring OFF on input line 60.
-
-(c:/texlive/2018/texmf-dist/tex/latex/hyperref/nameref.sty
+(F:\Programme\MiKTeX\tex\latex\hyperref\nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 
-(c:/texlive/2018/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
+(F:\Programme\MiKTeX\tex\generic\oberdiek\gettitlestring.sty
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count104
+\c@section@level=\count103
 )
-LaTeX Info: Redefining \ref on input line 60.
-LaTeX Info: Redefining \pageref on input line 60.
-LaTeX Info: Redefining \nameref on input line 60.
+LaTeX Info: Redefining \ref on input line 59.
+LaTeX Info: Redefining \pageref on input line 59.
+LaTeX Info: Redefining \nameref on input line 59.
 
-(./Abschlusspaper.out) (./Abschlusspaper.out)
+(Abschlusspaper.out) (Abschlusspaper.out)
 \@outlinefile=\write3
 \openout3 = `Abschlusspaper.out'.
 
-LaTeX Font Info:    Try loading font information for T1+phv on input line 70.
+LaTeX Font Info:    Try loading font information for T1+phv on input line 69.
 
-(c:/texlive/2018/texmf-dist/tex/latex/psnfss/t1phv.fd
+(F:\Programme\MiKTeX\tex\latex\psnfss\t1phv.fd
 File: t1phv.fd 2001/06/04 scalable font definitions for T1/phv.
 )
-LaTeX Font Info:    Try loading font information for OT1+ztmcm on input line 70
+LaTeX Font Info:    Try loading font information for OT1+ztmcm on input line 69
 .
 
-(c:/texlive/2018/texmf-dist/tex/latex/psnfss/ot1ztmcm.fd
+(F:\Programme\MiKTeX\tex\latex\psnfss\ot1ztmcm.fd
 File: ot1ztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OT1/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for OML+ztmcm on input line 70
+LaTeX Font Info:    Try loading font information for OML+ztmcm on input line 69
 .
 
-(c:/texlive/2018/texmf-dist/tex/latex/psnfss/omlztmcm.fd
+(F:\Programme\MiKTeX\tex\latex\psnfss\omlztmcm.fd
 File: omlztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OML/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for OMS+ztmcm on input line 70
+LaTeX Font Info:    Try loading font information for OMS+ztmcm on input line 69
 .
 
-(c:/texlive/2018/texmf-dist/tex/latex/psnfss/omsztmcm.fd
+(F:\Programme\MiKTeX\tex\latex\psnfss\omsztmcm.fd
 File: omsztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for OMX+ztmcm on input line 70
+LaTeX Font Info:    Try loading font information for OMX+ztmcm on input line 69
 .
 
-(c:/texlive/2018/texmf-dist/tex/latex/psnfss/omxztmcm.fd
+(F:\Programme\MiKTeX\tex\latex\psnfss\omxztmcm.fd
 File: omxztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMX/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for OT1+ptm on input line 70.
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 69.
 
-(c:/texlive/2018/texmf-dist/tex/latex/psnfss/ot1ptm.fd
+(F:\Programme\MiKTeX\tex\latex\psnfss\ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 70.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 69.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 70.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 69.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 70.
-<images/Base1AABB.png, id=40, 1445.4pt x 903.375pt>
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 69.
+<images/Base1AABB.png, id=39, 1445.4pt x 903.375pt>
 File: images/Base1AABB.png Graphic file (type png)
 <use images/Base1AABB.png>
-Package pdftex.def Info: images/Base1AABB.png  used on input line 70.
+Package pdftex.def Info: images/Base1AABB.png  used on input line 69.
 (pdftex.def)             Requested size: 251.31898pt x 157.07295pt.
-<images/Base1Invert.png, id=41, 1445.4pt x 903.375pt>
+<images/Base1Invert.png, id=40, 1445.4pt x 903.375pt>
 File: images/Base1Invert.png Graphic file (type png)
 <use images/Base1Invert.png>
-Package pdftex.def Info: images/Base1Invert.png  used on input line 70.
+Package pdftex.def Info: images/Base1Invert.png  used on input line 69.
 (pdftex.def)             Requested size: 251.31898pt x 157.07295pt.
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <8> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 70.
-<diamondrule.pdf, id=42, 213.79875pt x 12.045pt>
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 69.
+<diamondrule.pdf, id=41, 213.79875pt x 12.045pt>
 File: diamondrule.pdf Graphic file (type pdf)
 <use diamondrule.pdf>
-Package pdftex.def Info: diamondrule.pdf  used on input line 70.
+Package pdftex.def Info: diamondrule.pdf  used on input line 69.
 (pdftex.def)             Requested size: 213.79822pt x 12.04495pt.
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <9> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 70.
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 69.
 LaTeX Font Info:    Font shape `T1/phv/bx/sc' in size <9> not available
-(Font)              Font shape `T1/phv/b/sc' tried instead on input line 70.
+(Font)              Font shape `T1/phv/b/sc' tried instead on input line 69.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 70.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 69.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 70.
-<vislogo.pdf, id=43, 21.80145pt x 11.92455pt>
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 69.
+<vislogo.pdf, id=42, 21.80145pt x 11.92455pt>
 File: vislogo.pdf Graphic file (type pdf)
 <use vislogo.pdf>
-Package pdftex.def Info: vislogo.pdf  used on input line 70.
+Package pdftex.def Info: vislogo.pdf  used on input line 69.
 (pdftex.def)             Requested size: 24.75375pt x 13.53969pt.
-<images/Ablauf.PNG, id=46, 1320.43312pt x 124.96687pt>
+<images/Ablauf.PNG, id=45, 1320.43312pt x 124.96687pt>
 File: images/Ablauf.PNG Graphic file (type png)
 <use images/Ablauf.PNG>
-Package pdftex.def Info: images/Ablauf.PNG  used on input line 76.
+Package pdftex.def Info: images/Ablauf.PNG  used on input line 75.
 (pdftex.def)             Requested size: 251.31898pt x 23.784pt.
- [1{c:/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+ [1{C:/Users/Selle/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}
 
 
  <./images/Base1AABB.png> <./images/Base1Invert.png> <./diamondrule.pdf> <./vis
 logo.pdf> <./images/Ablauf.PNG>]
-<images/AblaufFramework.png, id=75, 514.92375pt x 79.79813pt>
+<images/AblaufFramework.png, id=74, 514.92375pt x 79.79813pt>
 File: images/AblaufFramework.png Graphic file (type png)
 <use images/AblaufFramework.png>
-Package pdftex.def Info: images/AblaufFramework.png  used on input line 89.
+Package pdftex.def Info: images/AblaufFramework.png  used on input line 88.
 (pdftex.def)             Requested size: 251.31898pt x 38.94678pt.
-<images/Occluder.png, id=81, 1445.4pt x 903.375pt>
+<images/Occluder.png, id=83, 1445.4pt x 903.375pt>
 File: images/Occluder.png Graphic file (type png)
 <use images/Occluder.png>
-Package pdftex.def Info: images/Occluder.png  used on input line 105.
+Package pdftex.def Info: images/Occluder.png  used on input line 104.
 (pdftex.def)             Requested size: 125.65948pt x 78.52957pt.
-<images/Occludees.png, id=82, 1445.4pt x 903.375pt>
+<images/Occludees.png, id=84, 1445.4pt x 903.375pt>
 File: images/Occludees.png Graphic file (type png)
 <use images/Occludees.png>
-Package pdftex.def Info: images/Occludees.png  used on input line 106.
+Package pdftex.def Info: images/Occludees.png  used on input line 105.
 (pdftex.def)             Requested size: 125.65948pt x 78.52957pt.
-<images/SOCAblauf2.png, id=88, 701.62125pt x 301.8778pt>
+<images/SOCAblauf2.png, id=90, 701.62125pt x 301.8778pt>
 File: images/SOCAblauf2.png Graphic file (type png)
 <use images/SOCAblauf2.png>
-Package pdftex.def Info: images/SOCAblauf2.png  used on input line 118.
+Package pdftex.def Info: images/SOCAblauf2.png  used on input line 117.
 (pdftex.def)             Requested size: 251.31898pt x 108.13237pt.
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <9> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 126.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 125.
 
-Underfull \hbox (badness 1629) in paragraph at lines 125--127
+Underfull \hbox (badness 1629) in paragraph at lines 124--126
 \T1/ptm/m/n/9 Ver-lauf nicht wei-ter be-trach-tet. Die-ser Zwi-schen-schritt is
 t zwar
  []
 
 
-Underfull \hbox (badness 1147) in paragraph at lines 125--127
-\T1/ptm/m/n/9 bleibt, sind bei an-de-ren Oc-clu-si-on Cul-ling Al-go-rith-men g
-rö-ÿe-re
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 125--127
+Underfull \hbox (badness 10000) in paragraph at lines 124--126
 
  []
 
@@ -456,101 +444,122 @@ Overfull \vbox (2.10262pt too high) has occurred while \output is active []
 
 [2 <./images/AblaufFramework.png> <./images/Occluder.png> <./images/Occludees.p
 ng> <./images/SOCAblauf2.png>]
-<images/Base1.png, id=99, 1445.4pt x 903.375pt>
+<images/Base1.png, id=101, 1445.4pt x 903.375pt>
 File: images/Base1.png Graphic file (type png)
 <use images/Base1.png>
-Package pdftex.def Info: images/Base1.png  used on input line 132.
+Package pdftex.def Info: images/Base1.png  used on input line 131.
 (pdftex.def)             Requested size: 125.65948pt x 78.52957pt.
-<images/Base1DB.png, id=100, 1445.4pt x 903.375pt>
+<images/Base1DB.png, id=102, 1445.4pt x 903.375pt>
 File: images/Base1DB.png Graphic file (type png)
 <use images/Base1DB.png>
-Package pdftex.def Info: images/Base1DB.png  used on input line 133.
+Package pdftex.def Info: images/Base1DB.png  used on input line 132.
 (pdftex.def)             Requested size: 125.65948pt x 78.52957pt.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 149.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 148.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 149.
-<images/Tour1.png, id=103, 1445.4pt x 903.375pt>
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 148.
+<images/Tour1.png, id=106, 1445.4pt x 903.375pt>
 File: images/Tour1.png Graphic file (type png)
 <use images/Tour1.png>
-Package pdftex.def Info: images/Tour1.png  used on input line 151.
+Package pdftex.def Info: images/Tour1.png  used on input line 150.
 (pdftex.def)             Requested size: 82.93571pt x 51.82924pt.
-<images/Tour2.png, id=104, 1445.4pt x 903.375pt>
+<images/Tour2.png, id=107, 1445.4pt x 903.375pt>
 File: images/Tour2.png Graphic file (type png)
 <use images/Tour2.png>
-Package pdftex.def Info: images/Tour2.png  used on input line 152.
+Package pdftex.def Info: images/Tour2.png  used on input line 151.
 (pdftex.def)             Requested size: 82.93571pt x 51.82924pt.
-<images/Tour3.png, id=105, 1445.4pt x 903.375pt>
+<images/Tour3.png, id=108, 1445.4pt x 903.375pt>
 File: images/Tour3.png Graphic file (type png)
 <use images/Tour3.png>
-Package pdftex.def Info: images/Tour3.png  used on input line 153.
+Package pdftex.def Info: images/Tour3.png  used on input line 152.
 (pdftex.def)             Requested size: 82.93571pt x 51.82924pt.
-<images/Evaluation_1_Results_Percentage culled.pdf, id=106, 289.08pt x 178.6650
+
+Underfull \hbox (badness 10000) in paragraph at lines 148--157
+
+ []
+
+
+Underfull \hbox (badness 1527) in paragraph at lines 161--162
+[]\T1/ptm/m/n/9 Zuerst wur-de die OGL-Methode auf den qua-li-ta-ti-ven Aspekt
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 161--162
+
+ []
+
+<images/Evaluation_1_Results_Percentage culled.pdf, id=112, 289.08pt x 178.6650
 2pt>
 File: images/Evaluation_1_Results_Percentage culled.pdf Graphic file (type pdf)
 
 <use images/Evaluation_1_Results_Percentage culled.pdf>
 Package pdftex.def Info: images/Evaluation_1_Results_Percentage culled.pdf  use
-d on input line 161.
+d on input line 165.
 (pdftex.def)             Requested size: 257.46187pt x 159.13132pt.
-<images/Evaluation_4_Results_Percentage culled.pdf, id=107, 289.08pt x 178.6650
+<images/Evaluation_4_Results_Percentage culled.pdf, id=113, 289.08pt x 178.6650
 2pt>
 File: images/Evaluation_4_Results_Percentage culled.pdf Graphic file (type pdf)
 
 <use images/Evaluation_4_Results_Percentage culled.pdf>
 Package pdftex.def Info: images/Evaluation_4_Results_Percentage culled.pdf  use
-d on input line 162.
+d on input line 166.
 (pdftex.def)             Requested size: 257.46187pt x 159.13132pt.
 
-Overfull \hbox (1.71002pt too wide) in paragraph at lines 161--163
+Overfull \hbox (1.71002pt too wide) in paragraph at lines 165--167
 [][] [] 
  []
 
-<images/Evaluation_7_Results_SSE_Draw Calls.pdf, id=108, 289.08pt x 178.66502pt
+
+Overfull \vbox (2.10262pt too high) has occurred while \output is active []
+
+
+[3 <./images/Base1.png> <./images/Base1DB.png> <./images/Tour1.png> <./images/T
+our2.png> <./images/Tour3.png>]
+<images/Evaluation_7_Results_SSE_Draw Calls.pdf, id=123, 289.08pt x 178.66502pt
 >
 File: images/Evaluation_7_Results_SSE_Draw Calls.pdf Graphic file (type pdf)
 <use images/Evaluation_7_Results_SSE_Draw Calls.pdf>
 Package pdftex.def Info: images/Evaluation_7_Results_SSE_Draw Calls.pdf  used o
-n input line 184.
+n input line 197.
 (pdftex.def)             Requested size: 205.96634pt x 127.2947pt.
 
-Overfull \hbox (81.22787pt too wide) in paragraph at lines 198--199
+Overfull \hbox (81.22787pt too wide) in paragraph at lines 211--212
  [][] 
  []
 
-<images/Evaluation_7_Results_OGL_Draw Calls.pdf, id=109, 289.08pt x 178.66502pt
+<images/Evaluation_7_Results_OGL_Draw Calls.pdf, id=124, 289.08pt x 178.66502pt
 >
 File: images/Evaluation_7_Results_OGL_Draw Calls.pdf Graphic file (type pdf)
 <use images/Evaluation_7_Results_OGL_Draw Calls.pdf>
 Package pdftex.def Info: images/Evaluation_7_Results_OGL_Draw Calls.pdf  used o
-n input line 202.
+n input line 215.
 (pdftex.def)             Requested size: 205.96634pt x 127.2947pt.
 
-Overfull \hbox (81.22787pt too wide) in paragraph at lines 216--217
+Overfull \hbox (81.22787pt too wide) in paragraph at lines 229--230
  [][] 
  []
 
-<images/Evaluation_1_Results_FPS.pdf, id=110, 289.08pt x 178.66502pt>
+<images/Evaluation_1_Results_FPS.pdf, id=125, 289.08pt x 178.66502pt>
 File: images/Evaluation_1_Results_FPS.pdf Graphic file (type pdf)
 <use images/Evaluation_1_Results_FPS.pdf>
 Package pdftex.def Info: images/Evaluation_1_Results_FPS.pdf  used on input lin
-e 224.
+e 243.
 (pdftex.def)             Requested size: 257.46187pt x 159.13132pt.
-<images/Evaluation_4_Results_FPS.pdf, id=111, 289.08pt x 178.66502pt>
+<images/Evaluation_4_Results_FPS.pdf, id=126, 289.08pt x 178.66502pt>
 File: images/Evaluation_4_Results_FPS.pdf Graphic file (type pdf)
 <use images/Evaluation_4_Results_FPS.pdf>
 Package pdftex.def Info: images/Evaluation_4_Results_FPS.pdf  used on input lin
-e 225.
+e 244.
 (pdftex.def)             Requested size: 257.46187pt x 159.13132pt.
 
-Overfull \hbox (1.71002pt too wide) in paragraph at lines 224--226
+Overfull \hbox (1.71002pt too wide) in paragraph at lines 243--245
 [][] [] 
  []
 
-ngerman: "rr is now obsolete, please use rrr instead on input line 286.
-(./Abschlusspaper.bbl
+ngerman: "rr is now obsolete, please use rrr instead on input line 310.
+(Abschlusspaper.bbl
 LaTeX Font Info:    Try loading font information for T1+pcr on input line 7.
- (c:/texlive/2018/texmf-dist/tex/latex/psnfss/t1pcr.fd
+ (F:\Programme\MiKTeX\tex\latex\psnfss\t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 )
 Underfull \hbox (badness 10000) in paragraph at lines 4--9
@@ -559,67 +568,61 @@ tm/m/n/8 ,
  []
 
 )
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 292.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 317.
 
 Overfull \vbox (2.10262pt too high) has occurred while \output is active []
 
 
-[3 <./images/Base1.png> <./images/Base1DB.png> <./images/Tour1.png> <./images/T
-our2.png> <./images/Tour3.png>]
-Overfull \vbox (2.10262pt too high) has occurred while \output is active []
+[4
 
+ <./images/Evaluation_1_Results_Percentage culled.pdf> <./images/Evaluation_4_R
+esults_Percentage culled.pdf
 
-[4 <./images/Evaluation_1_Results_Percentage culled.pdf> <./images/Evaluation_4
-_Results_Percentage culled.pdf
-
-pdfTeX warning: pdflatex.exe (file ./images/Evaluation_4_Results_Percentage cul
-led.pdf): PDF inclusion: multiple pdfs with page group included in a single pag
-e
-> <./images/Evaluation_7_Results_SSE_Draw Calls.pdf
-
-pdfTeX warning: pdflatex.exe (file ./images/Evaluation_7_Results_SSE_Draw Calls
-.pdf): PDF inclusion: multiple pdfs with page group included in a single page
-> <./images/Evaluation_7_Results_OGL_Draw Calls.pdf
-
-pdfTeX warning: pdflatex.exe (file ./images/Evaluation_7_Results_OGL_Draw Calls
-.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+pdfTeX warning: pdflatex (file ./images/Evaluation_4_Results_Percentage culled.
+pdf): PDF inclusion: multiple pdfs with page group included in a single page
 >]
 Overfull \vbox (2.10262pt too high) has occurred while \output is active []
 
 
-[5 <./images/Evaluation_1_Results_FPS.pdf> <./images/Evaluation_4_Results_FPS.p
-df
+[5 <./images/Evaluation_7_Results_SSE_Draw Calls.pdf> <./images/Evaluation_7_Re
+sults_OGL_Draw Calls.pdf
 
-pdfTeX warning: pdflatex.exe (file ./images/Evaluation_4_Results_FPS.pdf): PDF 
-inclusion: multiple pdfs with page group included in a single page
+pdfTeX warning: pdflatex (file ./images/Evaluation_7_Results_OGL_Draw Calls.pdf
+): PDF inclusion: multiple pdfs with page group included in a single page
+> <./images/Evaluation_1_Results_FPS.pdf
+
+pdfTeX warning: pdflatex (file ./images/Evaluation_1_Results_FPS.pdf): PDF incl
+usion: multiple pdfs with page group included in a single page
+> <./images/Evaluation_4_Results_FPS.pdf
+
+pdfTeX warning: pdflatex (file ./images/Evaluation_4_Results_FPS.pdf): PDF incl
+usion: multiple pdfs with page group included in a single page
 >]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 292.
- (./Abschlusspaper.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 292.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 292.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 317.
+ (Abschlusspaper.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 317.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 317.
 Package rerunfilecheck Info: File `Abschlusspaper.out' has not changed.
-(rerunfilecheck)             Checksum: 08A24E06456AE27A0D13C14E4669C241;489.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 292.
+(rerunfilecheck)             Checksum: DD51B5E1A661A1EC045267E66A8F21D8;499.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 317.
  ) 
 Here is how much of TeX's memory you used:
- 6005 strings out of 492616
- 89424 string characters out of 6132768
- 195305 words of memory out of 5000000
- 9783 multiletter control sequences out of 15000+600000
- 67451 words of font info for 90 fonts, out of 8000000 for 9000
+ 6028 strings out of 493305
+ 89398 string characters out of 3142358
+ 187181 words of memory out of 3000000
+ 9446 multiletter control sequences out of 15000+200000
+ 67451 words of font info for 90 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 36i,10n,29p,1333b,376s stack positions out of 5000i,500n,10000p,200000b,80000s
-{c:/texlive/2018/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/texlive/2018/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2018/texmf-dist/fo
-nts/type1/urw/courier/ucrr8a.pfb><c:/texlive/2018/texmf-dist/fonts/type1/urw/he
-lvetic/uhvb8a.pfb><c:/texlive/2018/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.p
-fb><c:/texlive/2018/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/201
-8/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2018/texmf-dist/fonts
-/type1/urw/times/utmri8a.pfb>
-Output written on Abschlusspaper.pdf (5 pages, 26429427 bytes).
+ 36i,10n,29p,2153b,376s stack positions out of 5000i,500n,10000p,200000b,50000s
+{F:/Programme/MiKTeX/fonts/enc/dvips/base/8r.enc}<F:/Programme/MiKTeX/fonts/t
+ype1/public/amsfonts/cm/cmsy10.pfb><F:/Programme/MiKTeX/fonts/type1/urw/courier
+/ucrr8a.pfb><F:/Programme/MiKTeX/fonts/type1/urw/helvetic/uhvb8a.pfb><F:/Progra
+mme/MiKTeX/fonts/type1/urw/helvetic/uhvr8a.pfb><F:/Programme/MiKTeX/fonts/type1
+/urw/times/utmb8a.pfb><F:/Programme/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><F:
+/Programme/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
+Output written on Abschlusspaper.pdf (5 pages, 26469360 bytes).
 PDF statistics:
- 378 PDF objects out of 1000 (max. 8388607)
- 159 compressed objects within 2 object streams
+ 382 PDF objects out of 1000 (max. 8388607)
  30 named destinations out of 1000 (max. 500000)
  173 words of extra memory for PDF output out of 10000 (max. 10000000)
 
