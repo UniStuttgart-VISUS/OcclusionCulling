@@ -126,7 +126,7 @@ OSMesaPipeline::OSMesaPipeline(UINT mDBResolution)
 	else if (mDBResolution == 5)
 	{
 		mWidth = 3840;
-		mHeight = 2400;
+		mHeight = 2400; // 2160
 	}
 	else
 	{
