@@ -51,6 +51,7 @@ UINT gFramesForEvaluationDX11 = 0;
 UINT gDBResolutionDX11 = 10;
 std::wstring gEvaluationNameDX11;
 std::wstring gEvaluationNrDX11;
+UINT gOccludeePackageDX11 = 0;
 TASKSETHANDLE gInsideViewFrustum[2]	= {TASKSETHANDLE_INVALID, TASKSETHANDLE_INVALID};
 TASKSETHANDLE gTooSmall[2]			= {TASKSETHANDLE_INVALID, TASKSETHANDLE_INVALID};
 TASKSETHANDLE gActiveModels[2]      = {TASKSETHANDLE_INVALID, TASKSETHANDLE_INVALID};
@@ -125,6 +126,7 @@ MySample::MySample() :
 	mEvaluationNr(gEvaluationNrDX11),
 	mFramesForEvaluation(gFramesForEvaluationDX11+1),
 	mFramesDone(0),
+	mOccluderPerQuery(gOccludeePackageDX11),
 	mNumDrawCalls(0),
 	mNumDepthTestTasks(gDepthTestTasksDX11),
 	mCurrIdx(0),
@@ -196,7 +198,7 @@ MySample::MySample() :
     mTotalCullTimeLastIndex = 0;
     mTotalCullTimeAvg = 0.0;
 
-	Osmesa = std::make_unique<OSMesaPipeline>(gDBResolutionDX11);
+	Osmesa = std::make_unique<OSMesaPipeline>(gDBResolutionDX11, mOccluderPerQuery);
 }
 
 MySample::~MySample()

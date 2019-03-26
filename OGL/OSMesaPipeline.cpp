@@ -88,7 +88,7 @@ static const char* fragment_shader_text =
 static const char* compute_shader_text =
 "";
 
-OSMesaPipeline::OSMesaPipeline(UINT mDBResolution)
+OSMesaPipeline::OSMesaPipeline(UINT mDBResolution, UINT gOccluderPerQuery)
 {
 	glfwInit();
 
@@ -97,6 +97,8 @@ OSMesaPipeline::OSMesaPipeline(UINT mDBResolution)
 
 	/* Hide window at startup, because we are rendering offscreen anyway */
 	glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+
+	mOccluderPerQuery = gOccluderPerQuery;
 
 	if (mDBResolution == 0)
 	{
@@ -126,7 +128,7 @@ OSMesaPipeline::OSMesaPipeline(UINT mDBResolution)
 	else if (mDBResolution == 5)
 	{
 		mWidth = 3840;
-		mHeight = 2400; // 2160
+		mHeight = 2160;
 	}
 	else
 	{
@@ -285,7 +287,7 @@ void OSMesaPipeline::GatherAllAABBs(const float4 xformedPos[], const float4x4 &w
 * Tests if bounding boxes pass the depth tests,
 * if yes, set true for visibility, false otherwise
 */
-void OSMesaPipeline::SartOcclusionQueries(const std::vector<UINT> &ModelIds, const float4x4 &view, const float4x4 &proj) {
+void OSMesaPipeline::StartOcclusionQueries(const std::vector<UINT> &ModelIds, const float4x4 &view, const float4x4 &proj) {
 
 	// only bind needed, since occludees are already uploaded
 	osmesa_glBindBuffer(GL_ARRAY_BUFFER, occludee_buffer);
@@ -345,7 +347,7 @@ void OSMesaPipeline::SartOcclusionQueries(const std::vector<UINT> &ModelIds, con
 * Tests if bounding boxes pass the depth tests,
 * if yes, set true for visibility, false otherwise
 */
-void OSMesaPipeline::SartOcclusionQueries(const UINT ModelIds[], int ModelCount, const float4x4 &view, const float4x4 &proj, UINT idx) {
+void OSMesaPipeline::StartOcclusionQueries(const UINT ModelIds[], int ModelCount, const float4x4 &view, const float4x4 &proj, UINT idx) {
 
 	// only bind needed, since occludees are already uploaded
 	osmesa_glBindBuffer(GL_ARRAY_BUFFER, occludee_buffer);
@@ -362,26 +364,29 @@ void OSMesaPipeline::SartOcclusionQueries(const UINT ModelIds[], int ModelCount,
 	osmesa_glUniformMatrix4fv(mView_location, 1, GL_FALSE, ConvertMatrix(view));
 	osmesa_glUniformMatrix4fv(mProj_location, 1, GL_FALSE, ConvertMatrix(proj));
 
-	// launch queries
-	//int NumLaunched = 0;
-	//int PackSize = 5;
-	//int Cnt = 0;
-	//while (NumLaunched < mNumQueries[idx]) {
-	//	// also try GL_ANY_SAMPLES_PASSED_CONSERVATIVE (only if some false positives are acceptable)
-	//	// TESTED: little to no difference
-	//	osmesa_glBeginQuery(GL_ANY_SAMPLES_PASSED, pQuery[idx][Cnt]);
+	if (mOccluderPerQuery > 0)
+	{
+		// launch queries
+		int NumLaunched = 0;
+		int Cnt = 0;
+		while (NumLaunched < mNumQueries[idx]) {
+			// also try GL_ANY_SAMPLES_PASSED_CONSERVATIVE (only if some false positives are acceptable)
+			// TESTED: little to no difference
+			osmesa_glBeginQuery(GL_ANY_SAMPLES_PASSED, pQuery[idx][Cnt]);
 
-	//	// make draw call
-	//	osmesa_glUniformMatrix4fv(mModel_location, 1, GL_FALSE, ConvertMatrix(mWorldMatricesAABB[ModelIds[Cnt]]));
-	//	osmesa_glDrawArrays(GL_TRIANGLES, NUMAABBVERTICES * ModelIds[NumLaunched], NUMAABBVERTICES * PackSize);
+			// make draw call
+			osmesa_glUniformMatrix4fv(mModel_location, 1, GL_FALSE, ConvertMatrix(mWorldMatricesAABB[ModelIds[Cnt]]));
+			osmesa_glDrawArrays(GL_TRIANGLES, NUMAABBVERTICES * ModelIds[NumLaunched], NUMAABBVERTICES * mOccluderPerQuery);
 
-	//	osmesa_glEndQuery(GL_ANY_SAMPLES_PASSED);
+			osmesa_glEndQuery(GL_ANY_SAMPLES_PASSED);
 
-	//	++Cnt;
-	//	NumLaunched += PackSize;
-	//}
-
-	for (int i = 0; i < mNumQueries[idx]; ++i) {
+			++Cnt;
+			NumLaunched += mOccluderPerQuery;
+		}
+	}
+	else
+	{
+		for (int i = 0; i < mNumQueries[idx]; ++i) {
 			// also try GL_ANY_SAMPLES_PASSED_CONSERVATIVE (only if some false positives are acceptable)
 			// TESTED: little to no difference
 			osmesa_glBeginQuery(GL_ANY_SAMPLES_PASSED, pQuery[idx][i]);
@@ -391,6 +396,7 @@ void OSMesaPipeline::SartOcclusionQueries(const UINT ModelIds[], int ModelCount,
 			osmesa_glDrawArrays(GL_TRIANGLES, NUMAABBVERTICES * ModelIds[i], NUMAABBVERTICES);
 
 			osmesa_glEndQuery(GL_ANY_SAMPLES_PASSED);
+		}
 	}
 
 	static bool first_frame = true;

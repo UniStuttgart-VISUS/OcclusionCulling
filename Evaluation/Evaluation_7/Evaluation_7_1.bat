@@ -79,8 +79,8 @@ python %evaluationPath%/create_diagram_for_value.py %evaluationName% %currentEva
 
 
 
-SET evaluationName=SSE_0
-SET type=SSE_TYPE                       &:: default: SSE_TYPE   Values: [SCALAR_TYPE | SSE_TYPE | AVX_TYPE | MASK_AVX_TYPE | OGL_TYPE]
+SET evaluationName=MOC_0
+SET type=MASK_AVX_TYPE                  &:: default: SSE_TYPE   Values: [SCALAR_TYPE | SSE_TYPE | AVX_TYPE | MASK_AVX_TYPE | OGL_TYPE]
 SET culling=false                       &:: default: true       Values: [true | false]
 SET frustumCulling=false                &:: default: true       Values: [true | false]
 SET depthBuffer=false                   &:: default: false      Values: [true | false]
@@ -104,8 +104,8 @@ START /WAIT /D %cullingPath% OcclusionCullingD.exe -type %type% -depthBuffer %de
 python %evaluationPath%/create_diagram_for_value.py %evaluationName% %currentEvaluationPath% %framesForEvaluation% %*
 
 
-SET evaluationName=SSE_1
-SET type=SSE_TYPE                       &:: default: SSE_TYPE   Values: [SCALAR_TYPE | SSE_TYPE | AVX_TYPE | MASK_AVX_TYPE | OGL_TYPE]
+SET evaluationName=MOC_1
+SET type=MASK_AVX_TYPE                  &:: default: SSE_TYPE   Values: [SCALAR_TYPE | SSE_TYPE | AVX_TYPE | MASK_AVX_TYPE | OGL_TYPE]
 SET culling=false                       &:: default: true       Values: [true | false]
 SET frustumCulling=true                 &:: default: true       Values: [true | false]
 SET depthBuffer=false                   &:: default: false      Values: [true | false]
@@ -129,8 +129,8 @@ START /WAIT /D %cullingPath% OcclusionCullingD.exe -type %type% -depthBuffer %de
 python %evaluationPath%/create_diagram_for_value.py %evaluationName% %currentEvaluationPath% %framesForEvaluation% %*
 
 
-SET evaluationName=SSE_2
-SET type=SSE_TYPE                       &:: default: SSE_TYPE   Values: [SCALAR_TYPE | SSE_TYPE | AVX_TYPE | MASK_AVX_TYPE | OGL_TYPE]
+SET evaluationName=MOC_2
+SET type=MASK_AVX_TYPE                  &:: default: SSE_TYPE   Values: [SCALAR_TYPE | SSE_TYPE | AVX_TYPE | MASK_AVX_TYPE | OGL_TYPE]
 SET culling=true                        &:: default: true       Values: [true | false]
 SET frustumCulling=true                 &:: default: true       Values: [true | false]
 SET depthBuffer=false                   &:: default: false      Values: [true | false]
@@ -171,8 +171,8 @@ python %evaluationPath%/compare_value_in_diagram.py %currentEvaluationPath% "Vis
 python %evaluationPath%/compare_value_in_diagram.py %currentEvaluationPath% "Percentage culled" %output% %evaluation%
 
 
-SET evaluation=SSE_0 SSE_1 SSE_2 SSE "SSE+F.C." "SSE+F.C.+DepthTest"
-SET output=%evaluationNr%_Results_SSE
+SET evaluation=MOC_0 MOC_1 MOC_2 MOC "MOC+F.C." "MOC+F.C.+DepthTest"
+SET output=%evaluationNr%_Results_MOC
 :: [vale_to_compare] [output_folder] [Evaluation_Run_A].....[Evaluation_Run_Z] [legend_name_A].....[legend_name_Z]
 :: [vale_to_compare] [output_folder] [Evaluation_Run_A].....[Evaluation_Run_Z] [legend_name_A].....[legend_name_Z]
 python %evaluationPath%/compare_value_in_diagram.py %currentEvaluationPath% "Culled Tries" %output% %evaluation%

@@ -1,0 +1,7 @@
+\hline
+                     & MT        & MT+Frustum& MT+Frustum+DepthTest\\ \hline
+Tries culled (\%)    & 11.13     & 11.13     & 43.81     \\ \hline
+Draw Calls           & 19219     & 14318     & 8515      \\ \hline
+Models Culled        & 10180.34  & 14532.39  & 19683.44  \\ \hline
+Models Visible       & 16844.66  & 12492.61  & 7341.56   \\
+\hline

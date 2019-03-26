@@ -175,6 +175,10 @@ void ParseCommandLine()
 		{
 			gEvaluationNrDX11 = std::wstring(argv[i + 1]);
 		}
+		else if (!_wcsicmp(argv[i], L"-occludeePackage"))
+		{
+			gOccludeePackageDX11 = (int)_wtof(argv[i + 1]);
+		}
 	}
 }
 

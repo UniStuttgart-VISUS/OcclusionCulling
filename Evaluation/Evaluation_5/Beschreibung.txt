@@ -6,6 +6,4 @@ OGL
 - Kamerafahrt 1
 - mit und ohne Frustum Culling
 
-Output: 
-- FPS.pdf
-- Percentage culled.pdf
+Output:

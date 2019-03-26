@@ -23,7 +23,7 @@ struct ModelAABB {
 class OSMesaPipeline
 {
 public:
-	OSMesaPipeline(UINT mDBResolution);
+	OSMesaPipeline(UINT mDBResolution, UINT mOccluderPerQuery);
 	~OSMesaPipeline();
 
 	void UploadOccluder(UINT *VStart);
@@ -32,8 +32,8 @@ public:
 	void RasterizeDepthBuffer(const std::vector<float4> &vertices);
 	void GatherAllAABBs(const float4 xformedPos[], const float4x4 &world);
 	void GatherAllOccluder(const std::vector<float4> &geo, const float4x4 &world);
-	void SartOcclusionQueries(const std::vector<UINT> &ModelIds, const float4x4 &view, const float4x4 &proj);
-	void SartOcclusionQueries(const UINT ModelIds[], int ModelCount, const float4x4 &view, const float4x4 &proj, UINT idx);
+	void StartOcclusionQueries(const std::vector<UINT> &ModelIds, const float4x4 &view, const float4x4 &proj);
+	void StartOcclusionQueries(const UINT ModelIds[], int ModelCount, const float4x4 &view, const float4x4 &proj, UINT idx);
 
 	void GetDepthBuffer(float* DBTemp);
 
@@ -45,6 +45,8 @@ public:
 	UINT *AABBVisible[2];
 
 	bool InitAllOccludeeBB = true;
+
+	UINT mOccluderPerQuery = 0;
 
 private:
 

@@ -16,6 +16,4 @@ OGL
 4) run Evaluation_3_2.bat
 6) run Evaluation_3_3.bat
 
-Output: 
-- FPS.pdf
-- Percentage culled.pdf
+Output:

@@ -101,32 +101,39 @@ void AABBoxRasterizerOGLST::TransformAABBoxAndDepthTestOGL(CPUTCamera *pCamera, 
 	}
 	
 	mModelCounts[mSwap] = ModelCount;
-	mesa->SartOcclusionQueries(mpModelIds[mSwap], mModelCounts[mSwap], mViewMatrix[idx], mProjMatrix[idx], mSwap);
+	mesa->StartOcclusionQueries(mpModelIds[mSwap], mModelCounts[mSwap], mViewMatrix[idx], mProjMatrix[idx], mSwap);
 
-	// if all Queries finished, get the results
-	for (int i = 0; i < mModelCounts[!mSwap]; ++i)
+	UINT mOccludeePackage = mesa->mOccluderPerQuery;
+
+	if (mOccludeePackage > 0)
 	{
-		// invert results to see all occluded objects
-		//mpVisible[idx][ModelIds[i]] = mesa->AABBVisibility[i];
-		mpVisible[idx][mpModelIds[!mSwap][i]] = mesa->AABBVisible[!mSwap][i];
+		for (int i = 0; i < floor(mModelCounts[!mSwap] / float(mOccludeePackage)); ++i)
+		{
+			// invert results to see all occluded objects
+			//mpVisible[idx][ModelIds[i]] = mesa->AABBVisibility[i];
+			//mpVisible[idx][mpModelIds[!mSwap][i]] = mesa->AABBVisible[!mSwap][i];
+			if (mesa->AABBVisible[!mSwap][i] == true) {
+				for (int j = 0; j < mOccludeePackage; ++j) {
+					mpVisible[idx][mpModelIds[!mSwap][mOccludeePackage * i + j]] = true;
+				}
+			}
+			else {
+				for (int j = 0; j < mOccludeePackage; ++j) {
+					mpVisible[idx][mpModelIds[!mSwap][mOccludeePackage * i + j]] = false;
+				}
+			}
+		}
 	}
-
-	/*for (int i = 0; i < floor(mModelCounts[!mSwap] / 5.f); ++i)
+	else
 	{
-		// invert results to see all occluded objects
-		//mpVisible[idx][ModelIds[i]] = mesa->AABBVisibility[i];
-		//mpVisible[idx][mpModelIds[!mSwap][i]] = mesa->AABBVisible[!mSwap][i];
-		if (mesa->AABBVisible[!mSwap][i] == true) {
-			for (int j = 0; j < 5; ++j) {
-				mpVisible[idx][mpModelIds[!mSwap][5 * i + j]] = true;
-			}
+		// if all Queries finished, get the results
+		for (int i = 0; i < mModelCounts[!mSwap]; ++i)
+		{
+			// invert results to see all occluded objects
+			//mpVisible[idx][ModelIds[i]] = mesa->AABBVisibility[i];
+			mpVisible[idx][mpModelIds[!mSwap][i]] = mesa->AABBVisible[!mSwap][i];
 		}
-		else {
-			for (int j = 0; j < 5; ++j) {
-				mpVisible[idx][mpModelIds[!mSwap][5 * i + j]] = false;
-			}
-		}
-	}*/
+	}
 
 	mSwap = !mSwap;
 

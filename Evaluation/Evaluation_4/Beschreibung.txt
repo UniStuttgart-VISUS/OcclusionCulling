@@ -4,7 +4,7 @@ OGL
 
 - Standardwerte
 - Kamerafahrt 1
-- Alle 5 Auflösungen
+- Alle 6 Auflösungen
 
 Output: 
 - FPS.pdf

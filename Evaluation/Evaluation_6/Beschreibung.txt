@@ -12,6 +12,4 @@ OGL
 3) add line 95
 3) run Evaluation_6_2.bat
 
-Output: 
-- FPS.pdf
-- Percentage culled.pdf
+Output:

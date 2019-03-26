@@ -158,7 +158,8 @@ private:
 	UINT    			mNumOccluderRasterizedTris;
 	double				mRasterizeTime;
 	float				mOccluderSizeThreshold;
-	
+	float				mOccludeeSizeThreshold;
+
 	UINT				mNumOccludees;
 	UINT				mNumCulled;
 	UINT				mNumVisible;
@@ -166,7 +167,6 @@ private:
 	UINT    			mNumOccludeeCulledTris;
 	UINT    			mNumOccludeeVisibleTris;
 	double				mDepthTestTime;
-	float				mOccludeeSizeThreshold;
 
 	double				mTotalCullTime;
 
@@ -189,6 +189,7 @@ private:
 	UINT				mCurrIdx;
 	UINT				mPrevIdx;
 	bool				mFirstFrame;
+	UINT				mOccluderPerQuery;
 
     //bool                mOcclusionMatchGPUResolution;
 

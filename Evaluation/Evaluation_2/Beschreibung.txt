@@ -9,6 +9,4 @@ OGL
 - Standardwerte
 - Kamerafahrt 2
 
-Output: 
-- FPS.pdf
-- Percentage culled.pdf
+Output:

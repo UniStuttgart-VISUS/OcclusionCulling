@@ -57,6 +57,7 @@ extern UINT gFramesForEvaluationDX11;
 extern UINT gDBResolutionDX11;
 extern std::wstring gEvaluationNameDX11;
 extern std::wstring gEvaluationNrDX11;
+extern UINT gOccludeePackageDX11;
 
 extern TASKSETHANDLE gInsideViewFrustum[2];
 extern TASKSETHANDLE gTooSmall[2];
