@@ -1,0 +1,26 @@
+                                 Avg            Min            Max
+OGL_0      % Culled            51.75          40.91          34.61
+OGL_0      Draw Calls           3551         1852.0         5504.0
+OGL_0      Models Culled    23819.61        22146.0        25304.0
+OGL_0      Models Visible    3205.39         1721.0         4879.0
+
+OGL_1      % Culled            47.59           34.6          28.89
+OGL_1      Draw Calls           5696         2331.0         8607.0
+OGL_1      Models Culled    21970.67        19521.0        24961.0
+OGL_1      Models Visible    5054.33         2064.0         7504.0
+
+OGL_2      % Culled            44.65          29.56          25.16
+OGL_2      Draw Calls           7644         2552.0        11468.0
+OGL_2      Models Culled    20320.78        17137.0        24728.0
+OGL_2      Models Visible    6704.22         2297.0         9888.0
+
+OGL_3      % Culled            48.18          27.42          35.95
+OGL_3      Draw Calls           7896         1895.0        11440.0
+OGL_3      Models Culled    20135.84        17087.0        25354.0
+OGL_3      Models Visible    6889.16         1671.0         9938.0
+
+OGL_4      % Culled            43.77          27.87          24.27
+OGL_4      Draw Calls           8423         2603.0        12327.0
+OGL_4      Models Culled    19660.16        16391.0        24671.0
+OGL_4      Models Visible    7364.84         2354.0        10634.0
+

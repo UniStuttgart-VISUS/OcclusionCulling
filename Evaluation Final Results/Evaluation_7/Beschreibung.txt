@@ -1,0 +1,12 @@
+Evaluation_7
+
+SSE
+OGL
+
+- Standardwerte
+- Kamerafahrt 1
+- MT / MT + Frustum Culling / MT + Frustum Culling + Depth Test Culling
+
+Output: 
+- Evaluation_7_Results_OGL_Draw Calls
+- Evaluation_7_Results_MOC_Draw Calls.pd

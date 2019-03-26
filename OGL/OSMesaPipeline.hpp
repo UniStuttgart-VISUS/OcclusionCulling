@@ -23,7 +23,7 @@ struct ModelAABB {
 class OSMesaPipeline
 {
 public:
-	OSMesaPipeline(UINT mDBResolution, UINT mOccluderPerQuery);
+	OSMesaPipeline(UINT mOccluderPerQuery);
 	~OSMesaPipeline();
 
 	void UploadOccluder(UINT *VStart);
