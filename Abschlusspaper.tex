@@ -27,7 +27,7 @@
 
 
 %% author name
-\author{Dominik Sellenthin \and Michael Stegmaier \and Gariharan Kanthasamy}
+\author{Dominik Sellenthin \and Christian Stegmaier \and Gariharan Kanthasamy}
 
 %% paper title
 \title{OpenGL-basiertes Software Occlusion Culling zur Beschleunigung des 3D-Renderings gro{\ss}er Datenmengen und komplexer Szenen}
@@ -162,13 +162,13 @@ Zuerst wurde die OGL-Methode auf den qualitativen Aspekt untersucht, das hei"st,
 	\begin{minipage}{\textwidth}
 		\centering
 		\scalebox{1.2}{
-			\begin{tabular}{| l | r | r | r | r | r | r |}
+			\begin{tabular}{| l | r | r | r | r | r |}
 				\hline
-				& 320x192   & 640x360   & 1280x720  & 1920x1080 & 2432x1440 & 3840x2160 \\ \hline
-				Tries culled (\%)    & 51.88     & 47.65     & 44.69     & 43.81     & 48.55     & 75.03     \\ \hline
-				Draw Calls           & 3640      & 5759      & 7725      & 8515      & 7920      & 2602      \\ \hline
-				Models Culled        & 23795.46  & 21996.8   & 20346.68  & 19683.44  & 20196.8   & 24718.0   \\ \hline
-				Models Visible       & 3229.54   & 5028.2    & 6678.32   & 7341.56   & 6828.2    & 2307.0    \\
+				& 320x192   & 640x360   & 1280x720  & 1920x1080 & 2432x1440 \\ \hline
+				Tries culled (\%)    & 51.75     & 47.59     & 44.65     & 48.18     & 43.77     \\ \hline
+				Draw Calls           & 3551      & 5696      & 7644      & 7896      & 8423      \\ \hline
+				Models Culled        & 23819.61  & 21970.67  & 20320.78  & 20135.84  & 19660.16  \\ \hline
+				Models Visible       & 3205.39   & 5054.33   & 6704.22   & 6889.16   & 7364.84   \\
 				\hline
 		\end{tabular}}
 	\end{minipage}
@@ -187,7 +187,7 @@ Als n"achstes wurden die Auswirkungen verschiedener Culling Kombinationen auf di
 
 \begin{figure*}
 	\begin{minipage}{0.4\textwidth}
-		\includegraphics[width=\textwidth]{images/Evaluation_7_Results_SSE_Draw Calls.pdf}
+		\includegraphics[width=\textwidth]{images/Evaluation_7_Results_MOC_Draw Calls.pdf}
 	\end{minipage}
 	\begin{minipage}{0.4\textwidth}
 		\centering
@@ -196,10 +196,10 @@ Als n"achstes wurden die Auswirkungen verschiedener Culling Kombinationen auf di
 				\hline
 				& MT        & MT+Frustum& MT+Frustum\\
 				&           &           & + Depth Test\\ \hline
-				Tries culled (\%)    & 11.13     & 11.13     & 43.88     \\ \hline
-				Draw Calls           & 19219     & 14318     & 8442      \\ \hline
-				Models Culled        & 10180.34  & 14532.39  & 19728.07  \\ \hline
-				Models Visible       & 16844.66  & 12492.61  & 7296.93   \\
+				Tries culled (\%)    & 11.13     & 11.13     & 40.41     \\ \hline
+				Draw Calls           & 19219     & 14318     & 10528     \\ \hline
+				Models Culled        & 10180.34  & 14532.39  & 17903.78  \\ \hline
+				Models Visible       & 16844.66  & 12492.61  & 9121.22   \\
 				\hline
 		\end{tabular}}
 	\end{minipage}
@@ -214,10 +214,10 @@ Als n"achstes wurden die Auswirkungen verschiedener Culling Kombinationen auf di
 				\hline
 				& MT        & MT+Frustum& MT+Frustum\\
 				&           &           & + Depth Test\\ \hline
-				Tries culled (\%)    & 11.13     & 11.13     & 43.81     \\ \hline
-				Draw Calls           & 19219     & 14318     & 8515      \\ \hline
-				Models Culled        & 10180.34  & 14532.39  & 19683.44  \\ \hline
-				Models Visible       & 16844.66  & 12492.61  & 7341.56   \\
+				Tries culled (\%)    & 11.13     & 11.13     & 43.77     \\ \hline
+				Draw Calls           & 19219     & 14318     & 8423      \\ \hline
+				Models Culled        & 10180.34  & 14532.39  & 19660.16  \\ \hline
+				Models Visible       & 16844.66  & 12492.61  & 7364.84   \\
 				\hline
 		\end{tabular}}
 	\end{minipage}
@@ -243,12 +243,12 @@ Es wurde auch ein Test durchgef"uhrt, der das Leistungsverhalten unterschiedlich
 	\begin{minipage}{\textwidth}
 		\centering
 		\scalebox{1.2}{
-			\begin{tabular}{| l | r | r | r | r | r | r |}
+			\begin{tabular}{| l | r | r | r | r | r |}
 				\hline
-				& 320x192   & 640x360   & 1280x720  & 1920x1080 & 2432x1440 & 3840x2160 \\ \hline
-				FPS                  & 5.87      & 5.33      & 4.6       & 3.55      & 3.46      & 3.81      \\ \hline
-				DepthTest time (ms)  & 112.33    & 124.68    & 157.83    & 235.25    & 245.85    & 236.42    \\ \hline
-				Rasterize time (ms)  & 63.3      & 63.97     & 62.43     & 63.46     & 66.34     & 63.93     \\
+				& 320x192   & 640x360   & 1280x720  & 1920x1080 & 2432x1440 \\ \hline
+				FPS                  & 21.48     & 17.53     & 9.55      & 4.58      & 5.31      \\ \hline
+				DepthTest time (ms)  & 50.4      & 63.22     & 122.21    & 265.67    & 228.85    \\ \hline
+				Rasterize time (ms)  & 6.64      & 6.85      & 6.87      & 7.07      & 8.02      \\
 				\hline
 		\end{tabular}}
 	\end{minipage}
@@ -275,6 +275,7 @@ Wieso brauchen OQ so lange?
 %Evaluation 6: alle 5 + OGL ohne Mesa\\
 %Evaluation 7: OGL + SSE, MT / MT + Frustum Culling / MT + Frustum Culling + Depth Test Culling\\
 %Evaluation 8: OGL + SSE, Depth Test Tasks 5 / 20 / 100
+%Evaluation 9: OGL, OccluderPerQuery 0 / 1 / 2 / 3 / 5 / 10 / 15
 %
 %1)
 %- Auflösungen DB
