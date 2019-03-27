@@ -1973,6 +1973,10 @@ void MySample::Render(double deltaSeconds)
     }
 #endif
 
+	//if (mFramesDone == 23)
+	//{
+	//	mFramesDone = 101;
+	//}
 
 	// Evaluation
 	if (mFramesDone == 0)

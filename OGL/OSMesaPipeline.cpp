@@ -331,21 +331,16 @@ void OSMesaPipeline::StartOcclusionQueries(const UINT ModelIds[], int ModelCount
 	if (mOccluderPerQuery > 0)
 	{
 		// launch queries
-		int NumLaunched = 0;
-		int Cnt = 0;
-		while (NumLaunched < mNumQueries[idx]) {
+		for (int i = 0; i < floor(mNumQueries[idx] / float(mOccluderPerQuery)); ++i) {
 			// also try GL_ANY_SAMPLES_PASSED_CONSERVATIVE (only if some false positives are acceptable)
 			// TESTED: little to no difference
-			osmesa_glBeginQuery(GL_ANY_SAMPLES_PASSED, pQuery[idx][Cnt]);
+			osmesa_glBeginQuery(GL_ANY_SAMPLES_PASSED, pQuery[idx][i]);
 
 			// make draw call
-			osmesa_glUniformMatrix4fv(mModel_location, 1, GL_FALSE, ConvertMatrix(mWorldMatricesAABB[ModelIds[Cnt]]));
-			osmesa_glDrawArrays(GL_TRIANGLES, NUMAABBVERTICES * ModelIds[NumLaunched], NUMAABBVERTICES * mOccluderPerQuery);
+			osmesa_glUniformMatrix4fv(mModel_location, 1, GL_FALSE, ConvertMatrix(mWorldMatricesAABB[ModelIds[i*mOccluderPerQuery]]));
+			osmesa_glDrawArrays(GL_TRIANGLES, NUMAABBVERTICES * ModelIds[i*mOccluderPerQuery], NUMAABBVERTICES * mOccluderPerQuery);
 
 			osmesa_glEndQuery(GL_ANY_SAMPLES_PASSED);
-
-			++Cnt;
-			NumLaunched += mOccluderPerQuery;
 		}
 	}
 	else
