@@ -1,0 +1,21 @@
+                                 Avg            Min            Max
+OGL_0      FPS                 21.48        9.45205        71.4761
+OGL_0      DepthTest Time       50.4      0.0127477      0.0874306
+OGL_0      Rasterize Time       6.64     0.00263348      0.0123643
+
+OGL_1      FPS                 17.53         7.1856        60.2127
+OGL_1      DepthTest Time      63.22      0.0158921       0.111333
+OGL_1      Rasterize Time       6.85     0.00280472      0.0131958
+
+OGL_2      FPS                  9.55        4.02199        32.7468
+OGL_2      DepthTest Time     122.21      0.0318723       0.201765
+OGL_2      Rasterize Time       6.87     0.00297308      0.0121326
+
+OGL_3      FPS                  4.58        1.96879        15.4829
+OGL_3      DepthTest Time     265.67      0.0702957       0.398513
+OGL_3      Rasterize Time       7.07     0.00335055      0.0118459
+
+OGL_4      FPS                  5.31        2.21458         16.732
+OGL_4      DepthTest Time     228.85      0.0569858       0.345545
+OGL_4      Rasterize Time       8.02     0.00515143      0.0135957
+

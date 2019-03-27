@@ -1,0 +1,15 @@
+Evaluation_6
+
+OGL
+
+- Standardwerte
+- Kamerafahrt 1
+- mit und ohne Mesa
+
+
+1) Remove line 95 from OSMesaPipeline.cpp
+2) run Evaluation_6_1.bat
+3) add line 95
+3) run Evaluation_6_2.bat
+
+Output:

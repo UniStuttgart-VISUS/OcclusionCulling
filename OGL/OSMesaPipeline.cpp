@@ -88,7 +88,7 @@ static const char* fragment_shader_text =
 static const char* compute_shader_text =
 "";
 
-OSMesaPipeline::OSMesaPipeline(UINT mDBResolution, UINT gOccluderPerQuery)
+OSMesaPipeline::OSMesaPipeline(UINT gOccluderPerQuery)
 {
 	glfwInit();
 
@@ -100,44 +100,8 @@ OSMesaPipeline::OSMesaPipeline(UINT mDBResolution, UINT gOccluderPerQuery)
 
 	mOccluderPerQuery = gOccluderPerQuery;
 
-	if (mDBResolution == 0)
-	{
-		mWidth = 320;
-		mHeight = 192;
-	}
-	else if (mDBResolution == 1)
-	{
-		mWidth = 640;
-		mHeight = 360;
-	}
-	else if (mDBResolution == 2)
-	{
-		mWidth = 1280;
-		mHeight = 720;
-	}
-	else if (mDBResolution == 3)
-	{
-		mWidth = 1920;
-		mHeight = 1080;
-	}
-	else if (mDBResolution == 4)
-	{
-		mWidth = 2432;
-		mHeight = 1440;
-	}
-	else if (mDBResolution == 5)
-	{
-		mWidth = 3840;
-		mHeight = 2160;
-	}
-	else
-	{
-		mWidth = SCREENW;
-		mHeight = SCREENH;
-	}
-
 	/* Create a windowed mode window and its OpenGL context */
-	window = glfwCreateWindow(mWidth, mHeight, "Hello OSMesa", NULL, NULL);
+	window = glfwCreateWindow(SCREENW, SCREENH, "Hello OSMesa", NULL, NULL);
 	if (window == NULL)
 	{
 		std::cout << "Window creation failed." << std::endl;

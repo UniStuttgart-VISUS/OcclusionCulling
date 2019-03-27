@@ -198,7 +198,7 @@ MySample::MySample() :
     mTotalCullTimeLastIndex = 0;
     mTotalCullTimeAvg = 0.0;
 
-	Osmesa = std::make_unique<OSMesaPipeline>(gDBResolutionDX11, mOccluderPerQuery);
+	Osmesa = std::make_unique<OSMesaPipeline>(mOccluderPerQuery);
 }
 
 MySample::~MySample()

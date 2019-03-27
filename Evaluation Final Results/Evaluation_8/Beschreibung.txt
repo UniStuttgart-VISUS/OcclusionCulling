@@ -1,0 +1,10 @@
+Evaluation_8
+
+SSE
+OGL
+
+- Standardwerte
+- Kamerafahrt 1
+- Depth Test Tasks 5 / 20  / 100
+
+Output:
