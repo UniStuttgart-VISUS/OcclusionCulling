@@ -18,7 +18,7 @@
 \usepackage{graphicx}
 \usepackage{times}
 \usepackage[space]{grffile}
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref}
 
 
 %% allow for this line if you want the electronic option to work
@@ -73,7 +73,7 @@ In dieser Arbeit wird daher in einem von Intel entwickelten SOC-Framework eine a
 
 \maketitle
 
-Heutige Anwendungen haben immer h"ohere Anspr"uche an die Leistung der Engines(?) und der Wunsch nach besserer Performanz und h"oheren Bildraten (frames per second, FPS) ist gro{\ss}.
+Heutige Anwendungen haben immer h"ohere Anspr"uche an die Leistung der Engines und der Wunsch nach besserer Performanz und h"oheren Bildraten (frames per second, FPS) ist gro{\ss}.
 Hinzukommt, dass in modernen Anwendungen die zu rendernden Szenen immer weniger statisch und immer mehr dynamisch werden, wie es beispielsweise in Computerspielen der Fall ist.
 Um dieser Dynamik gerecht zu werden, wird sich von Verfahren mit potenziellen Sichtbarkeitsmengen entfernt \cite{MSOC} und es wird sich einer Methode namens \textit{Occlusion Culling} (\textit{to occlude = verdecken, to cull = aussondern, herausfiltern}) bedient.
 Ziel des Occlusion Cullings ist es, noch vor dem Rendering der n"achsten Szene, herauszufinden, welche Objekte in der kommenden Szene sichtbar sind und welche nicht.
@@ -93,7 +93,7 @@ Moderne Prozessoren besitzen mittlerweile einige separat nutzbare Kerne, die par
 Damit die gesamte Rechenleistung der Prozessoren auch genutzt wird, wird in dieser Arbeit auf den Software-Rasterisierer Mesa 3D zur"uckgegriffen, der au{\ss}erdem mit der bew"ahrten OpenGL API arbeitet. \\
 
 Implementiert wurde die OGL-Methode in einem Software Occlusion Culling (SOC) Framework, das von Intel frei zur Verf"ugung gestellt wird \cite{SOCF}.
-Das Framework eignet sich sehr gut f"ur die Implementierung einer neuen SOC-Methode, da es sowohl essentielle Ablaufstrukturen als auch eine ausreichend gro{\ss}e und komplexe Testszene zur Verf"ugung stellt, mit der eine Evaluation der OGL-Methode erm"oglicht wird, siehe Abb.\ \ref{fig:teaser} links.
+Das Framework eignet sich sehr gut f"ur die Implementierung einer neuen SOC-Methode, da es sowohl essentielle Ablaufstrukturen als auch eine ausreichend gro{\ss}e und komplexe Testszene zur Verf"ugung stellt, mit der eine Evaluation der OGL-Methode erm"oglicht wird, siehe Abb.\ \ref{fig:teaser} linkes Bild.
 
 
 \section{Related Work}
@@ -106,23 +106,23 @@ Da das Framework bereits alle notwendigen Strukturen f"ur schon bestehende Metho
 \end{figure}
 Hinzukommen lediglich Ver"anderungen der Routinen zum Laden der Testszene und die Implementierung des Cullings selber.
 Vorhanden sind unter anderem Methoden, die mit \textit{Streaming SIMD Extension} (SSE) und \textit{Intel Advanced Vector Extension} (AVX) arbeiten.
-Au{\ss}erdem ist noch eine optimierte Variante der AVX-Technik vorhanden, \textit{Masked Software Occlusion Culling} (MSOC) \cite{MSOC}, die mit einer abgewandelten Form des hierarchischen Z-Buffers (HiZ) \cite{HiZ} arbeitet, der durch einen Software-Rasterisierer berechnet wird.
+Au{\ss}erdem ist noch eine optimierte Variante der AVX-Technik vorhanden, \textit{Masked Software Occlusion Culling} (MOC) \cite{MOC}, die mit einer abgewandelten Form des hierarchischen Z-Buffers (HiZ) \cite{HiZ} arbeitet, der durch einen Software-Rasterisierer berechnet wird.
 
-Hasselgren et al. \cite{MSOC} stellen in ihrer Arbeit einen Algorithmus vor, der durch seinen effizienten HiZ die Performanz signifikant verbessert.
+Hasselgren et al. \cite{MOC} stellen in ihrer Arbeit einen Algorithmus vor, der durch seinen effizienten HiZ die Performanz signifikant verbessert.
 Anstatt wie in fr"uheren Arbeiten Pixel als kleinste Einheit zu betrachten, werden nun \textit{Kacheln} verwendet.
 Kacheln sind dabei lediglich eine Zusammenfassung mehrerer aneinanderliegender Pixel.
 Da AVX2 erm"oglicht, 8 SIMD Instruktionen mit 32-Bit Pr"azision auszuf"uhren, wurde f"ur die Kacheln eine Gr"o\ss{}e von 32x8 Pixeln gew"ahlt.
-Indem Bitmasken von rechts und links in die Kacheln geschoben werden, wird am Ende eine Abdeckungsmaske erhalten, die angibt, welche Pixel in einer Kachel verdeckt werden \cite{MSOC}.
+Indem Bitmasken von rechts und links in die Kacheln geschoben werden, wird am Ende eine Abdeckungsmaske erhalten, die angibt, welche Pixel in einer Kachel verdeckt werden \cite{MOC}.
 W"ahrend ihr Algorithmus keine 100\% Pr"azision garantiert - \textit{false positives} sind m"oglich - bewegt sich der Fehler in gleicher Gr"o\ss{}enordnung wie bei bisherigen Algorithmen.
 Ein wichtiger Faktor f"ur die Performanz ihres Algorithmus ist die Reihenfolge, in der die Objekte gerendert werden.
 Die Objekte sollten bestm"oglichst von vorne nach hinten gerendert werden.
 Dadurch werden die wichtigsten Occluder als erstes rasterisiert (dargestellt) und f"ur den Fall, dass die Zeit f"ur Occlusion Culling begrenzt ist, wird trotzdem ein nahezu optimales Ergebnis erzielt \cite{MSOC}.\\
 
-Bei einem Vergleich zwischen einem HiZ-Algorithmus und dem MSOC - bei voller Aufl"osung (1920x1080 Pixel) und Single-Core Performanz - geht hervor, dass der MSOC-Algorithmus 2\% weniger Dreiecke als der HiZ wegwirft, aber dennoch eine bessere Performanz erzielt \cite{MSOC}.
+Bei einem Vergleich zwischen einem HiZ-Algorithmus und dem MOC - bei voller Aufl"osung (1920x1080 Pixel) und Single-Core Performanz - geht hervor, dass der MOC-Algorithmus 2\% weniger Dreiecke als der HiZ wegwirft, aber dennoch eine bessere Performanz erzielt \cite{MSOC}.
 Mit beiden Occlusion Culling Algorithmen kann eine 1,5-7x schnellere Total Frame Time gegen"uber Rendering mit nur Frustum Culling erreicht werden.
-In einem zweiten Test in einer wesentlich komplexeren Szene mit 143k Occluder-Meshes ist die Occlusion Culling Time des MSOC-Algorithmus zeitweise bis zu 10x schneller als die des HiZ-Algorithmus \cite{MSOC}.
-Die Skalierbarkeit des MSOC is der des HiZ deutlich "uberlegen. Mit steigender Gr"o"se der Dreiecke steigt auch der Performanzunterschied zwischen dem MSOC und dem HiZ.
-Im Allgemeinen soll der MSOC-Algorithmus 3x schneller sein und gleichzeitig 98\% aller Dreiecke wegwerfen als die bisherigen Algorithmen bei einem nur geringen Memory Overhead \cite{MSOC}.
+In einem zweiten Test in einer wesentlich komplexeren Szene mit 143k Occluder-Meshes ist die Occlusion Culling Time des MOC-Algorithmus zeitweise bis zu 10x schneller als die des HiZ-Algorithmus \cite{MSOC}.
+Die Skalierbarkeit des MOC is der des HiZ deutlich "uberlegen. Mit steigender Gr"o"se der Dreiecke steigt auch der Performanzunterschied zwischen dem MOC und dem HiZ.
+Im Allgemeinen soll der MOC-Algorithmus 3x schneller sein und gleichzeitig 98\% aller Dreiecke wegwerfen als bisherige Algorithmen bei einem nur geringen Memory Overhead \cite{MSOC}.
 
 \section{Software Occlusion Culling}
 Die Menge der Objekte, die es zu Rendern gilt, wird in zwei Mengen aufgeteilt.
@@ -177,7 +177,7 @@ Der grunds"atzliche Ablauf in jedem Frame sieht also entsprechend Abb.\ \ref{fig
 Frustum Culling l"asst nur Objekte passieren, die sich im Sichtbereich der Kamera befinden und kann somit je nach Kameraposition einen gro{\ss}en Teil der Objekte aus der Menge der zu rendernden Objekte herausnehmen.
 Daf"ur wird die AABB des Objekts gegen jede der sechs Ebenen des Frustums getestet, ob sich die AABB \textit{vollst"andig} au{\ss}erhalb einer dieser Ebenen befindet.
 Ist das der Fall, kann das Objekt als nicht sichtbar markiert werden und wird im weiteren Verlauf nicht weiter betrachtet. Dieser Zwischenschritt ist zwar optional, ist aber den Rechenaufwand wert, denn er bringt eine enorme Leistungssteigerung von teilweise "uber 200\%.\\
-Anmerkung zum Frustum Culling: W"ahrend die Performance des Frustum Cullings sehr konstant bleibt, sind bei anderen Occlusion Culling Algorithmen gr"o\ss{}ere Schwankungen erkennbar, da ein gro\ss{}er Occluder im Vordergrund potenziell alle Occludees hinter ihm "uberdecken kann und damit die Berechnung stark vereinfacht \cite{MSOC}.\\
+Anmerkung zum Frustum Culling: W"ahrend die Performance des Frustum Cullings sehr konstant bleibt, sind bei anderen Occlusion Culling Algorithmen gr"o\ss{}ere Schwankungen erkennbar, da ein gro\ss{}er Occluder im Vordergrund potenziell alle Occludees hinter ihm "uberdecken kann und damit die Berechnung stark vereinfacht.\\
 
 
 \subsection{Tiefenpuffer Rasterisierung}
@@ -193,7 +193,7 @@ Das Rendering rasterisiert die Occluder, das hei{\ss}t, die Occluder werden auf 
 
 
 \subsection{Occlusion Queries}
-An dieser Stelle sei erw"ahnt, dass die gesamte Occludeemenge zu Beginn des Programms einmal hochgeladen wurde (wohin?) und im Programm selber nur via Indexlisten zugegriffen wird, so dass zus"atzliche Ladezeiten vermieden werden.
+An dieser Stelle sei erw"ahnt, dass die gesamte Occludeemenge zu Beginn des Programms einmal hochgeladen wurde und im Programm selber nur via Indexlisten zugegriffen wird, so dass zus"atzliche Ladezeiten vermieden werden.
 Die Realisierung der Occlusion Queries gestaltet sich durch die von der OpenGL API zur Verf"ugung gestellten \textit{glQuery} sehr unkompliziert.
 Zu Anfang werden f"ur alle Occludees, die innerhalb des Frustums sind, eine Occlusion Query gestartet.
 Die Occludees werden wie die Occluder rasterisiert, allerdings wird in diesem Schritt der Tiefenpuffer nicht "uberschrieben, sondern es wird ausschlie{\ss}lich getestet, ob der Tiefenwert des Occludees kleiner als der des Tiefenpuffers ist.
@@ -229,8 +229,8 @@ Nachdem alle Occlusion Queries ihre Berechnungen beendet haben, werden zum Schlu
 %%%%% ERGEBNISSE %%%%%
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Ergebnisse}
-Die dokumentierten Ergebnisse wurden mit dem SOC-Framework von Intel berechnet und verwenden die dortige Testszene einer Burg beziehungsweise eines Markplatzes, siehe Abb.\ \ref{fig:teaser}.
-Die Burg umfasst 115 Occluder mit 48700 Dreiecken und 27025 Occludees mit $\approx$ 1923000 Dreiecken \cite{MSOC}. Sofern nicht anders angeben, wurden s"amtliche Ergebnisse mit einer Kamerafahrt, wie sie in Abb.\ \ref{fig:fahrt} angedeutet ist, "uber 100 Frames erstellt.
+Die dokumentierten Ergebnisse wurden mit dem SOC-Framework von Intel berechnet und verwenden die dortige Testszene einer Burg, beziehungsweise eines Markplatzes, siehe Abb.\ \ref{fig:teaser}.
+Die Burg umfasst 115 Occluder mit 48.700 Dreiecken und 27.025 Occludees mit $\approx$ 1.923.000 Dreiecken \cite{SOCF}. Sofern nicht anders angeben, wurden s"amtliche Ergebnisse mit einer Kamerafahrt, wie sie in Abb.\ \ref{fig:fahrt} angedeutet ist, "uber 100 Frames erstellt.
 \begin{figure}%
 \includegraphics[width=0.33\columnwidth]{images/Tour1.png}%
 \includegraphics[width=0.33\columnwidth]{images/Tour2.png}%
@@ -250,14 +250,13 @@ Als Hardware wurde ein Rechner mit einem Intel Core i7-4770, einer NVIDIA Geforc
 Zuerst wurde die OGL-Methode auf den qualitativen Aspekt untersucht, das hei"st, ist das Ergebnis korrekt und wie \glqq gut\grqq{} ist das Ergebnis im Hinblick auf die Anzahl der weggeworfenen Dreiecke.
 Abb.\ \ref{fig:resolution_culled} zeigt die erzielten Ergebnisse.
 Im linken Bild ist ein Vergleich aller im SOC-Framework implementierten Occlusion Culling Techniken zu finden.
-Es ist gut zu sehen, dass die OGL-Methode qualitativ keinerlei Abstriche bei dieser Eigenschaften gegen"uber den anderen Techniken machen muss.
+Es ist gut zu sehen, dass die OGL-Methode qualitativ keinerlei Abstriche bei dieser Eigenschaft gegen"uber den anderen Techniken machen muss.
 Lediglich die etwas schlechteren Werte der MOC-Methode stehen hervor, aber das ist nicht verwunderlich, da dies bereits in \cite{MSOC} erl"autert wurde.
 In einem weiteren Test, der nur die OGL-Methode betrifft, wurde untersucht, inwiefern eine geringere Aufl"osung des Tiefenpuffers Auswirkungen auf die Anzahl der weggeworfenen Dreiecke hat und somit indirekt ebenfalls Auswirkungen auf die Anzahl der Objekte, die weggeworfen werden und schlie"slich auf die Anzahl der Draw Calls, die einen wichtigen Teil der gesamten Performanz ausmachen.
-Die Ergebnisse sind gr"osteils genau so zu erwarten.
+Die Ergebnisse sind gr"o"stenteils genau so zu erwarten.
 Je geringer die Aufl"osung des Tiefenpuffers wird, desto gr"ober und ungenauer wird das Ergebnis, sprich mit fallender Aufl"osung steigt die Anzahl der Dreiecke, die weggeworfen werden.
 Interessant ist das Ergebnis f"ur die Aufl"osung 1920x1080.
 Zu Anfang ist der Verlauf "ahnlich zu allen anderen, aber etwa ab Frame 60 verringert sich die Anzahl an weggeworfenen Dreiecken ungef"ahr linear und nicht wie bei allen anderen ungef"ahr gem"a"s $\frac{1}{x}$.
-\textbf{ERKL"ARUNG DAF"UR}.
 Ebenfalls wie erwartet ist das Ergebnis f"ur die Anzahl an Objekten, die weggeworfen werden und die Draw Calls (siehe Abb.\ \ref{fig:resolution_culled} Tabelle).
 Geht die Anzahl der weggeworfenen Objekte hoch, geht entsprechend die Anzahl der Draw Calls runter (und dar"uber hinaus verbessert sich entsprechend die Performanz, sp"ater mehr).
 Lediglich die Anzahl an Draw Calls f"ur 1920x1080 entrinnt dem Muster, da es erwartungsgem"a"s weniger Draw Calls geben m"usste f"ur die Anzahl an weggeworfenen Dreiecken.\\
@@ -299,7 +298,7 @@ Dadurch, dass die verschiedenen Methoden nur f"ur den Tiefentest benutzt werden,
 				\hline
 		\end{tabular}}
 	\end{minipage}
-	\caption{Links: FPS-Vergleich aller SOC-Methoden im Intel-Framework bei Full-HD Aufl"osung, aktiviertem MT, FC und TTC. OGL schneidet mit nur einem Bruchteil der FPS von MOC oder SSE deutlich am schlechtesten ab. Rechts: Kamerafahrt mit unterschiedlichen Tiefenpuffergr"o"sen. Mit niedriger werdenden Aufl"osungen sinken die Tiefentestzeiten ab (siehe Tabelle) und die FPS steigen erwartungsgem"a"s an, mit einer Ausnahme bei der 4k-Aufl"osung, die trotz ihrer 4-fachen Full-HD Puffergr"o"se, etwas besser abschneidet als die Full-HD Aufl"osung.}
+	\caption{Links: FPS-Vergleich aller SOC-Methoden im Intel-Framework bei Full-HD Aufl"osung, aktiviertem MT, FC und TTC. OGL schneidet mit nur einem Bruchteil der FPS von MOC oder SSE deutlich am schlechtesten ab. Rechts: Kamerafahrt mit unterschiedlichen Tiefenpuffergr"o"sen. Mit niedriger werdenden Aufl"osungen sinken die Tiefentestzeiten ab (siehe Tabelle) und die FPS steigen erwartungsgem"a"s an, mit einer Ausnahme bei der 2432x1440 Aufl"osung, die trotz ihrer erh"ohten Puffergr"o"se, etwas besser abschneidet als die Full-HD Aufl"osung.}
 	\label{fig:resolution_fps}
 \end{figure*}
 
@@ -341,8 +340,6 @@ Ein Grund f"ur den gro"sen Zeitverlust wurde bei langen Wartezeiten gesehen, die
 Deswegen wurde die Implementierung dahingehend ge"andert, dass ein zweites Set an Occlusion Queries generiert wurde, das die Ergebnisse der OQs des vorherigen Frames enth"alt.
 Durch das zweite Set kann die Warteroutine weggelassen werden, unter der Annahme, dass im aktuellen Frame alle Ergebnisse des vorherigen Frames vorliegen.
 Dadurch konnte das Problem mit langen Wartezeiten zwar gel"ost werden, allerdings wurden dadurch keine signifikanten Performanzverbesserungen erzielt.
-\textbf{Wieso brauchen OQ so lange?}
-
 
 %Notizen zu den Ergebnissen:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
