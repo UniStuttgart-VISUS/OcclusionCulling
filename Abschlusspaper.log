@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018/W32TeX) (preloaded format=pdflatex 2019.2.19)  28 MAR 2019 10:47
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018/W32TeX) (preloaded format=pdflatex 2019.2.19)  28 MAR 2019 16:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -407,12 +407,6 @@ Underfull \hbox (badness 2229) in paragraph at lines 76--82
  []
 
 
-Underfull \hbox (badness 1708) in paragraph at lines 76--82
-\T1/ptm/m/n/9 na-mens \T1/ptm/m/it/9 Oc-clu-si-on Cul-ling \T1/ptm/m/n/9 (\T1/p
-tm/m/it/9 to oc-clu-de = ver-de-cken, to cull =
- []
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 76--82
 
  []
@@ -440,88 +434,90 @@ File: images/AblaufFramework.png Graphic file (type png)
 <use images/AblaufFramework.png>
 Package pdftex.def Info: images/AblaufFramework.png  used on input line 103.
 (pdftex.def)             Requested size: 251.31898pt x 37.09644pt.
-LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <9> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 109.
+
+Underfull \hbox (badness 2644) in paragraph at lines 111--124
+\T1/ptm/m/n/9 die da-zu-ge-hö-ri-gen Tie-fen-wer-te ent-hält. Ziel der Auf-tei-
+lung ist
+ []
 
 
-LaTeX Warning: Citation `MOC' on page 2 undefined on input line 109.
+Underfull \hbox (badness 1242) in paragraph at lines 111--124
+\T1/ptm/m/n/9 be-trach-ten, nun \T1/ptm/m/it/9 Ka-cheln \T1/ptm/m/n/9 ver-wen-d
+et wer-den. Ka-cheln sind da-bei
+ []
 
 
-LaTeX Warning: Citation `MOC' on page 2 undefined on input line 111.
-
-
-LaTeX Warning: Citation `MOC' on page 2 undefined on input line 115.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 111--120
+Underfull \hbox (badness 10000) in paragraph at lines 111--124
 
  []
 
-<images/Occluder.png, id=76, 1445.4pt x 903.375pt>
+ngerman: "nn is now obsolete, please use nnn instead on input line 129.
+<images/Occluder.png, id=77, 1445.4pt x 903.375pt>
 File: images/Occluder.png Graphic file (type png)
 <use images/Occluder.png>
-Package pdftex.def Info: images/Occluder.png  used on input line 132.
+Package pdftex.def Info: images/Occluder.png  used on input line 138.
 (pdftex.def)             Requested size: 125.65948pt x 78.52957pt.
-<images/Occludees.png, id=77, 1445.4pt x 903.375pt>
+<images/Occludees.png, id=78, 1445.4pt x 903.375pt>
 File: images/Occludees.png Graphic file (type png)
 <use images/Occludees.png>
-Package pdftex.def Info: images/Occludees.png  used on input line 133.
+Package pdftex.def Info: images/Occludees.png  used on input line 139.
 (pdftex.def)             Requested size: 125.65948pt x 78.52957pt.
 
-Underfull \hbox (badness 1275) in paragraph at lines 128--140
+Underfull \hbox (badness 1253) in paragraph at lines 132--146
+\T1/ptm/m/n/9 sie an-de-re Ob-jek-te ver-de-cken. Zum an-de-ren gibt es \T1/ptm
+/m/it/9 Oc-clu-de-es\T1/ptm/m/n/9 .
+ []
+
+
+Underfull \hbox (badness 1275) in paragraph at lines 132--146
 \T1/ptm/m/n/9 wird. AABBs eig-nen sich we-gen ih-rer ein-fa-chen geo-me-tri-sch
 en
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 128--140
+Underfull \hbox (badness 10000) in paragraph at lines 132--146
 
  []
 
-<images/SOCAblauf3.png, id=83, 853.68938pt x 213.04594pt>
+ngerman: "ll is now obsolete, please use lll instead on input line 148.
+<images/SOCAblauf3.png, id=84, 853.68938pt x 213.04594pt>
 File: images/SOCAblauf3.png Graphic file (type png)
 <use images/SOCAblauf3.png>
-Package pdftex.def Info: images/SOCAblauf3.png  used on input line 148.
+Package pdftex.def Info: images/SOCAblauf3.png  used on input line 154.
 (pdftex.def)             Requested size: 251.31898pt x 62.71797pt.
-<images/Evaluation_1_Results_Percentage culled.pdf, id=84, 289.08pt x 178.66502
+<images/Evaluation_1_Results_Percentage culled.pdf, id=85, 289.08pt x 178.66502
 pt>
 File: images/Evaluation_1_Results_Percentage culled.pdf Graphic file (type pdf)
 
 <use images/Evaluation_1_Results_Percentage culled.pdf>
 Package pdftex.def Info: images/Evaluation_1_Results_Percentage culled.pdf  use
-d on input line 155.
+d on input line 161.
 (pdftex.def)             Requested size: 257.46187pt x 159.13132pt.
-<images/Evaluation_4_Results_Percentage culled.pdf, id=85, 289.08pt x 178.66502
+<images/Evaluation_4_Results_Percentage culled.pdf, id=86, 289.08pt x 178.66502
 pt>
 File: images/Evaluation_4_Results_Percentage culled.pdf Graphic file (type pdf)
 
 <use images/Evaluation_4_Results_Percentage culled.pdf>
 Package pdftex.def Info: images/Evaluation_4_Results_Percentage culled.pdf  use
-d on input line 156.
+d on input line 162.
 (pdftex.def)             Requested size: 257.46187pt x 159.13132pt.
 
-Overfull \hbox (1.71002pt too wide) in paragraph at lines 155--157
+Overfull \hbox (1.71002pt too wide) in paragraph at lines 161--163
 [][] [] 
  []
 
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 157.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 163.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 157.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 163.
 
-Underfull \hbox (badness 1629) in paragraph at lines 178--182
+Underfull \hbox (badness 1629) in paragraph at lines 184--188
 \T1/ptm/m/n/9 Ver-lauf nicht wei-ter be-trach-tet. Die-ser Zwi-schen-schritt is
 t zwar
  []
 
 
-Underfull \hbox (badness 2990) in paragraph at lines 178--182
-\T1/ptm/m/n/9 Cul-ling Al-go-rith-men grö-ÿe-re Schwan-kun-gen er-kenn-bar, da 
-ein
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 178--182
+Underfull \hbox (badness 10000) in paragraph at lines 184--188
 
  []
 
@@ -530,69 +526,129 @@ Overfull \vbox (2.10262pt too high) has occurred while \output is active []
 
 
 [2 <./images/AblaufFramework.png> <./images/Occluder.png> <./images/Occludees.p
-ng> <./images/SOCAblauf3.png>]
+ng>]
 <images/Base1.png, id=98, 1445.4pt x 903.375pt>
 File: images/Base1.png Graphic file (type png)
 <use images/Base1.png>
-Package pdftex.def Info: images/Base1.png  used on input line 189.
+Package pdftex.def Info: images/Base1.png  used on input line 196.
 (pdftex.def)             Requested size: 125.65948pt x 78.52957pt.
 <images/Base1DB.png, id=99, 1445.4pt x 903.375pt>
 File: images/Base1DB.png Graphic file (type png)
 <use images/Base1DB.png>
-Package pdftex.def Info: images/Base1DB.png  used on input line 190.
+Package pdftex.def Info: images/Base1DB.png  used on input line 197.
 (pdftex.def)             Requested size: 125.65948pt x 78.52957pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
 <images/Evaluation_7_Results_MOC_Draw Calls.pdf, id=100, 289.08pt x 178.66502pt
 >
 File: images/Evaluation_7_Results_MOC_Draw Calls.pdf Graphic file (type pdf)
 <use images/Evaluation_7_Results_MOC_Draw Calls.pdf>
 Package pdftex.def Info: images/Evaluation_7_Results_MOC_Draw Calls.pdf  used o
-n input line 207.
+n input line 220.
 (pdftex.def)             Requested size: 257.46187pt x 159.13132pt.
 <images/Evaluation_7_Results_OGL_Draw Calls.pdf, id=101, 289.08pt x 178.66502pt
 >
 File: images/Evaluation_7_Results_OGL_Draw Calls.pdf Graphic file (type pdf)
 <use images/Evaluation_7_Results_OGL_Draw Calls.pdf>
 Package pdftex.def Info: images/Evaluation_7_Results_OGL_Draw Calls.pdf  used o
-n input line 210.
+n input line 223.
 (pdftex.def)             Requested size: 257.46187pt x 159.13132pt.
 
-Overfull \hbox (1.71002pt too wide) in paragraph at lines 206--225
+Overfull \hbox (1.71002pt too wide) in paragraph at lines 219--238
 []$[]$ $[]$
  []
 
 <images/Tour1.png, id=105, 1445.4pt x 903.375pt>
 File: images/Tour1.png Graphic file (type png)
 <use images/Tour1.png>
-Package pdftex.def Info: images/Tour1.png  used on input line 236.
+Package pdftex.def Info: images/Tour1.png  used on input line 250.
 (pdftex.def)             Requested size: 82.93571pt x 51.82924pt.
 <images/Tour2.png, id=106, 1445.4pt x 903.375pt>
 File: images/Tour2.png Graphic file (type png)
 <use images/Tour2.png>
-Package pdftex.def Info: images/Tour2.png  used on input line 237.
+Package pdftex.def Info: images/Tour2.png  used on input line 251.
 (pdftex.def)             Requested size: 82.93571pt x 51.82924pt.
 <images/Tour3.png, id=107, 1445.4pt x 903.375pt>
 File: images/Tour3.png Graphic file (type png)
 <use images/Tour3.png>
-Package pdftex.def Info: images/Tour3.png  used on input line 238.
+Package pdftex.def Info: images/Tour3.png  used on input line 252.
 (pdftex.def)             Requested size: 82.93571pt x 51.82924pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 233--247
+Underfull \hbox (badness 1448) in paragraph at lines 246--261
+\T1/ptm/m/n/9 von In-tel be-rech-net und ver-wen-den die dor-ti-ge Test-sze-ne 
+ei-ner
+ []
+
+
+Underfull \hbox (badness 1221) in paragraph at lines 246--261
+\T1/ptm/m/n/9 wur-den sämt-li-che Er-geb-nis-se mit ei-ner Ka-me-rafahrt, wie s
+ie in
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 246--261
 
  []
 
 
-Underfull \hbox (badness 1527) in paragraph at lines 251--267
-[]\T1/ptm/m/n/9 Zuerst wur-de die OGL-Methode auf den qua-li-ta-ti-ven Aspekt
+Underfull \hbox (badness 1430) in paragraph at lines 265--281
+[]\T1/ptm/m/n/9 Zuerst wur-de die OOC-Methode auf den qua-li-ta-ti-ven Aspekt
  []
 
 
-Underfull \hbox (badness 1776) in paragraph at lines 251--267
-\T1/ptm/m/n/9 Teil der ge-sam-ten Per-for-manz aus-ma-chen. Die Er-geb-nis-se s
-ind
+Underfull \hbox (badness 1776) in paragraph at lines 265--281
+\T1/ptm/m/n/9 Auf-lö-sung des Tie-fen-puf-fers Aus-wir-kun-gen auf die An-zahl 
+der
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 251--267
+Underfull \hbox (badness 10000) in paragraph at lines 265--281
+
+ []
+
+<images/Evaluation_1_Results_FPS.pdf, id=112, 289.08pt x 178.66502pt>
+File: images/Evaluation_1_Results_FPS.pdf Graphic file (type pdf)
+<use images/Evaluation_1_Results_FPS.pdf>
+Package pdftex.def Info: images/Evaluation_1_Results_FPS.pdf  used on input lin
+e 301.
+(pdftex.def)             Requested size: 257.46187pt x 159.13132pt.
+<images/Evaluation_4_Results_FPS.pdf, id=113, 289.08pt x 178.66502pt>
+File: images/Evaluation_4_Results_FPS.pdf Graphic file (type pdf)
+<use images/Evaluation_4_Results_FPS.pdf>
+Package pdftex.def Info: images/Evaluation_4_Results_FPS.pdf  used on input lin
+e 302.
+(pdftex.def)             Requested size: 257.46187pt x 159.13132pt.
+
+Overfull \hbox (1.71002pt too wide) in paragraph at lines 301--303
+[][] [] 
+ []
+
+
+Underfull \vbox (badness 1077) has occurred while \output is active []
+
+
+Overfull \vbox (2.10262pt too high) has occurred while \output is active []
+
+
+[3 <./images/SOCAblauf3.png>]
+Underfull \hbox (badness 1490) in paragraph at lines 324--336
+\T1/ptm/m/n/9 Per-for-manz im Ver-gleich mit an-de-ren SOC-Methoden im Intel-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 324--336
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 337--347
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 348--351
 
  []
 
@@ -600,83 +656,24 @@ Underfull \hbox (badness 10000) in paragraph at lines 251--267
 Overfull \vbox (2.10262pt too high) has occurred while \output is active []
 
 
-[3 <./images/Evaluation_1_Results_Percentage culled.pdf> <./images/Evaluation_4
+[4 <./images/Evaluation_1_Results_Percentage culled.pdf> <./images/Evaluation_4
 _Results_Percentage culled.pdf
 
 pdfTeX warning: pdflatex.exe (file ./images/Evaluation_4_Results_Percentage cul
 led.pdf): PDF inclusion: multiple pdfs with page group included in a single pag
 e
 > <./images/Base1.png> <./images/Base1DB.png>]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-<images/Evaluation_1_Results_FPS.pdf, id=190, 289.08pt x 178.66502pt>
-File: images/Evaluation_1_Results_FPS.pdf Graphic file (type pdf)
-<use images/Evaluation_1_Results_FPS.pdf>
-Package pdftex.def Info: images/Evaluation_1_Results_FPS.pdf  used on input lin
-e 287.
-(pdftex.def)             Requested size: 257.46187pt x 159.13132pt.
-<images/Evaluation_4_Results_FPS.pdf, id=191, 289.08pt x 178.66502pt>
-File: images/Evaluation_4_Results_FPS.pdf Graphic file (type pdf)
-<use images/Evaluation_4_Results_FPS.pdf>
-Package pdftex.def Info: images/Evaluation_4_Results_FPS.pdf  used on input lin
-e 288.
-(pdftex.def)             Requested size: 257.46187pt x 159.13132pt.
-
-Overfull \hbox (1.71002pt too wide) in paragraph at lines 287--289
-[][] [] 
+Underfull \hbox (badness 1769) in paragraph at lines 399--402
+\T1/ptm/m/n/9 von ver-wor-fe-nen Drei-e-cken be-zie-hungs-wei-se Ob-jek-ten, mi
+t den
  []
 
 
-Underfull \hbox (badness 1490) in paragraph at lines 310--322
-\T1/ptm/m/n/9 Per-for-manz im Ver-gleich mit an-de-ren SOC-Methoden im Intel-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 310--322
+Underfull \hbox (badness 10000) in paragraph at lines 399--402
 
  []
 
-
-Overfull \vbox (2.10262pt too high) has occurred while \output is active []
-
-
-[4 <./images/Evaluation_7_Results_MOC_Draw Calls.pdf> <./images/Evaluation_7_Re
-sults_OGL_Draw Calls.pdf
-
-pdfTeX warning: pdflatex.exe (file ./images/Evaluation_7_Results_OGL_Draw Calls
-.pdf): PDF inclusion: multiple pdfs with page group included in a single page
-> <./images/Tour1.png> <./images/Tour2.png> <./images/Tour3.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 323--333
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 334--337
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 385--388
-
- []
-
-<images/Evaluation_9_Results_Models Visible.pdf, id=262, 289.08pt x 178.66502pt
->
-File: images/Evaluation_9_Results_Models Visible.pdf Graphic file (type pdf)
-<use images/Evaluation_9_Results_Models Visible.pdf>
-Package pdftex.def Info: images/Evaluation_9_Results_Models Visible.pdf  used o
-n input line 393.
-(pdftex.def)             Requested size: 257.46187pt x 159.13132pt.
-
-Overfull \vbox (2.10262pt too high) has occurred while \output is active []
-
-
-[5 <./images/Evaluation_1_Results_FPS.pdf> <./images/Evaluation_4_Results_FPS.p
-df
-
-pdfTeX warning: pdflatex.exe (file ./images/Evaluation_4_Results_FPS.pdf): PDF 
-inclusion: multiple pdfs with page group included in a single page
->] (./Abschlusspaper.bbl
+(./Abschlusspaper.bbl
 LaTeX Font Info:    Try loading font information for T1+pcr on input line 7.
  (c:/texlive/2018/texmf-dist/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
@@ -686,46 +683,55 @@ Underfull \hbox (badness 10000) in paragraph at lines 4--9
 tm/m/n/8 ,
  []
 
-)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 415.
+
+Overfull \vbox (2.10262pt too high) has occurred while \output is active []
+
+
+[5 <./images/Evaluation_7_Results_MOC_Draw Calls.pdf> <./images/Evaluation_7_Re
+sults_OGL_Draw Calls.pdf
+
+pdfTeX warning: pdflatex.exe (file ./images/Evaluation_7_Results_OGL_Draw Calls
+.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+> <./images/Tour1.png> <./images/Tour2.png> <./images/Tour3.png>])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 434.
 
 Overfull \vbox (2.10262pt too high) has occurred while \output is active []
 
 
 [6
 
- <./images/Evaluation_9_Results_Models Visible.pdf>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 415.
+ <./images/Evaluation_1_Results_FPS.pdf> <./images/Evaluation_4_Results_FPS.pdf
+
+
+pdfTeX warning: pdflatex.exe (file ./images/Evaluation_4_Results_FPS.pdf): PDF 
+inclusion: multiple pdfs with page group included in a single page
+>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 434.
  (./Abschlusspaper.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 415.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 415.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 434.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 434.
 Package rerunfilecheck Info: File `Abschlusspaper.out' has not changed.
-(rerunfilecheck)             Checksum: E5FE8505551185A62DE08674D4C59EB8;444.
-
-
-LaTeX Warning: There were undefined references.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 415.
+(rerunfilecheck)             Checksum: 36BEB87DA6D6FA3E5E0146265B352673;448.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 434.
  ) 
 Here is how much of TeX's memory you used:
- 6026 strings out of 492616
- 89771 string characters out of 6132768
- 197447 words of memory out of 5000000
- 9787 multiletter control sequences out of 15000+600000
- 74895 words of font info for 103 fonts, out of 8000000 for 9000
+ 6016 strings out of 492616
+ 89474 string characters out of 6132768
+ 207268 words of memory out of 5000000
+ 9780 multiletter control sequences out of 15000+600000
+ 72092 words of font info for 101 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 36i,11n,29p,1124b,376s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 36i,11n,29p,1120b,452s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/texlive/2018/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/texlive/2018/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2018/texmf-dist/fo
 nts/type1/urw/courier/ucrr8a.pfb><c:/texlive/2018/texmf-dist/fonts/type1/urw/he
 lvetic/uhvb8a.pfb><c:/texlive/2018/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.p
-fb><c:/texlive/2018/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/201
-8/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2018/texmf-dist/fonts
-/type1/urw/times/utmri8a.pfb>
-Output written on Abschlusspaper.pdf (6 pages, 28528074 bytes).
+fb><c:/texlive/2018/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/201
+8/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on Abschlusspaper.pdf (6 pages, 28516191 bytes).
 PDF statistics:
- 401 PDF objects out of 1000 (max. 8388607)
- 180 compressed objects within 2 object streams
- 34 named destinations out of 1000 (max. 500000)
- 170 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 373 PDF objects out of 1000 (max. 8388607)
+ 170 compressed objects within 2 object streams
+ 33 named destinations out of 1000 (max. 500000)
+ 165 words of extra memory for PDF output out of 10000 (max. 10000000)
 
