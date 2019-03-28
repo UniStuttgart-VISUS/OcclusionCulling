@@ -111,7 +111,7 @@ Au{\ss}erdem ist noch eine optimierte Variante der AVX-Technik vorhanden, \texti
 Hasselgren et al. \cite{MOC} stellen in ihrer Arbeit einen Algorithmus vor, der durch seinen effizienten HiZ die Performanz signifikant verbessert.
 Anstatt wie in fr"uheren Arbeiten Pixel als kleinste Einheit zu betrachten, werden nun \textit{Kacheln} verwendet.
 Kacheln sind dabei lediglich eine Zusammenfassung mehrerer aneinanderliegender Pixel.
-Da AVX2 erm"oglicht, 8 SIMD Instruktionen mit 32-Bit Pr"azision auszuf"uhren, wurde f"ur die Kacheln eine Gr"o\ss{}e von 32x8 Pixeln gew"ahlt.
+Da AVX2 erm"oglicht 8 SIMD Instruktionen mit 32-Bit Pr"azision auszuf"uhren, wurde f"ur die Kacheln eine Gr"o\ss{}e von 32x8 Pixeln gew"ahlt.
 Indem Bitmasken von rechts und links in die Kacheln geschoben werden, wird am Ende eine Abdeckungsmaske erhalten, die angibt, welche Pixel in einer Kachel verdeckt werden \cite{MOC}.
 W"ahrend ihr Algorithmus keine 100\% Pr"azision garantiert - \textit{false positives} sind m"oglich - bewegt sich der Fehler in gleicher Gr"o\ss{}enordnung wie bei bisherigen Algorithmen.
 Ein wichtiger Faktor f"ur die Performanz ihres Algorithmus ist die Reihenfolge, in der die Objekte gerendert werden.
@@ -160,8 +160,9 @@ Der grunds"atzliche Ablauf in jedem Frame sieht also entsprechend Abb.\ \ref{fig
 		\scalebox{1.2}{
 			\begin{tabular}{| l | r | r | r | r | r |}
 				\hline
+				&\multicolumn{5}{c|}{OpenGL Occlusion Culling} \\ \hline
 				& 320x192   & 640x360   & 1280x720  & 1920x1080 & 2432x1440 \\ \hline
-				Tries culled (\%)    & 51.75     & 47.59     & 44.65     & 48.18     & 43.77     \\ \hline
+				Tris culled (\%)    & 51.75     & 47.59     & 44.65     & 48.18     & 43.77     \\ \hline
 				Draw Calls           & 3551      & 5696      & 7644      & 7896      & 8423      \\ \hline
 				Models Culled        & 23819.61  & 21970.67  & 20320.78  & 20135.84  & 19660.16  \\ \hline
 				Models Visible       & 3205.39   & 5054.33   & 6704.22   & 6889.16   & 7364.84   \\
@@ -213,9 +214,9 @@ Nachdem alle Occlusion Queries ihre Berechnungen beendet haben, werden zum Schlu
 		\scalebox{1.2}{
 			\begin{tabular}{| c | r | r | r | r |}
 				\hline
-														 &\multicolumn{1}{c|}{} 				&\multicolumn{1}{c|}{}  					 & \multicolumn{1}{c|}{MOC}  		  & \multicolumn{1}{c|}{OGL}  \\ \hline
-														 &\multicolumn{1}{c|}{MT}       &\multicolumn{1}{c|}{MT+Frustum}& \multicolumn{2}{c|}{MT + Frustum + Depth Test}\\ \hline
-				Tries culled (\%)    & 11.13     & 11.13     & 43.77		& 40.41 		\\ \hline
+														 &\multicolumn{1}{c|}{} 				&\multicolumn{1}{c|}{}  					 & \multicolumn{1}{c|}{MOC}  		  & \multicolumn{1}{c|}{OOC}  \\ \hline
+														 &\multicolumn{1}{c|}{MT}       &\multicolumn{1}{c|}{MT+Frustum}& \multicolumn{2}{c|}{MT + Frustum + OC}\\ \hline
+				Tris culled (\%)    & 11.13     & 11.13     & 43.77		& 40.41 		\\ \hline
 				Draw Calls           & 19219     & 14318     & 8423     & 10528 		\\ \hline
 				Models Culled        & 10180.34  & 14532.39  & 19660.16 & 17903.78 	\\ \hline
 				Models Visible       & 16844.66  & 12492.61  & 7364.84  & 9121.22 	\\ \hline
@@ -245,7 +246,7 @@ Die Anzahl der Objekte im Sichtfeld ist am Anfang sehr hoch, sinkt in der Mitte 
 Als Hardware wurde ein Rechner mit einem Intel Core i7-4770, einer NVIDIA Geforce GTX 960 und 16 GB RAM verwendet.\\
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%% TRIES CULLED BEGIN %%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%% TRIS CULLED BEGIN %%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Zuerst wurde die OGL-Methode auf den qualitativen Aspekt untersucht, das hei"st, ist das Ergebnis korrekt und wie \glqq gut\grqq{} ist das Ergebnis im Hinblick auf die Anzahl der weggeworfenen Dreiecke.
 Abb.\ \ref{fig:resolution_culled} zeigt die erzielten Ergebnisse.
@@ -261,7 +262,7 @@ Ebenfalls wie erwartet ist das Ergebnis f"ur die Anzahl an Objekten, die weggewo
 Geht die Anzahl der weggeworfenen Objekte hoch, geht entsprechend die Anzahl der Draw Calls runter (und dar"uber hinaus verbessert sich entsprechend die Performanz, sp"ater mehr).
 Lediglich die Anzahl an Draw Calls f"ur 1920x1080 entrinnt dem Muster, da es erwartungsgem"a"s weniger Draw Calls geben m"usste f"ur die Anzahl an weggeworfenen Dreiecken.\\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%% TRIES CULLED END %%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%% TRIS CULLED END %%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -291,6 +292,7 @@ Dadurch, dass die verschiedenen Methoden nur f"ur den Tiefentest benutzt werden,
 		\scalebox{1.2}{	
 			\begin{tabular}{| l | r | r | r | r | r |}
 				\hline
+				&\multicolumn{5}{c|}{OpenGL Occlusion Culling} \\ \hline
 				& 320x192   & 640x360   & 1280x720  & 1920x1080 & 2432x1440 \\ \hline
 				FPS                  & 21.48     & 17.53     & 9.55      & 4.58      & 5.31      \\ \hline
 				DepthTest time (ms)  & 50.4      & 63.22     & 122.21    & 265.67    & 228.85    \\ \hline
@@ -361,7 +363,7 @@ Dadurch konnte das Problem mit langen Wartezeiten zwar gel"ost werden, allerding
 %2)
 %- MT/MT+Frustum/MT+Frustum/DP
 %- Diagramm: Drawcalls OGL + MOC
-%- Tabelle: Models Visible, Models Culled, Drawcalls, \% Culled tries
+%- Tabelle: Models Visible, Models Culled, Drawcalls, \% Culled tris
 %
 %3)
 %- Auflösungen DB
