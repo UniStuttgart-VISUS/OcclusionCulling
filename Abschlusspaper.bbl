@@ -7,6 +7,12 @@ C.~Chandrasekaran, D.~Mcnabb, K.~Kiefer, M.~Fauconneau, and F.~Giesen.
   \url{https://software.intel.com/en-us/articles/software-occlusion-culling},
   2013-2016.
 
+\bibitem{PVS}
+D.~Cohen-Or, Y.~L. Chrysanthou, C.~T. Silva, and F.~Durand.
+\newblock A survey of visibility for walkthrough applications.
+\newblock {\em IEEE Transactions on Visualization and Computer Graphics},
+  9(3):412--431, 2003.
+
 \bibitem{HiZ}
 N.~Greene, M.~Kass, and G.~Miller.
 \newblock Hierarchical z-buffer visibility.

@@ -141,20 +141,10 @@ Occludees sind all diejenigen Objekte, die potenziell von Occludern verdeckt wer
 \caption{Links: Menge der Occluder ohne Occludees, die in dieser Kameraeinstellung zu sehen sind, vgl. Abb.\ \ref{fig:teaser} linkes Bild. Rechts: Testszene ohne Occluder, es sind ausschlie{\ss}lich Occludees zu sehen, vgl. ebenfalls Abb.\ \ref{fig:teaser}.}%
 \label{fig:objects}%
 \end{figure}
-Sowohl Occluder als auch Occludees liegen dabei in zwei Formen vor.
-Einmal als Netz, bestehend aus Punkten, das zur exakten Darstellung des Objekts in der gerenderten Szene dient und einmal in Form einer \textit{Axis Aligned Bounding Box} (AABB), die sowohl zum Frustum Culling als auch zum (Tiefen-)Rasterisieren verwendet wird.
-AABBs eignen sich wegen ihrer einfachen geometrischen Form sehr gut, um erste grobe Tests durchzuf"uhren, ob ein Objekt "uberhaupt von der Kamera gesehen werden kann (Frustum Culling) und dementsprechend f"ur die folgende Rasterisierung beim Occlusion Culling in Frage kommt. \\
-
-Occlusion Culling besteht im Wesentlichen aus zwei Schritten.
-Die Occluder werden als erstes in einem Renderingdurchlauf rasterisiert, jedoch ohne die Objekte tats"achlich zu zeichnen, und der Tiefenpuffer wird entsprechend der Occludermenge gef"llt.
-Schritt zwei besteht darin, Occlusion Queries anzusto"sen.
-Bei den Occlusion Queries werden die Bounding Boxen aller Occludees gegen den im vorherigen Schritt erstellten Tiefenpuffer getestet und es wird gepr"uft, ob die Occludees den Tiefentest bestehen oder nicht, sprich, ob die Occludees von einem Occluder komplett verdeckt werden oder (teilweise) sichtbar sind.
-Unmittelbar vor jedem dieser beiden Schritte wird zus"atzlich noch Frustum Culling durchgef"uhrt, um die Menge der zu testenden Objekte bereits im Vorfeld einzuschr"anken und somit weiter an Performanz zu gewinnen.
-Der grunds"atzliche Ablauf in jedem Frame sieht also entsprechend Abb.\ \ref{fig:socablauf} aus.
 \begin{figure}%
-\includegraphics[width=\columnwidth]{images/SOCAblauf3.png}%
-\caption{SOC-Ablauf: Nach Laden der Occludermenge wird im ersten Schritt durch Rasterisieren der Occluder der Tiefenpuffer generiert. Im zweiten Schritt werden die Occlusion Queries gestartet, die durch Rasterisierung und Tiefentests bestimmen, welche Objekte der Occludee-Menge sichtbar sind und welche nicht. Die Ergebnismenge wird an den Renderer weitergeleitet.}%
-\label{fig:socablauf}%
+	\includegraphics[width=\columnwidth]{images/SOCAblauf3.png}%
+	\caption{SOC-Ablauf: Nach Laden der Occludermenge wird im ersten Schritt durch Rasterisieren der Occluder der Tiefenpuffer generiert. Im zweiten Schritt werden die Occlusion Queries gestartet, die durch Rasterisierung und Tiefentests bestimmen, welche Objekte der Occludee-Menge sichtbar sind und welche nicht. Die Ergebnismenge wird an den Renderer weitergeleitet.}%
+	\label{fig:socablauf}%
 \end{figure}
 
 \begin{figure*}
@@ -180,6 +170,16 @@ Der grunds"atzliche Ablauf in jedem Frame sieht also entsprechend Abb.\ \ref{fig
 	\label{fig:resolution_culled}
 \end{figure*}
 
+Sowohl Occluder als auch Occludees liegen dabei in zwei Formen vor.
+Einmal als Netz, bestehend aus Punkten, das zur exakten Darstellung des Objekts in der gerenderten Szene dient und einmal in Form einer \textit{Axis Aligned Bounding Box} (AABB), die sowohl zum Frustum Culling als auch zum (Tiefen-)Rasterisieren verwendet wird.
+AABBs eignen sich wegen ihrer einfachen geometrischen Form sehr gut, um erste grobe Tests durchzuf"uhren, ob ein Objekt "uberhaupt von der Kamera gesehen werden kann (Frustum Culling) und dementsprechend f"ur die folgende Rasterisierung beim Occlusion Culling in Frage kommt. \\
+
+Occlusion Culling besteht im Wesentlichen aus zwei Schritten.
+Die Occluder werden als erstes in einem Renderingdurchlauf rasterisiert, jedoch ohne die Objekte tats"achlich zu zeichnen, und der Tiefenpuffer wird entsprechend der Occludermenge gef"llt.
+Schritt zwei besteht darin, Occlusion Queries anzusto"sen.
+Bei den Occlusion Queries werden die Bounding Boxen aller Occludees gegen den im vorherigen Schritt erstellten Tiefenpuffer getestet und es wird gepr"uft, ob die Occludees den Tiefentest bestehen oder nicht, sprich, ob die Occludees von einem Occluder komplett verdeckt werden oder (teilweise) sichtbar sind.
+Unmittelbar vor jedem dieser beiden Schritte wird zus"atzlich noch Frustum Culling durchgef"uhrt, um die Menge der zu testenden Objekte bereits im Vorfeld einzuschr"anken und somit weiter an Performanz zu gewinnen.
+Der grunds"atzliche Ablauf in jedem Frame sieht also entsprechend Abb.\ \ref{fig:socablauf} aus.
 
 \subsection{Frustum Culling}
 Frustum Culling l"asst nur Objekte passieren, die sich im Sichtbereich der Kamera befinden und kann somit je nach Kameraposition einen gro{\ss}en Teil der Objekte aus der Menge der zu rendernden Objekte herausnehmen.
@@ -206,16 +206,6 @@ An dieser Stelle sei erw"ahnt, dass die gesamte Occludeemenge zu Beginn des Prog
 Die Realisierung der Occlusion Queries gestaltet sich durch die von der OpenGL API zur Verf"ugung gestellten \textit{glQuery} sehr unkompliziert.
 Zu Anfang wird f"ur alle Occludees, die innerhalb des Frustums sind, eine Occlusion Query gestartet.
 
-
-
-Die Occludees werden wie die Occluder rasterisiert, allerdings wird in diesem Schritt der Tiefenpuffer nicht "uberschrieben, sondern es wird ausschlie{\ss}lich getestet, ob
-die Tiefenwerte der rasterisierten Fragmente des Occludees kleiner als die des Tiefenpuffers sind.
-Die Occlusion Query testet also, ob mindestens ein Fragment des Occludees bei einem potenziellen Renderdurchlauf sichtbar w"are.
-In diesem Fall liefert die Occlusion Query \glqq true\grqq{} zur"uck, andernfalls \glqq false\grqq{}.
-Es existiert auch die M"oglichkeit, die Occlusion Query die genaue Anzahl an sichtbaren Fragmenten zur"uckgeben zu lassen und ein Occludee erst dann als sichtbar zu klassifizieren, falls die Anzahl an sichtbaren Fragmenten einen gewissen Schwellwert "uberschreitet.
-Allerdings wurde sich gegen eine solche Implementierung entschieden, da die Wartezeiten der Occlusion Queries viel zu hoch sind.
-Nachdem alle Occlusion Queries ihre Berechnungen beendet haben, werden zum Schluss alle Ergebnisse abgefragt und an das Framework f"ur den weiteren Renderingverlauf weitergeleitet.
-
 \begin{figure*}
 	\begin{minipage}{0.5\textwidth}
 		\includegraphics[width=\textwidth]{images/Evaluation_7_Results_MOC_Draw Calls.pdf}
@@ -228,17 +218,33 @@ Nachdem alle Occlusion Queries ihre Berechnungen beendet haben, werden zum Schlu
 		\scalebox{1.2}{
 			\begin{tabular}{| c | r | r | r | r |}
 				\hline
-														 &\multicolumn{1}{c|}{} 				&\multicolumn{1}{c|}{}  					 & \multicolumn{1}{c|}{MOC}  		  & \multicolumn{1}{c|}{OOC}  \\ \hline
-														 &\multicolumn{1}{c|}{MT}       &\multicolumn{1}{c|}{MT+Frustum}& \multicolumn{2}{c|}{MT + Frustum + OC}\\ \hline
+				&\multicolumn{1}{c|}{} 				&\multicolumn{1}{c|}{}  					 & \multicolumn{1}{c|}{MOC}  		  & \multicolumn{1}{c|}{OOC}  \\ \hline
+				&\multicolumn{1}{c|}{MT}       &\multicolumn{1}{c|}{MT+Frustum}& \multicolumn{2}{c|}{MT + Frustum + OC}\\ \hline
 				Tris culled (\%)    & 11.13     & 11.13     & 43.77		& 40.41 		\\ \hline
 				Draw Calls           & 19219     & 14318     & 8423     & 10528 		\\ \hline
 				Models Culled        & 10180.34  & 14532.39  & 19660.16 & 17903.78 	\\ \hline
 				Models Visible       & 16844.66  & 12492.61  & 7364.84  & 9121.22 	\\ \hline
-			\end{tabular}}
+		\end{tabular}}
 	\end{minipage}
 	\caption{Vergleich Anzahl Draw Calls von Multi-Threading (MT), MT + Frustum Culling (FC) und MT + FC + Occlusion Culling (OC). Anzahl Draw Calls geht mit Verlauf der Kamerafahrt mit FC und OC deutlich runter. Ist OC aktiviert, sind die Maximalwerte am Anfang und Schluss deutlich niedriger und durch die Konservativit"at sind die Werte seitens des MOC h"oher als bei OOC.}
 	\label{fig:OGL_MOC_frustum_culling}
 \end{figure*}
+
+\begin{figure}%
+	\includegraphics[width=0.33\columnwidth]{images/Tour1.png}%
+	\includegraphics[width=0.33\columnwidth]{images/Tour2.png}%
+	\includegraphics[width=0.33\columnwidth]{images/Tour3.png}%
+	\caption{Links: Startposition der Kamerafahrt. Mitte: n"ahert sich in einem Kreisbogen der Br"ucke an. Rechts: Die Kamera verl"asst die Szene in gleichem Bogen, wie sie sich angen"ahert hat.}%
+	\label{fig:fahrt}%
+\end{figure}
+
+Die Occludees werden wie die Occluder rasterisiert, allerdings wird in diesem Schritt der Tiefenpuffer nicht "uberschrieben, sondern es wird ausschlie{\ss}lich getestet, ob
+die Tiefenwerte der rasterisierten Fragmente des Occludees kleiner als die des Tiefenpuffers sind.
+Die Occlusion Query testet also, ob mindestens ein Fragment des Occludees bei einem potenziellen Renderdurchlauf sichtbar w"are.
+In diesem Fall liefert die Occlusion Query \glqq true\grqq{} zur"uck, andernfalls \glqq false\grqq{}.
+Es existiert auch die M"oglichkeit, die Occlusion Query die genaue Anzahl an sichtbaren Fragmenten zur"uckgeben zu lassen und ein Occludee erst dann als sichtbar zu klassifizieren, falls die Anzahl an sichtbaren Fragmenten einen gewissen Schwellwert "uberschreitet.
+Allerdings wurde sich gegen eine solche Implementierung entschieden, da die Wartezeiten der Occlusion Queries viel zu hoch sind.
+Nachdem alle Occlusion Queries ihre Berechnungen beendet haben, werden zum Schluss alle Ergebnisse abgefragt und an das Framework f"ur den weiteren Renderingverlauf weitergeleitet.
 
 %%%%%%%%%%%%%%%%%%%%%%
 %%%%% ERGEBNISSE %%%%%
@@ -247,13 +253,7 @@ Nachdem alle Occlusion Queries ihre Berechnungen beendet haben, werden zum Schlu
 Die dokumentierten Ergebnisse wurden mit dem SOC-Framework von Intel berechnet und verwenden die dortige Testszene einer Burg, beziehungsweise eines Markplatzes, siehe Abb.\ \ref{fig:teaser}.
 Die Burg umfasst 115 Occluder mit 48.700 Dreiecken und 27.025 Occludees mit $\approx$ 1.923.000 Dreiecken \cite{SOCF}.
 Sofern nicht anders angegeben, wurden s"amtliche Ergebnisse mit einer Kamerafahrt, wie sie in Abb.\ \ref{fig:fahrt} angedeutet ist, "uber 100 Frames erstellt.
-\begin{figure}%
-\includegraphics[width=0.33\columnwidth]{images/Tour1.png}%
-\includegraphics[width=0.33\columnwidth]{images/Tour2.png}%
-\includegraphics[width=0.33\columnwidth]{images/Tour3.png}%
-\caption{Links: Startposition der Kamerafahrt. Mitte: n"ahert sich in einem Kreisbogen der Br"ucke an. Rechts: Die Kamera verl"asst die Szene in gleichem Bogen, wie sie sich angen"ahert hat.}%
-\label{fig:fahrt}%
-\end{figure}
+
 Der Tiefenpuffer ist standardm"a"sig auf eine Aufl"osung von 1920x1080 Pixel gesetzt und au"serdem sind Multithreading, Frustum Culling und Occlusion Culling eingeschaltet.
 Die Kamera startet mit Blick auf die Burg aus einiger Entfernung und fliegt auf die Burg zu.
 An der Burg angekommen dreht sich die Kamera in Richtung Boden und entfernt sich anschlie"send wieder von der Burg.
@@ -280,23 +280,6 @@ Lediglich die Anzahl an Draw Calls f"ur 1920x1080 entrinnt dem Muster, da es erw
 %%%%%%%%%%%%%%%%%%%% TRIS CULLED END %%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%% MT - FC - DT BEGIN %%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Als n"achstes wurden die Auswirkungen verschiedener Culling-Kombinationen auf die Anzahl der verworfenen Dreiecke und vor allem auf die Draw Calls untersucht, siehe Abb.\ \ref{fig:OGL_MOC_frustum_culling}.
-L"auft die OOC-Methode ohne Frustum Culling und ohne das Ausf"uhren der Occlusion Queries, ist die Anzahl an Draw Calls entsprechend hoch, da die Anzahl an sichtbaren Objekten durch die fehlenden Culling-Mechaniken sehr hoch ist, wobei sichtbar im Sinne von \glqq wird gerendert, egal, ob das Objekt tats"achlich in der Szene sichtbar ist\grqq{} gemeint ist.
-Interessant ist der Maximalwert in der Mitte der Kamerafahrt.
-Wohingegen bei den anderen Kombinationen an dieser Stelle der niedrigste Wert erreicht wird, ist er dort ohne Frustum Culling und ohne Occlusion Queries am h"ochsten.
-Besser wird das Ergebnis, wenn zus"atzlich zum Multithreading das Frustum Culling aktiviert wird.
-Je n"aher die Kamera sich der Burg n"ahert, desto h"oher ist die Anzahl verworfener Objekte und die Menge an Draw Calls f"allt entsprechend auf ihren Tiefstwert und steigt anschlie"send wieder mit zunehmender Distanz der Kamera zur Burg.
-Sind sowohl Frustum Culling als auch Occlusion Queries aktiviert, ist der Verlauf im Prinzip der Gleiche, mit dem Unterschied, dass die Menge an Draw Calls zu Anfang und zum Schluss deutlich niedriger ist.
-Sind es ohne Occlusion Queries zu Anfang rund 17000 Objekte, die gerendert werden m"ussen, so sind es mit Occlusion Queries in etwa 6000-7000 weniger, womit Occlusion Queries einen enormen Renderingaufwand einsparen.
-An dieser Stelle wird ein Unterschied zu Intels MOC deutlich. Zwar sind die Verl"aufe f"ur die Kombinationen \glqq MT\grqq{} und \glqq MT + FC\grqq{} bei beiden gleich, so kommt bei der Einstellung \glqq MT + FC + OC\grqq{} die Konservativit"at des MOC ins Spiel und zwar in Form von mehr Draw Calls, verursacht durch weniger verworfene Objekte.
-Dadurch, dass die verschiedenen Methoden nur f"ur den Tiefentest benutzt werden, sind die Werte ohne den Tiefentest unabh"angig von der Methode und erst durch das Aktivieren der Tiefentests lassen sich Unterschiede feststellen.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%% MT - FC - DT END %%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-		
 \begin{figure*}
 	\begin{minipage}{\textwidth}
 		\includegraphics[width=0.5\textwidth]{images/Evaluation_1_Results_FPS.pdf}
@@ -318,6 +301,24 @@ Dadurch, dass die verschiedenen Methoden nur f"ur den Tiefentest benutzt werden,
 	\caption{Links: FPS-Vergleich aller SOC-Methoden im Intel-Framework bei Full-HD Aufl"osung, aktiviertem MT, FC und TTC. OOC schneidet mit nur einem Bruchteil der FPS von MOC oder SSE deutlich am schlechtesten ab. Rechts: Kamerafahrt mit unterschiedlichen Tiefenpuffergr"o"sen. Mit niedriger werdenden Aufl"osungen sinken die Tiefentestzeiten ab (siehe Tabelle) und die FPS steigen erwartungsgem"a"s an, mit einer Ausnahme bei der 2432x1440 Aufl"osung, die trotz ihrer erh"ohten Puffergr"o"se, etwas besser abschneidet als die Full-HD Aufl"osung.}
 	\label{fig:resolution_fps}
 \end{figure*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%% MT - FC - DT BEGIN %%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Als n"achstes wurden die Auswirkungen verschiedener Culling-Kombinationen auf die Anzahl der verworfenen Dreiecke und vor allem auf die Draw Calls untersucht, siehe Abb.\ \ref{fig:OGL_MOC_frustum_culling}.
+L"auft die OOC-Methode ohne Frustum Culling und ohne das Ausf"uhren der Occlusion Queries, ist die Anzahl an Draw Calls entsprechend hoch, da die Anzahl an sichtbaren Objekten durch die fehlenden Culling-Mechaniken sehr hoch ist, wobei sichtbar im Sinne von \glqq wird gerendert, egal, ob das Objekt tats"achlich in der Szene sichtbar ist\grqq{} gemeint ist.
+Interessant ist der Maximalwert in der Mitte der Kamerafahrt.
+Wohingegen bei den anderen Kombinationen an dieser Stelle der niedrigste Wert erreicht wird, ist er dort ohne Frustum Culling und ohne Occlusion Queries am h"ochsten.
+Besser wird das Ergebnis, wenn zus"atzlich zum Multithreading das Frustum Culling aktiviert wird.
+Je n"aher die Kamera sich der Burg n"ahert, desto h"oher ist die Anzahl verworfener Objekte und die Menge an Draw Calls f"allt entsprechend auf ihren Tiefstwert und steigt anschlie"send wieder mit zunehmender Distanz der Kamera zur Burg.
+Sind sowohl Frustum Culling als auch Occlusion Queries aktiviert, ist der Verlauf im Prinzip der Gleiche, mit dem Unterschied, dass die Menge an Draw Calls zu Anfang und zum Schluss deutlich niedriger ist.
+Sind es ohne Occlusion Queries zu Anfang rund 17000 Objekte, die gerendert werden m"ussen, so sind es mit Occlusion Queries in etwa 6000-7000 weniger, womit Occlusion Queries einen enormen Renderingaufwand einsparen.
+An dieser Stelle wird ein Unterschied zu Intels MOC deutlich. Zwar sind die Verl"aufe f"ur die Kombinationen \glqq MT\grqq{} und \glqq MT + FC\grqq{} bei beiden gleich, so kommt bei der Einstellung \glqq MT + FC + OC\grqq{} die Konservativit"at des MOC ins Spiel und zwar in Form von mehr Draw Calls, verursacht durch weniger verworfene Objekte.
+Dadurch, dass die verschiedenen Methoden nur f"ur den Tiefentest benutzt werden, sind die Werte ohne den Tiefentest unabh"angig von der Methode und erst durch das Aktivieren der Tiefentests lassen sich Unterschiede feststellen.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%% MT - FC - DT END %%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%% FPS BEGIN %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -345,6 +346,14 @@ Sie schneidet, entgegen dem Trend der niedriger werdenden FPS bei steigender Auf
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%% FPS END %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In einem letzten Versuch wird die OOC-Implementierung mit einer "aquivalenten Implementierung auf der GPU verglichen. Abb. \ref{fig:mesa_gpu} zeigt den FPS-Verlauf der Kamerafahrt. Die Implementierung auf der GPU liefert durchschnittlich 43 FPS und ist damit in etwa 8x schneller als die OOC-Methode, die im Schnitt nur auf 5.4 FPS kommt.
+
+\begin{figure}
+		\includegraphics[width=\columnwidth]{images/Evaluation_6_Results_OOC_Mesa_FPS.pdf}
+		\caption{FPS-Vergleich der OOC-Methode mit einer "aquivalenten GPU Implementierung, die mit durchschnittlich 43 FPS gegen"uber den 5.4 FPS der OOC-Methode etwa 8x so schnell ist.}
+		\label{fig:mesa_gpu}
+\end{figure}
 
 \paragraph{Anmerkung} An dieser Stelle ist es auch im R"uckblick auf Abb.\ \ref{fig:OGL_MOC_frustum_culling} interessant, anzumerken, dass die Performanz der OOC-Methode am besten ist, wenn sowohl Frustum Culling als auch Tiefentest Culling deaktiviert sind. In der Standard-Kameraeinstellung werden durchschnittlich 91 FPS erreicht. Wird nur Frustum Culling aktiviert, werden im Schnitt 84 FPS erreicht.
 Je nach Kameraposition erreicht Frustum Culling jedoch stellenweise auch h"ohere Frameraten.
@@ -400,17 +409,6 @@ Dadurch konnte das Problem mit langen Wartezeiten zwar gel"ost werden, allerding
 In dieser Arbeit wurde gezeigt, dass es mit Hilfe von Mesa 3D m"oglich ist, eine Occlusion Culling Methode zu entwickeln, die parallel zum GPU-Rendering auf dem Prozessor l"auft.
 Die Auswertung hat gezeigt, dass die neu entwickelte OOC-Methode qualitativ, im Sinne von verworfenen Dreiecken beziehungsweise Objekten, mit den bereits vorhandenen SOC-Methoden konkurrieren kann.
 Unter dem Aspekt der Performanz kann die OOC-Methode allerdings nicht mit den anderen mithalten.  \\
-
-
-%\begin{figure*}
-%	\begin{minipage}{0.5\textwidth}
-%		\centering
-%		\includegraphics[width=\textwidth]{images/Evaluation_9_Results_Models Visible.pdf}
-%		\caption{M"oglicher Verlauf der Anzahl der sichtbaren Objekte bei steigender Paketgr"o"se. Die lila, braune und pinke Linie stellen hier gr"o"sere Pakete dar. Die rote, orangene und gr"une jeweils kleinere Pakete.}
-%	\label{fig:occludee_paket}
-%		\end{minipage}
-%\end{figure*}
-
 
 \paragraph{Future Work} 
 Ein Thema mit dem sich k"unfitge Arbeiten besch"aftigen k"onnen, ist eine "Uberarbeitung der Implementierung f"ur geringere Tiefenpuffer Aufl"osungen.
