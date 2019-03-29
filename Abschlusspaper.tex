@@ -75,7 +75,8 @@ In dieser Arbeit wird daher in einem von Intel entwickelten SOC-Framework eine a
 
 Heutige Anwendungen haben immer h"ohere Anspr"uche an die Leistung der Engines und der Wunsch nach besserer Performanz und h"oheren Bildraten (frames per second, FPS) ist gro{\ss}.
 Hinzukommt, dass in modernen Anwendungen die zu rendernden Szenen immer weniger statisch und immer mehr dynamisch werden, wie es beispielsweise in Computerspielen der Fall ist.
-Um dieser Dynamik gerecht zu werden, wird sich von Verfahren mit potenziellen Sichtbarkeitsmengen entfernt \cite{MSOC} und es wird sich einer Methode namens \textit{Occlusion Culling} (\textit{to occlude = verdecken, to cull = aussondern, herausfiltern}) bedient.
+Deshalb wird sich von traditionellen Verfahren mit potenziellen Sichtbarkeitsmengen (PSM) entfernt \cite{MSOC}. Ein gro"ses Problem bei PSM in Kombination mit dynamischen Objekten ist, dass PSM mit festen Sichtbarkeitsmengen arbeitet, die je nach Region bestimmte Objekte enth"alt. Diese Listen werden "ublicherweise in einem Vorverarbeitungsschritt berechnet und m"ussten so f"ur jedes dynamische Objekt, das eine Region betritt, aktualisiert werden \cite{PVS}.
+Um dieser Dynamik gerecht zu werden, wird sich deshalb einer Methode namens \textit{Occlusion Culling} (\textit{to occlude = verdecken, to cull = aussondern, herausfiltern}) bedient.
 Ziel des Occlusion Cullings ist es, noch vor dem Rendering des n"achsten Frames, herauszufinden, welche Objekte im n"achsten Frame sichtbar sind und welche nicht.
 Im Wesentlichen gilt es dabei zuerst mit einer ausgew"ahlten Teilmenge der Objekte einen geeigneten Tiefenpuffer (Z-Buffer) zu generieren und darauffolgend mit Hilfe von Occlusion Queries alle Objekte zu bestimmen, die noch sichtbar sind (auch Z-Buffering oder Tiefentest genannt).
 Das Ergebnis der Occlusion Queries kann anschlie{\ss}end ohne nennenswerte Latenz der GPU "ubergeben werden, um festzustellen welche Objekte gerendert werden sollen, so dass unn"otiger Rechenaufwand der GPU vermieden wird.\\
@@ -106,7 +107,7 @@ Da das Framework bereits alle notwendigen Strukturen f"ur schon bestehende Metho
 \end{figure}
 Hinzu kommen lediglich Ver"anderungen der Routinen zum Laden der Testszene und die Implementierung des Cullings selbst.
 Vorhanden sind unter anderem Methoden, die mit \textit{Streaming SIMD Extensions} (SSE) und \textit{Intel Advanced Vector Extensions} (AVX) arbeiten.
-Au{\ss}erdem ist noch eine optimierte Variante der AVX-Technik vorhanden, \textit{Masked Software Occlusion Culling} (MOC) \cite{MSOC}, die mit einer abgewandelten Form des hierarchischen Z-Buffers (HiZ) \cite{HiZ} arbeitet, der durch einen Software-Rasterisierer berechnet wird.
+Au{\ss}erdem ist noch eine optimierte Variante der AVX-Technik vorhanden, \textit{Masked Software Occlusion Culling} (MOC) \cite{MSOC}, die mit einer abgewandelten Form des hierarchischen Z-Buffers (HiZ) \cite{HiZ} arbeitet, der durch einen Software-Rasterisierer berechnet wird. \\
 
 Hasselgren et al. \cite{MSOC} stellen in ihrer Arbeit einen Algorithmus vor, der durch seinen effizienten HiZ die Performanz signifikant verbessert.
 Einer der Unterschiede ihres HiZ ist die Aufteilung von Tiefen- und Verdeckungsdaten in zwei separate Ebenen.
