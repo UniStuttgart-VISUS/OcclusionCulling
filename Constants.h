@@ -25,7 +25,9 @@
 // ----------------------------
 
 // Choose which depth buffer size to use
-// If you change depth buffer size please do a rebuilt all 
+// If you change depth buffer size please do a rebuilt all
+//#define DP_ULTRA_LARGE
+//#define DP_EXTREME_LARGE
 //#define DP_VERY_VERY_LARGE
 #define DP_VERY_LARGE
 //#define DP_LARGE
@@ -72,7 +74,19 @@ extern LARGE_INTEGER glFrequency;
 
 #define PI 3.1415926535f
 
-#if defined(DP_VERY_VERY_LARGE)
+#if defined(DP_ULTRA_LARGE)
+const int SCREENW = 10240;
+const int SCREENH = 5760;
+
+const int TILE_WIDTH_IN_PIXELS = 1280;
+const int TILE_HEIGHT_IN_PIXELS = 1440;
+#elif defined(DP_EXTREME_LARGE)
+const int SCREENW = 5120;//10240;
+const int SCREENH = 2880;// 5760;
+
+const int TILE_WIDTH_IN_PIXELS = 640;
+const int TILE_HEIGHT_IN_PIXELS = 720;
+#elif defined(DP_VERY_VERY_LARGE)
     const int SCREENW = 2432;
     const int SCREENH = 1440;
 
