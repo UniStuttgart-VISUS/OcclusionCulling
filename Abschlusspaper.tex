@@ -75,7 +75,7 @@ In dieser Arbeit wird daher in einem von Intel entwickelten SOC-Framework eine a
 
 Heutige Anwendungen haben immer h"ohere Anspr"uche an die Leistung der Engines und der Wunsch nach besserer Performanz und h"oheren Bildraten (frames per second, FPS) ist gro{\ss}.
 Hinzukommt, dass in modernen Anwendungen die zu rendernden Szenen immer weniger statisch und immer mehr dynamisch werden, wie es beispielsweise in Computerspielen der Fall ist.
-Deshalb wird sich von traditionellen Verfahren mit potenziellen Sichtbarkeitsmengen (PSM) entfernt \cite{MSOC}. Ein gro"ses Problem bei PSM in Kombination mit dynamischen Objekten ist, dass PSM mit festen Sichtbarkeitsmengen arbeitet, die je nach Region bestimmte Objekte enth"alt. Diese Listen werden "ublicherweise in einem Vorverarbeitungsschritt berechnet und m"ussten so f"ur jedes dynamische Objekt, das eine Region betritt, aktualisiert werden \cite{PVS}.
+Deshalb wird sich von traditionellen Verfahren mit potenziellen Sichtbarkeitsmengen (PSM) entfernt \cite{MSOC}. Ein gro"ses Problem bei PSM in Kombination mit dynamischen Objekten ist, dass PSM mit festen Sichtbarkeitsmengen arbeitet, die je nach Region bestimmte Objekte enth"alt. Diese Listen werden "ublicherweise in einem Vorverarbeitungsschritt berechnet und m"ussten so f"ur jedes Objekt, das eine Region betritt, aktualisiert werden \cite{PVS}.
 Um dieser Dynamik gerecht zu werden, wird sich deshalb einer Methode namens \textit{Occlusion Culling} (\textit{to occlude = verdecken, to cull = aussondern, herausfiltern}) bedient.
 Ziel des Occlusion Cullings ist es, noch vor dem Rendering des n"achsten Frames, herauszufinden, welche Objekte im n"achsten Frame sichtbar sind und welche nicht.
 Im Wesentlichen gilt es dabei zuerst mit einer ausgew"ahlten Teilmenge der Objekte einen geeigneten Tiefenpuffer (Z-Buffer) zu generieren und darauffolgend mit Hilfe von Occlusion Queries alle Objekte zu bestimmen, die noch sichtbar sind (auch Z-Buffering oder Tiefentest genannt).
@@ -127,7 +127,9 @@ Bei einem Vergleich zwischen einem HiZ-Algorithmus und dem MOC - bei voller Aufl
 Mit beiden Occlusion Culling Algorithmen kann eine 1,5-7x schnellere Total Frame Time gegen"uber Rendering mit nur Frustum Culling erreicht werden.
 In einem zweiten Test in einer wesentlich komplexeren Szene mit 143k Occluder-Meshes ist die Occlusion Culling Time des MOC-Algorithmus zeitweise bis zu 10x schneller als die des HiZ-Algorithmus \cite{MSOC}.
 Die Skalierbarkeit des MOC is der des HiZ deutlich "uberlegen. Mit steigender Gr"o"se der Dreiecke w"achst auch der Performanzunterschied zwischen dem MOC und dem HiZ.
-Im Allgemeinen ist der MOC-Algorithmus durchschnittlich 3x schneller als bisherige Algorithmen und bei einem nur geringeren Memory Overhead k"nnen 98\% aller Dreiecke verworfen werden \cite{MSOC}.
+Im Allgemeinen ist der MOC-Algorithmus durchschnittlich 3x schneller als bisherige Algorithmen und bei einem nur geringeren Memory Overhead k"nnen 98\% aller Dreiecke verworfen werden \cite{MSOC}.\\
+
+Bittner u. a. \cite{OQMU} beschreiben einen Algorithmus, mit dem es m"oglich ist, die Nutzung von Occlusion Queries zu optimieren, indem ein st"andiger Wechsel bzw. eine Verschachtelung zwischen Occlusion Queries und Rendering stattfindet. Ein solcher Algorithmus ist in dem verwendeten SOC-Framework allerdings nicht anwendbar, da kein zwischenzeitliches Rendering w"ahrend der Verarbeitung von Occlusion Queries m"oglich ist.
 
 \section{(Software) Occlusion Culling}
 Die Menge der Objekte, die es zu Rendern gilt, wird in zwei Mengen aufgeteilt.
@@ -347,7 +349,7 @@ Sie schneidet, entgegen dem Trend der niedriger werdenden FPS bei steigender Auf
 %%%%%%%%%%%%%%%%%%%%%%%% FPS END %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In einem letzten Versuch wird die OOC-Implementierung mit einer "aquivalenten Implementierung auf der GPU verglichen. Abb. \ref{fig:mesa_gpu} zeigt den FPS-Verlauf der Kamerafahrt. Die Implementierung auf der GPU liefert durchschnittlich 43 FPS und ist damit in etwa 8x schneller als die OOC-Methode, die im Schnitt nur auf 5.4 FPS kommt.
+In einem letzten Versuch wird die OOC-Implementierung mit einer "aquivalenten Implementierung auf der GPU verglichen. Abb. \ref{fig:mesa_gpu} zeigt den FPS-Verlauf der Kamerafahrt. Die Implementierung auf der GPU liefert durchschnittlich 43 FPS und ist damit in etwa 8x schneller als die OOC-Methode, die im Schnitt nur 5.4 FPS erreicht.
 
 \begin{figure}
 		\includegraphics[width=\columnwidth]{images/Evaluation_6_Results_OOC_Mesa_FPS.pdf}
@@ -362,7 +364,7 @@ Wird zus"atzlich noch das Tiefentest Culling aktiviert, f"allt der Wert auf 5 FP
 \paragraph{Probleme} Die gr"o"sten Performanzprobleme werden durch die Occlusion Queries verursacht.
 Das Programm wurde mit einem Performance Profiler von Visual Studio Enterprise 2017 analysiert, um herauszufinden, an welchen Stellen das Programm viel Zeit verbraucht und die meiste Zeit h"alt sich das Programm bei den Occlusion Queries auf.
 Das ist teilweise auch so zu erwarten, da die Occlusion Queries ein essentieller Teil des Programms sind. Dennoch wird dort zu viel Zeit verbracht, vor allem hinsichtlich der Tatsache, dass der Prozessor nicht mehr als 50\% ausgelastet ist und damit nicht seine gesamte Kapazit"at in Anspruch nimmt.
-Ein Grund f"ur den gro"sen Zeitverlust wurde bei langen Wartezeiten gesehen, die entstanden sind, nachdem alle OQ gestartet wurden und das Programm auf die Ergebnisse warten musste.
+Ein Grund f"ur den gro"sen Zeitverlust wurde bei langen Wartezeiten zwischen dem Start der Queries und der Verf"ugbarkeit der Ergebnisse gesehen. Wartezeiten entstehen unter anderem durch eine verz"ogerte Verarbeitung der Query selbst und dem Warten auf das Ergebnis \cite{OQMU}.
 Deswegen wurde die Implementierung dahingehend ge"andert, dass ein zweites Set an Occlusion Queries generiert wurde, das die Ergebnisse der OQs des vorherigen Frames enth"alt.
 Durch das zweite Set kann die Warteroutine weggelassen werden, unter der Annahme, dass im aktuellen Frame alle Ergebnisse des vorherigen Frames vorliegen.
 Dadurch konnte das Problem mit langen Wartezeiten zwar gel"ost werden, allerdings wurden dadurch keine signifikanten Performanzverbesserungen erzielt.

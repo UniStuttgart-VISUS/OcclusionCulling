@@ -1,5 +1,12 @@
 \begin{thebibliography}{1}
 
+\bibitem{OQMU}
+J.~Bittner, M.~Wimmer, H.~Piringer, and W.~Purgathofer.
+\newblock Coherent hierarchical culling: Hardware occlusion queries made
+  useful.
+\newblock In {\em Computer Graphics Forum}, volume~23, pages 615--624. Wiley
+  Online Library, 2004.
+
 \bibitem{SOCF}
 C.~Chandrasekaran, D.~Mcnabb, K.~Kiefer, M.~Fauconneau, and F.~Giesen.
 \newblock Software occlusion culling.
