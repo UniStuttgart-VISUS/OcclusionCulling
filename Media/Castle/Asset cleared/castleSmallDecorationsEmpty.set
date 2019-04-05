@@ -1,9 +1,0 @@
-// Created with FBXConvert.exe (Oct  5 2012 06:49:44)
-[node 0]
-type = null
-name = roundGrp5
-parent = -1
-matrixRow0 = 0.527032 0 -0.849845 0
-matrixRow1 = 0 1 -0 0
-matrixRow2 = 0.849845 -0 0.527032 0
-matrixRow3 = 51.0472 7 -34.881 1

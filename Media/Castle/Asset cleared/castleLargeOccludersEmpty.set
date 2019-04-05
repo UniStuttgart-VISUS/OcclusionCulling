@@ -1,9 +1,0 @@
-// Created with FBXConvert.exe (Oct  5 2012 06:49:44)
-[node 0]
-type = null
-name = smlGateGrp4
-parent = -1
-matrixRow0 = 1 0 -0 0
-matrixRow1 = 0 1 -0 0
-matrixRow2 = -0 -0 1 0
-matrixRow3 = 48.7324 7 -2.27223 1

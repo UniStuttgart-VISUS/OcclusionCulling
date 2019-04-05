@@ -1,9 +1,0 @@
-Evaluation_9
-
-OGL
-
-- Standardwerte
-- Kamerafahrt 1
-- 0/1/2/5/10/15 Occluder pro Query
-
-Output: 
