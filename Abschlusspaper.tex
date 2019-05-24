@@ -222,10 +222,10 @@ Zu Anfang wird f"ur alle Occludees, die innerhalb des Frustums sind, eine Occlus
 				\hline
 				&\multicolumn{1}{c|}{} 				&\multicolumn{1}{c|}{}  					 & \multicolumn{1}{c|}{MOC}  		  & \multicolumn{1}{c|}{OOC}  \\ \hline
 				&\multicolumn{1}{c|}{MT}       &\multicolumn{1}{c|}{MT+Frustum}& \multicolumn{2}{c|}{MT + Frustum + OC}\\ \hline
-				Tris culled (\%)    & 11.13     & 11.13     & 43.77		& 40.41 		\\ \hline
-				Draw Calls           & 19219     & 14318     & 8423     & 10528 		\\ \hline
-				Models Culled        & 10180.34  & 14532.39  & 19660.16 & 17903.78 	\\ \hline
-				Models Visible       & 16844.66  & 12492.61  & 7364.84  & 9121.22 	\\ \hline
+				Tris culled (\%)     & 11.13     & 11.13     & 40.41     & 43.77		\\ \hline
+				Draw Calls           & 19219     & 14318     & 10528    & 8423		\\ \hline
+				Models Culled        & 10180.34  & 14532.39  & 17903.78 & 19660.16 	\\ \hline
+				Models Visible       & 16844.66  & 12492.61  & 9121.22  & 7364.84 	\\ \hline
 		\end{tabular}}
 	\end{minipage}
 	\caption{Vergleich Anzahl Draw Calls von Multi-Threading (MT), MT + Frustum Culling (FC) und MT + FC + Occlusion Culling (OC). Anzahl Draw Calls geht mit Verlauf der Kamerafahrt mit FC und OC deutlich runter. Ist OC aktiviert, sind die Maximalwerte am Anfang und Schluss deutlich niedriger und durch die Konservativit"at sind die Werte seitens des MOC h"oher als bei OOC.}
